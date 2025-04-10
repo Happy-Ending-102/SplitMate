@@ -1,0 +1,2 @@
+# SplitMate
+Bill splitter
