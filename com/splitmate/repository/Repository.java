@@ -1,30 +1,32 @@
-public interface UserRepository {
-    User findById(String id);
-    List<User> findAll();
-    void save(User user);
-    void deleteById(String id);
+// File: src/main/java/repository/Repository.java
+package repository;
+
+import java.util.List;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import model.*;
+
+@Repository
+public interface UserRepository extends MongoRepository<User, String> { }
+
+@Repository
+public interface FriendshipRepository extends MongoRepository<Friendship, String> {
+    List<Friendship> findByUserAOrUserB(User userA, User userB);
 }
 
-public interface FriendshipRepository {
-    Friendship findById(String id);
-    List<Friendship> findByUser(User user);
-    void save(Friendship f);
+@Repository
+public interface GroupRepository extends MongoRepository<Group, String> {
+    List<Group> findByMembersContaining(User member);
 }
 
-public interface GroupRepository {
-    Group findById(String id);
-    List<Group> findByMember(User user);
-    void save(Group g);
+@Repository
+public interface ExpenseRepository extends MongoRepository<Expense, String> {
+    List<Expense> findByOwner(User owner);
+    List<Expense> findByGroupId(String groupId);
 }
 
-public interface ExpenseRepository {
-    Expense findById(String id);
-    List<Expense> findByGroup(Group group);
-    void save(Expense e);
-}
-
-public interface PaymentRepository {
-    Payment findById(String id);
-    List<Payment> findByUser(User user);
-    void save(Payment p);
+@Repository
+public interface PaymentRepository extends MongoRepository<Payment, String> {
+    List<Payment> findByFrom(User from);
+    List<Payment> findByTo(User to);
 }

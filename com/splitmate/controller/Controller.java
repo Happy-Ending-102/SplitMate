@@ -1,40 +1,114 @@
-// Exposes user-related endpoints
+// File: src/main/java/controller/Controller.java
+package controller;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import model.*;
+import service.*;
+import repository.FriendshipRepository;
+
+@RestController
+@RequestMapping("/users")
 public class UserController {
-    private UserService userService;
-    public UserController(UserService svc);
-    public User getUser(String userId);
-    public void createUser(User dto);
-    public void updateUser(String userId, User dto);
-    public void deleteUser(String userId);
+    @Autowired private UserService userService;
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User dto) {
+        return userService.registerUser(dto);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable String id, @RequestBody User dto) {
+        dto.setId(id);
+        return userService.updateUser(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable String id) {
+        userService.removeUser(id);
+    }
 }
 
-// Manages group endpoints
+@RestController
+@RequestMapping("/groups")
 public class GroupController {
-    private GroupService groupService;
-    public GroupController(GroupService svc);
-    public Group getGroup(String groupId);
-    public void createGroup(Group dto);
-    public void addMember(String groupId, String userId);
-    public void removeMember(String groupId, String userId);
+    @Autowired private GroupService groupService;
+
+    @GetMapping("/{id}")
+    public Group getGroup(@PathVariable String id) {
+        return groupService.getGroup(id);
+    }
+
+    @PostMapping
+    public Group createGroup(@RequestBody Group dto) {
+        return groupService.createGroup(dto);
+    }
+
+    @PostMapping("/{gId}/members/{uId}")
+    public Group addMember(@PathVariable String gId, @PathVariable String uId) {
+        return groupService.addUserToGroup(gId, uId);
+    }
+
+    @DeleteMapping("/{gId}/members/{uId}")
+    public Group removeMember(@PathVariable String gId, @PathVariable String uId) {
+        return groupService.removeUserFromGroup(gId, uId);
+    }
 }
 
-// Handles expense endpoints
+@RestController
+@RequestMapping("/groups/{gId}/expenses")
 public class ExpenseController {
-    private ExpenseService expenseService;
-    public ExpenseController(ExpenseService svc);
-    public void addExpense(String groupId, Expense dto);
-    public List<Expense> getExpenses(String groupId);
+    @Autowired private ExpenseService expenseService;
+
+    @PostMapping
+    public Expense addExpense(@PathVariable String gId, @RequestBody Expense dto) {
+        return expenseService.addExpense(gId, dto);
+    }
+
+    @GetMapping
+    public List<Expense> listExpenses(@PathVariable String gId) {
+        return expenseService.listExpenses(gId);
+    }
 }
 
-// Triggers payment calculations
+@RestController
+@RequestMapping("/groups/{gId}/payments")
 public class PaymentController {
-    private PaymentCalculator calculator;
-    private UserService userService;
-    private FriendshipRepository friendshipRepo;
+    @Autowired private PaymentCalculator calculator;
+    @Autowired private GroupService groupService;
+    @Autowired private FriendshipRepository friendshipRepo;
 
-    public PaymentController(PaymentCalculator calc,
-                             UserService uSvc,
-                             FriendshipRepository fRepo);
+    @GetMapping
+    public List<Payment> calculatePayments(@PathVariable String gId) {
+        Group g = groupService.getGroup(gId);
+        List<Friendship> fs = g.getMembers().stream()
+            .flatMap(u -> friendshipRepo.findByUserAOrUserB(u, u).stream())
+            .collect(Collectors.toList());
+        return calculator.calculate(g, fs);
+    }
+}
 
-    public List<Payment> calculatePayments(String groupId);
+@RestController
+@RequestMapping("/convert")
+public class CurrencyController {
+    @Autowired private CurrencyConverter converter;
+
+    @GetMapping
+    public BigDecimal convert(
+        @RequestParam BigDecimal amount,
+        @RequestParam Currency from,
+        @RequestParam Currency to
+    ) {
+        return converter.convert(amount, from, to);
+    }
 }

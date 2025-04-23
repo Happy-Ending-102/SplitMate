@@ -1,107 +1,180 @@
-// Base entity with common ID field
-public abstract class BaseEntity {
-    protected String id;
-    public String getId();
-    public void setId(String id);
+// File: src/main/java/model/Model.java
+package model;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+public enum Currency {
+    USD, EUR, TRY, GBP, JPY
 }
 
-// --- Domain Entities ---
+public enum ConversionPolicy {
+    INSTANT,    // convert on addExpense()
+    DEFERRED    // convert only at settlement time
+}
 
-// A person in the system
+public enum Frequency {
+    DAILY, WEEKLY, MONTHLY
+}
+
+public abstract class BaseEntity {
+    @Id
+    protected String id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+}
+
+@Document(collection = "users")
 public class User extends BaseEntity {
     private String name;
     private String email;
-    private BigDecimal balance;               // positive = owes money; negative = should receive
-    private List<Friendship> friends;         // aggregation
-    private List<Group> groups;               // aggregation
+    private BigDecimal balance;      // stored in user.baseCurrency
+    private Currency baseCurrency;
+    @DBRef private List<Friendship> friends;
+    @DBRef private List<Group> groups;
 
-    public String getName();
-    public void setName(String name);
-    public String getEmail();
-    public void setEmail(String email);
-    public BigDecimal getBalance();
-    public void setBalance(BigDecimal balance);
-    public List<Friendship> getFriends();
-    public void addFriend(Friendship f);
-    public List<Group> getGroups();
-    public void joinGroup(Group g);
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public BigDecimal getBalance() { return balance; }
+    public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public Currency getBaseCurrency() { return baseCurrency; }
+    public void setBaseCurrency(Currency baseCurrency) { this.baseCurrency = baseCurrency; }
+
+    public List<Friendship> getFriends() { return friends; }
+    public void setFriends(List<Friendship> friends) { this.friends = friends; }
+    public void addFriend(Friendship f) { this.friends.add(f); }
+
+    public List<Group> getGroups() { return groups; }
+    public void setGroups(List<Group> groups) { this.groups = groups; }
+    public void joinGroup(Group g) { this.groups.add(g); }
 }
 
-// Represents a friendship between two users
+@Document(collection = "friendships")
 public class Friendship extends BaseEntity {
-    private User userA;
-    private User userB;
+    @DBRef private User userA;
+    @DBRef private User userB;
     private LocalDate since;
 
-    public User getUserA();
-    public User getUserB();
-    public LocalDate getSince();
+    public User getUserA() { return userA; }
+    public void setUserA(User userA) { this.userA = userA; }
+
+    public User getUserB() { return userB; }
+    public void setUserB(User userB) { this.userB = userB; }
+
+    public LocalDate getSince() { return since; }
+    public void setSince(LocalDate since) { this.since = since; }
 }
 
-// A collection of users splitting expenses
+@Document(collection = "groups")
 public class Group extends BaseEntity {
     private String name;
-    private List<User> members;               // aggregation
-    private List<Expense> expenses;           // aggregation
+    private Currency defaultCurrency;
+    private ConversionPolicy conversionPolicy;
+    @DBRef private List<User> members;
+    @DBRef private List<Expense> expenses;
 
-    public String getName();
-    public void setName(String name);
-    public List<User> getMembers();
-    public void addMember(User u);
-    public List<Expense> getExpenses();
-    public void addExpense(Expense e);
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public Currency getDefaultCurrency() { return defaultCurrency; }
+    public void setDefaultCurrency(Currency defaultCurrency) { this.defaultCurrency = defaultCurrency; }
+
+    public ConversionPolicy getConversionPolicy() { return conversionPolicy; }
+    public void setConversionPolicy(ConversionPolicy conversionPolicy) { this.conversionPolicy = conversionPolicy; }
+
+    public List<User> getMembers() { return members; }
+    public void setMembers(List<User> members) { this.members = members; }
+    public void addMember(User u) { this.members.add(u); }
+
+    public List<Expense> getExpenses() { return expenses; }
+    public void setExpenses(List<Expense> expenses) { this.expenses = expenses; }
+    public void addExpense(Expense e) { this.expenses.add(e); }
 }
 
-// Base class for any expense
+@Document(collection = "expenses")
 public abstract class Expense extends BaseEntity {
-    protected User owner;
+    @DBRef protected User owner;
     protected BigDecimal amount;
+    protected Currency currency;      // original currency
     protected String description;
     protected LocalDate date;
 
-    public abstract Map<User, BigDecimal> calculateShares();  // how much each owes
-    public User getOwner();
-    public BigDecimal getAmount();
-    public String getDescription();
-    public LocalDate getDate();
+    /** Returns per-user shares in group's defaultCurrency */
+    public abstract Map<User, BigDecimal> calculateShares();
+
+    public User getOwner() { return owner; }
+    public void setOwner(User owner) { this.owner = owner; }
+
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public Currency getCurrency() { return currency; }
+    public void setCurrency(Currency currency) { this.currency = currency; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 }
 
-// One-off expense  
 public class OneTimeExpense extends Expense {
     @Override
-    public Map<User, BigDecimal> calculateShares();
+    public Map<User, BigDecimal> calculateShares() {
+        throw new UnsupportedOperationException("Not implemented");
+    }
 }
 
-// Recurring expense: extends base
 public class RecurringExpense extends Expense {
     private Recurrence recurrence;
 
     @Override
-    public Map<User, BigDecimal> calculateShares();
-    public Recurrence getRecurrence();
+    public Map<User, BigDecimal> calculateShares() {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    public Recurrence getRecurrence() { return recurrence; }
+    public void setRecurrence(Recurrence recurrence) { this.recurrence = recurrence; }
 }
 
-// Details of recurrence
 public class Recurrence {
     private Frequency frequency;
-    private int interval;   // e.g., every 2 weeks
+    private int interval;
 
-    public Frequency getFrequency();
-    public int getInterval();
+    public Frequency getFrequency() { return frequency; }
+    public void setFrequency(Frequency frequency) { this.frequency = frequency; }
+
+    public int getInterval() { return interval; }
+    public void setInterval(int interval) { this.interval = interval; }
 }
 
-// Frequency enum
-public enum Frequency {
-    DAILY, WEEKLY, MONTHLY;
-}
-
-// A single payment transaction between two users  
+@Document(collection = "payments")
 public class Payment extends BaseEntity {
-    private User from;
-    private User to;
+    @DBRef private User from;
+    @DBRef private User to;
     private BigDecimal amount;
+    private Currency currency;      // payment currency (group.defaultCurrency)
 
-    public User getFrom();
-    public User getTo();
-    public BigDecimal getAmount();
+    public User getFrom() { return from; }
+    public void setFrom(User from) { this.from = from; }
+
+    public User getTo() { return to; }
+    public void setTo(User to) { this.to = to; }
+
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public Currency getCurrency() { return currency; }
+    public void setCurrency(Currency currency) { this.currency = currency; }
 }
