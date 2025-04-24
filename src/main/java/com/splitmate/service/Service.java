@@ -2,47 +2,65 @@
 package service;
 
 import java.math.BigDecimal;
-import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import java.util.List;
 import model.*;
-import repository.*;
 
+/**
+ * Converts between currencies.
+ */
 public interface CurrencyConverter {
     BigDecimal convert(BigDecimal amount, Currency from, Currency to);
 }
 
+/**
+ * Implementation stub for currency conversion.
+ */
 @Service
 public class ApiCurrencyConverter implements CurrencyConverter {
     private final String apiKey;
-    @Autowired
-    public ApiCurrencyConverter(@Value("${fx.api.key}") String apiKey) {
+
+    public ApiCurrencyConverter(String apiKey) {
         this.apiKey = apiKey;
     }
+
     @Override
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
-        // call external FX API…
         throw new UnsupportedOperationException("Not implemented");
     }
 }
 
+/**
+ * User-related operations, including registration and authentication.
+ */
 public interface UserService {
     User getUser(String id);
-    User registerUser(User u);
+    User registerUser(User u, String rawPassword);
+    boolean authenticate(String email, String rawPassword);
     User updateUser(User u);
     void removeUser(String id);
 }
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired private UserRepository userRepo;
-    @Override public User getUser(String id) { return userRepo.findById(id).orElse(null); }
-    @Override public User registerUser(User u) { return userRepo.save(u); }
-    @Override public User updateUser(User u) { return userRepo.save(u); }
-    @Override public void removeUser(String id) { userRepo.deleteById(id); }
+    private final UserRepository userRepo;
+    private final CurrencyConverter converter;  // example of injecting another service
+
+    public UserServiceImpl(UserRepository userRepo,
+                           CurrencyConverter converter) {
+        this.userRepo = userRepo;
+        this.converter = converter;
+    }
+
+    @Override public User getUser(String id) { throw new UnsupportedOperationException(); }
+    @Override public User registerUser(User u, String rawPassword) { throw new UnsupportedOperationException(); }
+    @Override public boolean authenticate(String email, String rawPassword) { throw new UnsupportedOperationException(); }
+    @Override public User updateUser(User u) { throw new UnsupportedOperationException(); }
+    @Override public void removeUser(String id) { throw new UnsupportedOperationException(); }
 }
 
+/**
+ * Group management operations.
+ */
 public interface GroupService {
     Group getGroup(String id);
     Group createGroup(Group g);
@@ -52,28 +70,23 @@ public interface GroupService {
 
 @Service
 public class GroupServiceImpl implements GroupService {
-    @Autowired private GroupRepository groupRepo;
-    @Autowired private UserRepository userRepo;
+    private final GroupRepository groupRepo;
+    private final UserRepository userRepo;
 
-    @Override public Group getGroup(String id) { return groupRepo.findById(id).orElse(null); }
-    @Override public Group createGroup(Group g) { return groupRepo.save(g); }
-
-    @Override
-    public Group addUserToGroup(String groupId, String userId) {
-        Group g = getGroup(groupId);
-        User u = userRepo.findById(userId).orElseThrow();
-        g.getMembers().add(u);
-        return groupRepo.save(g);
+    public GroupServiceImpl(GroupRepository groupRepo, UserRepository userRepo) {
+        this.groupRepo = groupRepo;
+        this.userRepo = userRepo;
     }
 
-    @Override
-    public Group removeUserFromGroup(String groupId, String userId) {
-        Group g = getGroup(groupId);
-        g.getMembers().removeIf(u -> u.getId().equals(userId));
-        return groupRepo.save(g);
-    }
+    @Override public Group getGroup(String id) { throw new UnsupportedOperationException(); }
+    @Override public Group createGroup(Group g) { throw new UnsupportedOperationException(); }
+    @Override public Group addUserToGroup(String groupId, String userId) { throw new UnsupportedOperationException(); }
+    @Override public Group removeUserFromGroup(String groupId, String userId) { throw new UnsupportedOperationException(); }
 }
 
+/**
+ * Expense handling operations.
+ */
 public interface ExpenseService {
     Expense addExpense(String groupId, Expense e);
     List<Expense> listExpenses(String groupId);
@@ -81,31 +94,25 @@ public interface ExpenseService {
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
-    @Autowired private ExpenseRepository expRepo;
-    @Autowired private GroupRepository groupRepo;
-    @Autowired private CurrencyConverter converter;
+    private final ExpenseRepository expRepo;
+    private final GroupRepository groupRepo;
+    private final CurrencyConverter converter;
 
-    @Override
-    public Expense addExpense(String groupId, Expense e) {
-        Group g = groupRepo.findById(groupId).orElseThrow();
-        if (g.getConversionPolicy() == ConversionPolicy.INSTANT) {
-            BigDecimal convAmt = converter.convert(
-                e.getAmount(), e.getCurrency(), g.getDefaultCurrency());
-            e.setAmount(convAmt);
-            e.setCurrency(g.getDefaultCurrency());
-        }
-        g.getExpenses().add(e);
-        expRepo.save(e);
-        groupRepo.save(g);
-        return e;
+    public ExpenseServiceImpl(ExpenseRepository expRepo,
+                              GroupRepository groupRepo,
+                              CurrencyConverter converter) {
+        this.expRepo = expRepo;
+        this.groupRepo = groupRepo;
+        this.converter = converter;
     }
 
-    @Override
-    public List<Expense> listExpenses(String groupId) {
-        return expRepo.findByGroupId(groupId);
-    }
+    @Override public Expense addExpense(String groupId, Expense e) { throw new UnsupportedOperationException(); }
+    @Override public List<Expense> listExpenses(String groupId) { throw new UnsupportedOperationException(); }
 }
 
+/**
+ * Calculates settlement payments.
+ */
 public interface PaymentCalculator {
     List<Payment> calculate(Group group, List<Friendship> friendships);
 }
@@ -113,21 +120,43 @@ public interface PaymentCalculator {
 @Service
 public class SimplePaymentCalculator implements PaymentCalculator {
     private final CurrencyConverter converter;
-    @Autowired
+
     public SimplePaymentCalculator(CurrencyConverter converter) {
         this.converter = converter;
     }
 
-    @Override
-    public List<Payment> calculate(Group group, List<Friendship> friendships) {
-        Currency target = group.getDefaultCurrency();
-        Map<User, BigDecimal> net = new HashMap<>();
-        for (User u : group.getMembers()) {
-            BigDecimal bal = u.getBalance();
-            BigDecimal conv = converter.convert(bal, u.getBaseCurrency(), target);
-            net.put(u, conv);
-        }
-        // TODO: settlement algorithm using net & friendships
-        return Collections.emptyList();
+    @Override public List<Payment> calculate(Group group, List<Friendship> friendships) {
+        throw new UnsupportedOperationException();
+    }
+}
+
+/**
+ * Notification operations.
+ */
+public interface NotificationService {
+    void createNotification(String userId, NotificationType type, String message);
+    List<Notification> listNotifications(String userId);
+    void markAsRead(String notificationId);
+}
+
+@Service
+public class NotificationServiceImpl implements NotificationService {
+    private final NotificationRepository notifRepo;
+    private final UserRepository userRepo;
+
+    public NotificationServiceImpl(NotificationRepository notifRepo,
+                                   UserRepository userRepo) {
+        this.notifRepo = notifRepo;
+        this.userRepo = userRepo;
+    }
+
+    @Override public void createNotification(String userId, NotificationType type, String message) {
+        throw new UnsupportedOperationException();
+    }
+    @Override public List<Notification> listNotifications(String userId) {
+        throw new UnsupportedOperationException();
+    }
+    @Override public void markAsRead(String notificationId) {
+        throw new UnsupportedOperationException();
     }
 }

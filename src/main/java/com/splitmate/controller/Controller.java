@@ -3,112 +3,130 @@ package controller;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import model.*;
 import service.*;
 import repository.FriendshipRepository;
 
-@RestController
-@RequestMapping("/users")
+/**
+ * Handles user-related UI actions (e.g. from Swing forms).
+ */
 public class UserController {
-    @Autowired private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable String id) {
-        return userService.getUser(id);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User dto) {
-        return userService.registerUser(dto);
+    public User registerUser(User dto, String rawPassword) {
+        throw new UnsupportedOperationException();
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable String id, @RequestBody User dto) {
-        dto.setId(id);
-        return userService.updateUser(dto);
+    public boolean login(String email, String rawPassword) {
+        throw new UnsupportedOperationException();
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.removeUser(id);
+    public User findUserById(String id) {
+        throw new UnsupportedOperationException();
     }
 }
 
-@RestController
-@RequestMapping("/groups")
+/**
+ * Handles group-related UI actions.
+ */
 public class GroupController {
-    @Autowired private GroupService groupService;
+    private final GroupService groupService;
 
-    @GetMapping("/{id}")
-    public Group getGroup(@PathVariable String id) {
-        return groupService.getGroup(id);
+    public GroupController(GroupService groupService) {
+        this.groupService = groupService;
     }
 
-    @PostMapping
-    public Group createGroup(@RequestBody Group dto) {
-        return groupService.createGroup(dto);
+    public Group createGroup(Group dto) {
+        throw new UnsupportedOperationException();
     }
 
-    @PostMapping("/{gId}/members/{uId}")
-    public Group addMember(@PathVariable String gId, @PathVariable String uId) {
-        return groupService.addUserToGroup(gId, uId);
+    public Group findGroupById(String id) {
+        throw new UnsupportedOperationException();
     }
 
-    @DeleteMapping("/{gId}/members/{uId}")
-    public Group removeMember(@PathVariable String gId, @PathVariable String uId) {
-        return groupService.removeUserFromGroup(gId, uId);
+    public Group addMember(String groupId, String userId) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Group removeMember(String groupId, String userId) {
+        throw new UnsupportedOperationException();
     }
 }
 
-@RestController
-@RequestMapping("/groups/{gId}/expenses")
+/**
+ * Handles expense-related UI actions.
+ */
 public class ExpenseController {
-    @Autowired private ExpenseService expenseService;
+    private final ExpenseService expenseService;
 
-    @PostMapping
-    public Expense addExpense(@PathVariable String gId, @RequestBody Expense dto) {
-        return expenseService.addExpense(gId, dto);
+    public ExpenseController(ExpenseService expenseService) {
+        this.expenseService = expenseService;
     }
 
-    @GetMapping
-    public List<Expense> listExpenses(@PathVariable String gId) {
-        return expenseService.listExpenses(gId);
+    public Expense addExpense(String groupId, Expense dto) {
+        throw new UnsupportedOperationException();
+    }
+
+    public List<Expense> listExpenses(String groupId) {
+        throw new UnsupportedOperationException();
     }
 }
 
-@RestController
-@RequestMapping("/groups/{gId}/payments")
+/**
+ * Handles payment calculation actions.
+ */
 public class PaymentController {
-    @Autowired private PaymentCalculator calculator;
-    @Autowired private GroupService groupService;
-    @Autowired private FriendshipRepository friendshipRepo;
+    private final PaymentCalculator calculator;
+    private final GroupService groupService;
+    private final FriendshipRepository friendshipRepo;
 
-    @GetMapping
-    public List<Payment> calculatePayments(@PathVariable String gId) {
-        Group g = groupService.getGroup(gId);
-        List<Friendship> fs = g.getMembers().stream()
-            .flatMap(u -> friendshipRepo.findByUserAOrUserB(u, u).stream())
-            .collect(Collectors.toList());
-        return calculator.calculate(g, fs);
+    public PaymentController(PaymentCalculator calculator,
+                             GroupService groupService,
+                             FriendshipRepository friendshipRepo) {
+        this.calculator = calculator;
+        this.groupService = groupService;
+        this.friendshipRepo = friendshipRepo;
+    }
+
+    public List<Payment> calculatePayments(String groupId) {
+        throw new UnsupportedOperationException();
     }
 }
 
-@RestController
-@RequestMapping("/convert")
+/**
+ * Handles manual currency conversion requests from the UI.
+ */
 public class CurrencyController {
-    @Autowired private CurrencyConverter converter;
+    private final CurrencyConverter converter;
 
-    @GetMapping
-    public BigDecimal convert(
-        @RequestParam BigDecimal amount,
-        @RequestParam Currency from,
-        @RequestParam Currency to
-    ) {
-        return converter.convert(amount, from, to);
+    public CurrencyController(CurrencyConverter converter) {
+        this.converter = converter;
+    }
+
+    public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
+        throw new UnsupportedOperationException();
+    }
+}
+
+/**
+ * Handles notification-related UI actions.
+ */
+public class NotificationController {
+    private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public List<Notification> listUnread(String userId) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void markAsRead(String notificationId) {
+        throw new UnsupportedOperationException();
     }
 }

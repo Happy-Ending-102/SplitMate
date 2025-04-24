@@ -3,6 +3,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -15,35 +16,51 @@ public enum Currency {
 }
 
 public enum ConversionPolicy {
-    INSTANT,    // convert on addExpense()
-    DEFERRED    // convert only at settlement time
+    INSTANT, DEFERRED
 }
 
 public enum Frequency {
     DAILY, WEEKLY, MONTHLY
 }
 
+public enum NotificationType {
+    FRIEND_REQUEST,
+    GROUP_INVITE,
+    PAYMENT_RECEIVED,
+    PAYMENT_REJECTED,
+    DEBT_REMINDER,
+    RECURRING_EXPENSE
+}
+
 public abstract class BaseEntity {
-    @Id
-    protected String id;
+    @Id protected String id;
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 }
 
-@Document(collection = "users")
+@Document("users")
 public class User extends BaseEntity {
     private String name;
     private String email;
-    private BigDecimal balance;      // stored in user.baseCurrency
+    private String passwordHash;
+    private String passwordSalt;
+    private BigDecimal balance;
     private Currency baseCurrency;
     @DBRef private List<Friendship> friends;
     @DBRef private List<Group> groups;
+    @DBRef private List<Notification> notifications;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public String getPasswordSalt() { return passwordSalt; }
+    public void setPasswordSalt(String passwordSalt) { this.passwordSalt = passwordSalt; }
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }
@@ -52,15 +69,16 @@ public class User extends BaseEntity {
     public void setBaseCurrency(Currency baseCurrency) { this.baseCurrency = baseCurrency; }
 
     public List<Friendship> getFriends() { return friends; }
-    public void setFriends(List<Friendship> friends) { this.friends = friends; }
     public void addFriend(Friendship f) { this.friends.add(f); }
 
     public List<Group> getGroups() { return groups; }
-    public void setGroups(List<Group> groups) { this.groups = groups; }
     public void joinGroup(Group g) { this.groups.add(g); }
+
+    public List<Notification> getNotifications() { return notifications; }
+    public void addNotification(Notification n) { this.notifications.add(n); }
 }
 
-@Document(collection = "friendships")
+@Document("friendships")
 public class Friendship extends BaseEntity {
     @DBRef private User userA;
     @DBRef private User userB;
@@ -76,13 +94,14 @@ public class Friendship extends BaseEntity {
     public void setSince(LocalDate since) { this.since = since; }
 }
 
-@Document(collection = "groups")
+@Document("groups")
 public class Group extends BaseEntity {
     private String name;
     private Currency defaultCurrency;
     private ConversionPolicy conversionPolicy;
     @DBRef private List<User> members;
     @DBRef private List<Expense> expenses;
+    @DBRef private List<Notification> notifications;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -94,23 +113,23 @@ public class Group extends BaseEntity {
     public void setConversionPolicy(ConversionPolicy conversionPolicy) { this.conversionPolicy = conversionPolicy; }
 
     public List<User> getMembers() { return members; }
-    public void setMembers(List<User> members) { this.members = members; }
     public void addMember(User u) { this.members.add(u); }
 
     public List<Expense> getExpenses() { return expenses; }
-    public void setExpenses(List<Expense> expenses) { this.expenses = expenses; }
     public void addExpense(Expense e) { this.expenses.add(e); }
+
+    public List<Notification> getNotifications() { return notifications; }
+    public void addNotification(Notification n) { this.notifications.add(n); }
 }
 
-@Document(collection = "expenses")
+@Document("expenses")
 public abstract class Expense extends BaseEntity {
     @DBRef protected User owner;
     protected BigDecimal amount;
-    protected Currency currency;      // original currency
+    protected Currency currency;
     protected String description;
     protected LocalDate date;
 
-    /** Returns per-user shares in group's defaultCurrency */
     public abstract Map<User, BigDecimal> calculateShares();
 
     public User getOwner() { return owner; }
@@ -131,18 +150,14 @@ public abstract class Expense extends BaseEntity {
 
 public class OneTimeExpense extends Expense {
     @Override
-    public Map<User, BigDecimal> calculateShares() {
-        throw new UnsupportedOperationException("Not implemented");
-    }
+    public Map<User, BigDecimal> calculateShares() { throw new UnsupportedOperationException(); }
 }
 
 public class RecurringExpense extends Expense {
     private Recurrence recurrence;
 
     @Override
-    public Map<User, BigDecimal> calculateShares() {
-        throw new UnsupportedOperationException("Not implemented");
-    }
+    public Map<User, BigDecimal> calculateShares() { throw new UnsupportedOperationException(); }
 
     public Recurrence getRecurrence() { return recurrence; }
     public void setRecurrence(Recurrence recurrence) { this.recurrence = recurrence; }
@@ -159,12 +174,12 @@ public class Recurrence {
     public void setInterval(int interval) { this.interval = interval; }
 }
 
-@Document(collection = "payments")
+@Document("payments")
 public class Payment extends BaseEntity {
     @DBRef private User from;
     @DBRef private User to;
     private BigDecimal amount;
-    private Currency currency;      // payment currency (group.defaultCurrency)
+    private Currency currency;
 
     public User getFrom() { return from; }
     public void setFrom(User from) { this.from = from; }
@@ -177,4 +192,28 @@ public class Payment extends BaseEntity {
 
     public Currency getCurrency() { return currency; }
     public void setCurrency(Currency currency) { this.currency = currency; }
+}
+
+@Document("notifications")
+public class Notification extends BaseEntity {
+    @DBRef private User user;
+    private NotificationType type;
+    private String message;
+    private boolean read;
+    private LocalDateTime createdAt;
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public NotificationType getType() { return type; }
+    public void setType(NotificationType type) { this.type = type; }
+
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+
+    public boolean isRead() { return read; }
+    public void setRead(boolean read) { this.read = read; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
