@@ -55,6 +55,10 @@ public class GroupController {
     public Group removeMember(String groupId, String userId) {
         throw new UnsupportedOperationException();
     }
+
+    public Group frozeMember(String groupId, String userId) {
+        throw new UnsupportedOperationException();
+    }
 }
 
 /**

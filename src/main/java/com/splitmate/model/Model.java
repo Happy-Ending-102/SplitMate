@@ -44,6 +44,7 @@ public class User extends BaseEntity {
     private String email;
     private String passwordHash;
     private String passwordSalt;
+    private String profileImageUrl;
     private BigDecimal balance;
     private Currency baseCurrency;
     @DBRef private List<Friendship> friends;
@@ -76,6 +77,11 @@ public class User extends BaseEntity {
 
     public List<Notification> getNotifications() { return notifications; }
     public void addNotification(Notification n) { this.notifications.add(n); }
+
+    public String getProfileImageUrl() { return profileImageUrl;}
+    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl;}
+
+    
 }
 
 @Document("friendships")
@@ -97,11 +103,14 @@ public class Friendship extends BaseEntity {
 @Document("groups")
 public class Group extends BaseEntity {
     private String name;
+    private String profileImageUrl;
     private Currency defaultCurrency;
     private ConversionPolicy conversionPolicy;
     @DBRef private List<User> members;
+    private List<User> frozenMembers;
     @DBRef private List<Expense> expenses;
     @DBRef private List<Notification> notifications;
+    
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -120,6 +129,11 @@ public class Group extends BaseEntity {
 
     public List<Notification> getNotifications() { return notifications; }
     public void addNotification(Notification n) { this.notifications.add(n); }
+    
+    public String getProfileImageUrl() { return profileImageUrl;}
+    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl;}
+
+    
 }
 
 @Document("expenses")
@@ -128,7 +142,9 @@ public abstract class Expense extends BaseEntity {
     protected BigDecimal amount;
     protected Currency currency;
     protected String description;
+    protected String billImageUrl;
     protected LocalDate date;
+    protected List<User> divisionUsers;
 
     public abstract Map<User, BigDecimal> calculateShares();
 
@@ -146,6 +162,16 @@ public abstract class Expense extends BaseEntity {
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
+
+    public String getBillImageUrl() { return billImageUrl;}
+
+    public List<User> getDivisionUsers() { return divisionUsers;}
+
+    public void setBillImageUrl(String billImageUrl) { this.billImageUrl = billImageUrl;}
+
+    public void setDivisionUsers(List<User> divisionUsers) { this.divisionUsers = divisionUsers;}
+
+    
 }
 
 public class OneTimeExpense extends Expense {
@@ -165,13 +191,10 @@ public class RecurringExpense extends Expense {
 
 public class Recurrence {
     private Frequency frequency;
-    private int interval;
 
     public Frequency getFrequency() { return frequency; }
     public void setFrequency(Frequency frequency) { this.frequency = frequency; }
 
-    public int getInterval() { return interval; }
-    public void setInterval(int interval) { this.interval = interval; }
 }
 
 @Document("payments")
@@ -180,6 +203,7 @@ public class Payment extends BaseEntity {
     @DBRef private User to;
     private BigDecimal amount;
     private Currency currency;
+    private boolean isPaid;
 
     public User getFrom() { return from; }
     public void setFrom(User from) { this.from = from; }
@@ -192,6 +216,11 @@ public class Payment extends BaseEntity {
 
     public Currency getCurrency() { return currency; }
     public void setCurrency(Currency currency) { this.currency = currency; }
+
+    public boolean isPaid() { return isPaid;}
+    public void setPaid(boolean isPaid) { this.isPaid = isPaid;}
+
+    
 }
 
 @Document("notifications")
