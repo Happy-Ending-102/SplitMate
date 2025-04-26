@@ -66,6 +66,7 @@ public interface GroupService {
     Group createGroup(Group g);
     Group addUserToGroup(String groupId, String userId);
     Group removeUserFromGroup(String groupId, String userId);
+    Group frozeUserInAGroup(String groupId, String userId);
 }
 
 @Service
@@ -82,6 +83,7 @@ public class GroupServiceImpl implements GroupService {
     @Override public Group createGroup(Group g) { throw new UnsupportedOperationException(); }
     @Override public Group addUserToGroup(String groupId, String userId) { throw new UnsupportedOperationException(); }
     @Override public Group removeUserFromGroup(String groupId, String userId) { throw new UnsupportedOperationException(); }
+    @Override public Group frozeUserInAGroup(String groupId, String userId) { throw new UnsupportedOperationException(); }
 }
 
 /**
