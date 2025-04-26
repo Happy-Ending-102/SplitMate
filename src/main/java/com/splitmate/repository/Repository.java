@@ -13,7 +13,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
 @Repository
 public interface FriendshipRepository extends MongoRepository<Friendship, String> {
-    List<Friendship> findByUserAOrUserB(User userA, User userB);
+    List<Friendship> findByUserAOrUserB(User user);
 }
 
 @Repository

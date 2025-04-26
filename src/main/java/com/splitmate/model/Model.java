@@ -107,7 +107,7 @@ public class Group extends BaseEntity {
     private Currency defaultCurrency;
     private ConversionPolicy conversionPolicy;
     @DBRef private List<User> members;
-    private List<User> frozenMembers;
+    @DBRef private List<User> frozenMembers;
     @DBRef private List<Expense> expenses;
     @DBRef private List<Notification> notifications;
     
@@ -133,6 +133,11 @@ public class Group extends BaseEntity {
     public String getProfileImageUrl() { return profileImageUrl;}
     public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl;}
 
+    public List<User> getFrozenMembers() { return frozenMembers;}
+    public void setFrozenMembers(List<User> frozenMembers) {this.frozenMembers = frozenMembers;}
+
+    
+
     
 }
 
@@ -144,7 +149,7 @@ public abstract class Expense extends BaseEntity {
     protected String description;
     protected String billImageUrl;
     protected LocalDate date;
-    protected List<User> divisionUsers;
+    @DBRef protected List<User> divisionUsers;
 
     public abstract Map<User, BigDecimal> calculateShares();
 
@@ -180,20 +185,14 @@ public class OneTimeExpense extends Expense {
 }
 
 public class RecurringExpense extends Expense {
-    private Recurrence recurrence;
 
-    @Override
-    public Map<User, BigDecimal> calculateShares() { throw new UnsupportedOperationException(); }
-
-    public Recurrence getRecurrence() { return recurrence; }
-    public void setRecurrence(Recurrence recurrence) { this.recurrence = recurrence; }
-}
-
-public class Recurrence {
     private Frequency frequency;
 
     public Frequency getFrequency() { return frequency; }
     public void setFrequency(Frequency frequency) { this.frequency = frequency; }
+
+    @Override
+    public Map<User, BigDecimal> calculateShares() { throw new UnsupportedOperationException(); }
 
 }
 
