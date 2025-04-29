@@ -1,9 +1,14 @@
-// File: src/main/java/service/Service.java
 package service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import model.*;
+import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.MailSendException;
 
 /**
  * Converts between currencies.
@@ -155,10 +160,36 @@ public class NotificationServiceImpl implements NotificationService {
     @Override public void createNotification(String userId, NotificationType type, String message) {
         throw new UnsupportedOperationException();
     }
-    @Override public List<Notification> listNotifications(String userId) {
-        throw new UnsupportedOperationException();
+    @Override public List<Notification> listNotifications(String userId) { throw new UnsupportedOperationException(); }
+    @Override public void markAsRead(String notificationId) { throw new UnsupportedOperationException(); }
+}
+
+/**
+ * Email sending operations.
+ */
+public interface EmailService {
+    void sendEmail(String to, String subject, String body);
+}
+
+@Service
+public class EmailServiceImpl implements EmailService {
+    private final JavaMailSender mailSender;
+
+    public EmailServiceImpl(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
-    @Override public void markAsRead(String notificationId) {
-        throw new UnsupportedOperationException();
+
+    @Override
+    public void sendEmail(String to, String subject, String body) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new MailSendException("Failed to send email", e);
+        }
     }
 }
