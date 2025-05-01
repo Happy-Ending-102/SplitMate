@@ -1,43 +1,57 @@
-// File: UserServiceImpl.java
 package com.splitmate.service;
 
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.splitmate.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.splitmate.model.User;
+import com.splitmate.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
-    private final CurrencyConverter converter;
+    private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepo,
-                           CurrencyConverter converter) {
+                           PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
-        this.converter = converter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User getUser(String id) {
-        throw new UnsupportedOperationException();
+        return userRepo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
     }
 
     @Override
     public User registerUser(User u, String rawPassword) {
-        throw new UnsupportedOperationException();
+        // hash & set the password
+        u.setPasswordHash(passwordEncoder.encode(rawPassword));
+        // initialize balance if absent
+        if (u.getBalance() == null) {
+            u.setBalance(BigDecimal.ZERO);
+        }
+        return userRepo.save(u);
     }
 
     @Override
     public boolean authenticate(String email, String rawPassword) {
-        throw new UnsupportedOperationException();
+        // assume your UserRepository.findByEmail returns null when not found
+        User found = userRepo.findByEmail(email);
+        return found != null && passwordEncoder.matches(rawPassword, found.getPasswordHash());
     }
 
     @Override
     public User updateUser(User u) {
-        throw new UnsupportedOperationException();
+        return userRepo.save(u);
     }
 
     @Override
     public void removeUser(String id) {
-        throw new UnsupportedOperationException();
+        userRepo.deleteById(id);
     }
 }

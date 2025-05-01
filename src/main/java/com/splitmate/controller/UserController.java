@@ -1,13 +1,11 @@
-// UserController.java
+// File: UserController.java
 package com.splitmate.controller;
 
-import com.splitmate.model.*;
-import com.splitmate.service.*;
 import org.springframework.stereotype.Component;
 
-/**
- * Handles user-related UI actions (e.g. from Swing forms).
- */
+import com.splitmate.model.User;
+import com.splitmate.service.UserService;
+
 @Component
 public class UserController {
     private final UserService userService;
@@ -16,15 +14,24 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Register a new user with raw password.
+     */
     public User registerUser(User dto, String rawPassword) {
-        throw new UnsupportedOperationException();
+        return userService.registerUser(dto, rawPassword);
     }
 
+    /**
+     * Authenticate (login) by email and password.
+     */
     public boolean login(String email, String rawPassword) {
-        throw new UnsupportedOperationException();
+        return userService.authenticate(email, rawPassword);
     }
 
+    /**
+     * Lookup an existing user.
+     */
     public User findUserById(String id) {
-        throw new UnsupportedOperationException();
+        return userService.getUser(id);
     }
 }
