@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox xmlns="http://javafx.com/javafx/17.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.splitmate.controller.MainController"
-      spacing="10" alignment="CENTER">
-    
-    <!-- padding around the content -->
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <!-- A simple welcome message -->
-    <Label fx:id="welcomeLabel"
-           text="Welcome to SplitMate!"
-           style="-fx-font-size: 18px;"/>
-
-    <!-- Input field -->
-    <TextField fx:id="nameField"
-               promptText="Enter your name"/>
-
-    <!-- Button wired to your controller -->
-    <Button text="Submit"
-            onAction="#handleSubmit"/>
+<?import javafx.scene.control.*?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml" fx:controller="com.splitmate.controller.MainController">
+    <TextField fx:id="nameField" promptText="Name" />
+    <TextField fx:id="emailField" promptText="Email" />
+    <PasswordField fx:id="passwordField" promptText="Password" />
+    <Button fx:id="registerButton" text="Register" onAction="#onRegister" />
 </VBox>
