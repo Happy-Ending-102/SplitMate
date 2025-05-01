@@ -9,4 +9,5 @@ import com.splitmate.model.Notification;
 @Repository
 public interface NotificationRepository extends MongoRepository<Notification, String> {
     List<Notification> findByUserIdAndReadFalse(String userId);
+    List<Notification> findAllNotificationsByUserId(String userId);
 }

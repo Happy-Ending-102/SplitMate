@@ -1,0 +1,62 @@
+package com.splitmate;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+public class SplitMateApplication extends Application {
+
+    private ConfigurableApplicationContext springContext;
+
+    public static void main(String[] args) {
+        // Bootstraps Spring and then calls init() → start()
+        launch(args);
+    }
+
+    @Override
+    public void init() {
+        // start up Spring
+        springContext = SpringApplication.run(SplitMateApplication.class);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        // 1. Create UI controls
+        Label prompt = new Label("Enter total amount:");
+        TextField amountField = new TextField();
+        Button splitButton = new Button("Split");
+        
+        // 2. Hook up your Spring-managed service
+        splitButton.setOnAction(e -> {
+            SplitService service = springContext.getBean(SplitService.class);
+            // assume split(...) takes a String or converts it internally
+            service.split(amountField.getText());
+        });
+
+        // 3. Lay them out
+        VBox root = new VBox(10, prompt, amountField, splitButton);
+        root.setPadding(new Insets(20));
+
+        // 4. Show the stage
+        primaryStage.setScene(new Scene(root, 400, 200));
+        primaryStage.setTitle("SplitMate");
+        primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        // Clean shutdown
+        springContext.close();
+        Platform.exit();
+    }
+}
