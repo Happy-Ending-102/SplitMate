@@ -1,39 +1,59 @@
-/* MainController.java */
 package com.splitmate.controller;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import com.splitmate.model.User;
 import com.splitmate.config.SpringContext;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.net.URL;
 
 @Component
 public class MainController {
-    @FXML private TextField nameField;
-    @FXML private TextField emailField;
-    @FXML private PasswordField passwordField;
-    @FXML private Button registerButton;
 
-    private UserController userController;
+    private Stage primaryStage;
+    private Scene mainScene; // keep scene to reuse it
 
-    @FXML
-    public void initialize() {
-        // Grab UserController bean from Spring context
-        ApplicationContext ctx = SpringContext.get();
-        this.userController = ctx.getBean(UserController.class);
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+
+        // Initial dummy scene
+        this.mainScene = new Scene(new javafx.scene.layout.StackPane(), 800, 600);
+
+        // Fullscreen settings
+        primaryStage.setScene(mainScene);
+        primaryStage.setMaximized(true);
+        primaryStage.setResizable(true);
+        primaryStage.show();
     }
 
-    @FXML
-    private void onRegister() {
-        User user = new User();
-        user.setName(nameField.getText());
-        user.setEmail(emailField.getText());
-        // call through our UI controller
-        User created = userController.registerUser(user, passwordField.getText());
-        System.out.println("Registered user: " + created.getId());
-        // TODO: show confirmation in UI
+    public void showLoginView() {
+        loadView("fxml/login.fxml", "Login - SplitMate");
+    }
+
+    public void showSignUpView() {
+        loadView("fxml/signup.fxml", "Sign Up - SplitMate");
+    }
+
+    private void loadView(String fxmlPath, String title) {
+        try {
+            URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);
+            if (resource == null) {
+                throw new RuntimeException("FXML file not found at path: " + fxmlPath);
+            }
+
+            FXMLLoader loader = new FXMLLoader(resource);
+            loader.setControllerFactory(SpringContext.get()::getBean);
+            Parent root = loader.load();
+
+            // Reuse the same scene — just set the root
+            mainScene.setRoot(root);
+            primaryStage.setTitle(title);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

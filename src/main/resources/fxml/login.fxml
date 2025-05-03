@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.splitmate.controller.LoginController"
+           prefWidth="800" prefHeight="600">
+
+    <VBox alignment="CENTER" spacing="15">
+        <Label text="Login" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <Label text="Email address" />
+        <TextField fx:id="emailField" promptText="Enter your email" maxWidth="300"/>
+
+        <Label text="Password" />
+        <PasswordField fx:id="passwordField" promptText="Enter your password" maxWidth="300"/>
+
+        <Button text="Login" onAction="#onLogin"
+                style="-fx-background-color: #5b2c91; -fx-text-fill: white;" maxWidth="200"/>
+
+        <HBox spacing="5" alignment="CENTER">
+            <Label text="Don't have an account?" />
+            <Hyperlink text="Sign Up" onAction="#onSignUp" />
+        </HBox>
+
+        <Hyperlink text="Forgot Password?" onAction="#onForgotPassword" />
+    </VBox>
+</StackPane>

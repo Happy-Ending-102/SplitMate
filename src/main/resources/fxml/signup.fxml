@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.splitmate.controller.SignUpController"
+           prefWidth="800" prefHeight="600">
+
+    <VBox alignment="CENTER" spacing="15">
+        <Label text="Sign Up" style="-fx-font-size: 30px; -fx-font-weight: bold;" />
+
+        <Label text="Name" />
+        <TextField fx:id="nameField" promptText="Enter Your Name" maxWidth="300"/>
+
+        <Label text="Surname" />
+        <TextField fx:id="surnameField" promptText="Enter Your Surname" maxWidth="300"/>
+
+        <Label text="Email address" />
+        <TextField fx:id="emailField" promptText="Enter your email" maxWidth="300"/>
+
+        <Label text="Password" />
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
+
+        <Label text="Confirm Password" />
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" maxWidth="300"/>
+
+        <Button text="Create Your Account" onAction="#onSignUp"
+                style="-fx-background-color: #5b2c91; -fx-text-fill: white;"
+                maxWidth="250"/>
+    </VBox>
+</StackPane>
