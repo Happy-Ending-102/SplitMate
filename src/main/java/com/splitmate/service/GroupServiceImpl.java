@@ -1,5 +1,7 @@
 // File: GroupServiceImpl.java
 package com.splitmate.service;
+import com.splitmate.model.User;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 import com.splitmate.repository.GroupRepository;
@@ -18,26 +20,43 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group getGroup(String id) {
-        throw new UnsupportedOperationException();
+        return this.groupRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Group not found with id: " + id));
     }
 
     @Override
     public Group createGroup(Group g) {
-        throw new UnsupportedOperationException();
+        return this.groupRepo.save(g);
     }
 
     @Override
     public Group addUserToGroup(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        Group group = groupRepo.findById(groupId).orElseThrow(() -> new NoSuchElementException("Group not found"));
+        User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        group.getMembers().add(user);
+        return groupRepo.save(group);
     }
 
     @Override
     public Group removeUserFromGroup(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        Group group = groupRepo.findById(groupId).orElseThrow(() -> new NoSuchElementException("Group not found"));
+        User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        group.getMembers().remove(user);
+        return groupRepo.save(group);
     }
 
     @Override
     public Group frozeUserInAGroup(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        Group group = groupRepo.findById(groupId).orElseThrow(() -> new NoSuchElementException("Group not found"));
+        User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        // Only freeze if the user is currently active
+        if (group.getMembers().contains(user)) {
+            group.getMembers().remove(user);
+            group.getFrozenMembers().add(user);
+        }
+
+        return groupRepo.save(group);
     }
 }
