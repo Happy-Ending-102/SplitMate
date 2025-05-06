@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.splitmate.controller.GroupsListController">
+
+  <!-- Left nav bar -->
+  <left>
+    <VBox prefWidth="200" style="-fx-background-color: #5b2c91;">
+      <fx:include source="navigationBar.fxml"/>
+    </VBox>
+  </left>
+
+  <!-- Main content -->
+  <center>
+    <StackPane>
+      <!-- White background with only top‐left corner rounded -->
+      <Pane style="-fx-background-color:white; -fx-background-radius:30 0 0 0;"/>
+
+      <VBox spacing="20">
+        <padding>
+          <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+          <Label text="Groups"
+                 style="-fx-font-size:32px; -fx-font-weight:bold; -fx-text-fill:#5b2c91;"/>
+          <Region HBox.hgrow="ALWAYS"/>
+          <Label text="+ Add new group"
+                 style="-fx-font-size:14px; -fx-text-fill:#333333;"/>
+        </HBox>
+
+        <!-- Scrollable list of cards -->
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+          <content>
+            <VBox spacing="15">
+              <!-- Sample card -->
+              <HBox alignment="CENTER_LEFT"
+                    spacing="15"
+                    style="-fx-background-color:#e0e0e0; -fx-background-radius:10;">
+                <padding>
+                  <Insets top="10" right="15" bottom="10" left="15"/>
+                </padding>
+
+                <!-- Icon -->
+                <StackPane prefWidth="40" prefHeight="40"
+                           style="-fx-background-color:#3f51b5; -fx-background-radius:20;">
+                  <ImageView fx:id="groupIcon1" fitWidth="24" fitHeight="24"/>
+                </StackPane>
+
+                <!-- Name -->
+                <Label text="Happy Ending"
+                       style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Last update -->
+                <Label text="last update:"
+                       style="-fx-font-size:12px; -fx-text-fill:#555555;"/>
+              </HBox>
+
+              <!-- repeat one HBox per group in your controller -->
+            </VBox>
+          </content>
+        </ScrollPane>
+
+      </VBox>
+    </StackPane>
+  </center>
+</BorderPane>

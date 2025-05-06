@@ -1,10 +1,11 @@
 package com.splitmate.controller;
 
+import org.springframework.stereotype.Component;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.springframework.stereotype.Component;
 
 @Component
 public class LoginController {
@@ -22,14 +23,16 @@ public class LoginController {
 
     @FXML
     private void onLogin() {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        mainController.showGroupsView();
+        System.out.println("clicked");
+        // String email = emailField.getText();
+        // String password = passwordField.getText();
 
-        if (userController.login(email, password)) {
-            // mainController.showDashboardView();
-        } else {
-            System.out.println("Login failed");
-        }
+        // if (userController.login(email, password)) {
+        //     mainController.showGroupsView();
+        // } else {
+        //     System.out.println("Login failed");
+        // }
     }
 
     @FXML

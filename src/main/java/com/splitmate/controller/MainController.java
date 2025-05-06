@@ -1,14 +1,16 @@
 package com.splitmate.controller;
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.springframework.stereotype.Component;
+
 import com.splitmate.config.SpringContext;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.net.URL;
 
 @Component
 public class MainController {
@@ -35,6 +37,18 @@ public class MainController {
 
     public void showSignUpView() {
         loadView("fxml/signup.fxml", "Sign Up - SplitMate");
+    }
+    
+    public void showGroupsView() { 
+        loadView("fxml/groupsList.fxml",  "Groups - SplitMate"); 
+    }
+
+    public void showAddGroupView(){
+
+    }
+
+    public void showGroupDetailsView(String ID){
+
     }
 
     private void loadView(String fxmlPath, String title) {
