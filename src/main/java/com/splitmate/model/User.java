@@ -14,7 +14,7 @@ public class User extends BaseEntity {
     private String passwordHash;
     private String passwordSalt;
     private String profileImageUrl;
-    private BigDecimal balance;
+    private List<Balance> balances;
     private Currency baseCurrency;
 
     @DBRef private List<Friendship> friends;
@@ -36,9 +36,6 @@ public class User extends BaseEntity {
     public String getProfileImageUrl() { return profileImageUrl; }
     public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
 
-    public BigDecimal getBalance() { return balance; }
-    public void setBalance(BigDecimal balance) { this.balance = balance; }
-
     public Currency getBaseCurrency() { return baseCurrency; }
     public void setBaseCurrency(Currency baseCurrency) { this.baseCurrency = baseCurrency; }
 
@@ -50,4 +47,11 @@ public class User extends BaseEntity {
 
     public List<Notification> getNotifications() { return notifications; }
     public void addNotification(Notification n) { this.notifications.add(n); }
+
+    public List<Balance> getBalances() { return balances;}
+    public void setBalances(List<Balance> balances) { this.balances = balances;}
+
+    
+
+
 }

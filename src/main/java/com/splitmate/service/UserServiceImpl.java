@@ -1,11 +1,14 @@
 package com.splitmate.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.splitmate.model.Balance;
 import com.splitmate.model.User;
 import com.splitmate.repository.UserRepository;
 
@@ -32,8 +35,8 @@ public class UserServiceImpl implements UserService {
         // hash & set the password
         u.setPasswordHash(passwordEncoder.encode(rawPassword));
         // initialize balance if absent
-        if (u.getBalance() == null) {
-            u.setBalance(BigDecimal.ZERO);
+        if (u.getBalances() == null) {
+            u.setBalances( new ArrayList<>());
         }
         return userRepo.save(u);
     }

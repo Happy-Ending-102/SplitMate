@@ -17,7 +17,7 @@ public abstract class Expense extends BaseEntity {
     protected String description;
     protected String billImageUrl;
     protected LocalDate date;
-    @DBRef protected List<User> divisionUsers;
+    @DBRef protected List<Partition> divisionAmongUsers;
     @DBRef protected Group group; // null olabilir. null ise iki kisi arasında bir harcama var demektir.
 
     public Group getGroup() { return group; }
@@ -43,6 +43,8 @@ public abstract class Expense extends BaseEntity {
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
-    public List<User> getDivisionUsers() { return divisionUsers; }
-    public void setDivisionUsers(List<User> divisionUsers) { this.divisionUsers = divisionUsers; }
+    public List<Partition> getDivisionAmongUsers() { return divisionAmongUsers; }
+    public void setDivisionAmongUsers(List<Partition> divisionAmongUsers) { this.divisionAmongUsers = divisionAmongUsers; }
+
+    
 }
