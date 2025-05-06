@@ -59,4 +59,19 @@ public class GroupServiceImpl implements GroupService {
 
         return groupRepo.save(group);
     }
+
+    @Override
+    public Group unfreezeUserInGroup(String groupId, String userId) {
+        Group group = groupRepo.findById(groupId)
+            .orElseThrow(() -> new NoSuchElementException("Group not found"));
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if (group.getFrozenMembers().contains(user)) {
+            group.getFrozenMembers().remove(user);
+            group.getMembers().add(user);
+        }
+
+        return groupRepo.save(group);
+    }
 }

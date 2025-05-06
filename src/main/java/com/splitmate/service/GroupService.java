@@ -9,4 +9,5 @@ public interface GroupService {
     Group addUserToGroup(String groupId, String userId);
     Group removeUserFromGroup(String groupId, String userId);
     Group frozeUserInAGroup(String groupId, String userId);
+    Group unfreezeUserInGroup(String groupId, String userId);
 }
