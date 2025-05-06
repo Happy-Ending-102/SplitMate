@@ -74,4 +74,18 @@ public class GroupServiceImpl implements GroupService {
 
         return groupRepo.save(group);
     }
+
+    @Override
+    public String getAvatarBase64(String groupId) {
+    return groupRepo.findById(groupId)
+                    .map(Group::getAvatarBase64)
+                    .orElse("");
+    }
+
+    @Override
+    public Group updateAvatar(String groupId, String base64) {
+    Group g = getGroup(groupId);
+    g.setAvatarBase64(base64);
+    return groupRepo.save(g);
+    }
 }

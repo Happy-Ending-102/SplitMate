@@ -12,6 +12,7 @@ public class Group extends BaseEntity {
     private String profileImageUrl;
     private Currency defaultCurrency;
     private ConversionPolicy conversionPolicy;
+    private String avatarBase64;
 
     @DBRef private List<User> members;
     @DBRef private List<User> frozenMembers;
@@ -21,8 +22,8 @@ public class Group extends BaseEntity {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getProfileImageUrl() { return profileImageUrl; }
-    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
+    public String getAvatarBase64() { return avatarBase64; }
+    public void setAvatarBase64(String avatarBase64) { this.avatarBase64 = avatarBase64; }
 
     public Currency getDefaultCurrency() { return defaultCurrency; }
     public void setDefaultCurrency(Currency defaultCurrency) { this.defaultCurrency = defaultCurrency; }
