@@ -16,6 +16,7 @@ public class User extends BaseEntity {
     private String profileImageUrl;
     private List<Balance> balances;
     private Currency baseCurrency;
+    private String avatarBase64;
 
     @DBRef private List<Friendship> friends;
     @DBRef private List<Group> groups;
@@ -33,8 +34,8 @@ public class User extends BaseEntity {
     public String getPasswordSalt() { return passwordSalt; }
     public void setPasswordSalt(String passwordSalt) { this.passwordSalt = passwordSalt; }
 
-    public String getProfileImageUrl() { return profileImageUrl; }
-    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
+    public String getAvatarBase64() { return avatarBase64; }
+    public void setAvatarBase64(String avatarBase64) { this.avatarBase64 = avatarBase64; }
 
     public Currency getBaseCurrency() { return baseCurrency; }
     public void setBaseCurrency(Currency baseCurrency) { this.baseCurrency = baseCurrency; }

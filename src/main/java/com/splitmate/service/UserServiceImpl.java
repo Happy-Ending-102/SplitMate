@@ -57,4 +57,17 @@ public class UserServiceImpl implements UserService {
     public void removeUser(String id) {
         userRepo.deleteById(id);
     }
+
+    @Override
+    public String getAvatarBase64(String userId) {
+        User u = getUser(userId);
+        return u.getAvatarBase64();  // may be null or empty
+    }
+
+    @Override
+    public User updateAvatar(String userId, String base64) {
+        User u = getUser(userId);
+        u.setAvatarBase64(base64);
+        return userRepo.save(u);
+    }
 }
