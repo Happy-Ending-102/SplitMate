@@ -10,7 +10,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -24,59 +23,112 @@
       <fx:include source="navigationBar.fxml" />
     </VBox>
   </left>
+   <top>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b2c91" height="41.0" stroke="#5b2c91" strokeType="INSIDE" strokeWidth="0.0" width="1700.0" BorderPane.alignment="CENTER" />
+   </top>
    <center>
-      <Pane prefHeight="1080.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="710.0" prefWidth="1230.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="1080.0" prefWidth="1672.0" spacing="50.0">
+            <Label minWidth="100.0" prefHeight="41.0" prefWidth="179.0" text="My Profile">
+               <VBox.margin>
+                  <Insets left="50.0" top="50.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="40.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <HBox prefHeight="133.0" prefWidth="1232.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b2c91" height="41.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="374.0" />
-                  <Label minWidth="100.0" text="My Profile">
-                     <VBox.margin>
-                        <Insets left="20.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="65.0" />
-                     </font>
-                  </Label>
-                  <HBox prefHeight="290.0" prefWidth="1672.0">
+                  <ImageView fx:id="userImage" fitHeight="136.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Pictures/image.jpeg" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox prefHeight="170.0" prefWidth="1064.0">
                      <children>
-                        <ImageView fx:id="userImage" fitHeight="72.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../Pictures/image.jpeg" />
-                           </image>
-                        </ImageView>
-                        <VBox prefHeight="290.0" prefWidth="215.0">
-                           <children>
-                              <Text fx:id="userNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Esra Nur Tat" />
-                              <Text fx:id="userIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: 22304567" />
-                           </children>
-                        </VBox>
+                        <Text fx:id="userNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Esra Nur Tat" wrappingWidth="840.4121398925781">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="50.0" top="20.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="userIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: 22304567">
+                           <VBox.margin>
+                              <Insets left="50.0" top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Text>
                      </children>
-                  </HBox>
-                  <Text fx:id="ibanText" strokeType="OUTSIDE" strokeWidth="0.0" text="IBAN: 2984293472394" />
-                  <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#onChangePassword" text="Change Password" />
-                  <HBox prefHeight="25.0" prefWidth="200.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Set Notification Frequency" wrappingWidth="115.15704345703125" />
-                        <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="48.0" text="Daily">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="frequencyToggleGroup" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
-                        <RadioButton mnemonicParsing="false" text="Weekly" toggleGroup="$frequencyToggleGroup" />
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <RadioButton mnemonicParsing="false" text="Monthly" toggleGroup="$frequencyToggleGroup" />
-                     </children>
-                  </HBox>
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSave" prefHeight="23.0" prefWidth="57.0" style="-fx-background-color: green;" text="Save">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Button>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
+            <Text fx:id="ibanText" strokeType="OUTSIDE" strokeWidth="0.0" text="IBAN: 2984293472394">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Text>
+            <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#onChangePassword" text="Change Password">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <HBox prefHeight="59.0" prefWidth="1232.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Set Notification Frequency" wrappingWidth="423.9570617675781">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="119.0" text="Daily">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="frequencyToggleGroup" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </RadioButton>
+                  <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+                  <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="146.0" text="Weekly" toggleGroup="$frequencyToggleGroup">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </RadioButton>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <RadioButton mnemonicParsing="false" text="Monthly" toggleGroup="$frequencyToggleGroup">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSave" prefHeight="1.0" prefWidth="146.0" style="-fx-background-color: green;" text="Save">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="60.0" left="900.0" top="50.0" />
+               </VBox.margin>
+            </Button>
          </children>
-      </Pane>
+      </VBox>
    </center>
 </BorderPane>
