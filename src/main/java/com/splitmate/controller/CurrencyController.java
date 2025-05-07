@@ -18,6 +18,6 @@ public class CurrencyController {
     }
 
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
-        throw new UnsupportedOperationException();
+        return converter.convert(amount, from, to);
     }
 }

@@ -19,10 +19,10 @@ public class NotificationController {
     }
 
     public List<Notification> listUnread(String userId) {
-        throw new UnsupportedOperationException();
+        return notificationService.listNotifications(userId);
     }
 
     public void markAsRead(String notificationId) {
-        throw new UnsupportedOperationException();
+        notificationService.markAsRead(notificationId);
     }
 }

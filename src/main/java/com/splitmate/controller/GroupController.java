@@ -17,22 +17,26 @@ public class GroupController {
     }
 
     public Group createGroup(Group dto) {
-        throw new UnsupportedOperationException();
+        return groupService.createGroup(dto);
     }
 
     public Group findGroupById(String id) {
-        throw new UnsupportedOperationException();
+        return groupService.getGroup(id);
     }
 
     public Group addMember(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        return groupService.addUserToGroup(groupId, userId);
     }
 
     public Group removeMember(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        return groupService.removeUserFromGroup(groupId, userId);
     }
 
     public Group frozeMember(String groupId, String userId) {
-        throw new UnsupportedOperationException();
+        return groupService.frozeUserInAGroup(groupId, userId);
+    }
+
+    public Group unfreezeMember(String groupId, String userId){
+        return groupService.unfreezeUserInGroup(groupId, userId);
     }
 }
