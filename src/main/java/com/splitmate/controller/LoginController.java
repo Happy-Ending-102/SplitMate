@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import com.splitmate.service.SessionService;
+import com.splitmate.model.User;
+
 @Component
 public class LoginController {
 
@@ -15,10 +18,14 @@ public class LoginController {
 
     private final MainController mainController;
     private final UserController userController;
+    private final SessionService sessionService;
 
-    public LoginController(MainController mainController, UserController userController) {
+    public LoginController(MainController mainController,
+                           UserController userController,
+                           SessionService sessionService) {
         this.mainController = mainController;
         this.userController = userController;
+        this.sessionService = sessionService;
     }
 
     @FXML
@@ -26,7 +33,7 @@ public class LoginController {
         // Hide previous error
         loginErrorLabel.setVisible(false);
 
-        String email = emailField.getText().trim();
+        String email = emailField.getText().trim().toLowerCase();
         String pwd   = passwordField.getText();
 
         // Basic validation
@@ -38,6 +45,10 @@ public class LoginController {
         // Attempt authentication
         boolean success = userController.login(email, pwd);
         if (success) {
+            // Fetch full user and set in session
+            User u = userController.findUserByEmail(email);
+            sessionService.setCurrentUser(u);
+
             mainController.showGroupsView();
         } else {
             showError("Invalid email or password.");

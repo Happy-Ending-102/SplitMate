@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+
+    @Override
     public String getAvatarBase64(String userId) {
         User u = getUser(userId);
         return u.getAvatarBase64();  // may be null or empty

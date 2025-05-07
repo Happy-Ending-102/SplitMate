@@ -11,4 +11,5 @@ public interface UserService {
     void removeUser(String id);
     String getAvatarBase64(String userId);
     User   updateAvatar(String userId, String base64);
+    User findByEmail(String email);
 }

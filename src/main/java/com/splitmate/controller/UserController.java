@@ -28,6 +28,11 @@ public class UserController {
         return userService.authenticate(email, rawPassword);
     }
 
+    public User findUserByEmail(String email) {
+        return userService.findByEmail(email.trim().toLowerCase());
+    }
+    
+
     /**
      * Lookup an existing user.
      */
