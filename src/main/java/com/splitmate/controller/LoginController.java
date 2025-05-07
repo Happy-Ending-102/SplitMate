@@ -1,9 +1,8 @@
 package com.splitmate.controller;
 
 import org.springframework.stereotype.Component;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -12,6 +11,7 @@ public class LoginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private Label loginErrorLabel;
 
     private final MainController mainController;
     private final UserController userController;
@@ -23,15 +23,24 @@ public class LoginController {
 
     @FXML
     private void onLogin() {
-        mainController.showGroupsView();
-        System.out.println("clicked");
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        // Hide previous error
+        loginErrorLabel.setVisible(false);
 
-        if (userController.login(email, password)) {
+        String email = emailField.getText().trim();
+        String pwd   = passwordField.getText();
+
+        // Basic validation
+        if (email.isEmpty() || pwd.isEmpty()) {
+            showError("Please enter both email and password.");
+            return;
+        }
+
+        // Attempt authentication
+        boolean success = userController.login(email, pwd);
+        if (success) {
             mainController.showGroupsView();
         } else {
-            System.out.println("Login failed");
+            showError("Invalid email or password.");
         }
     }
 
@@ -41,7 +50,13 @@ public class LoginController {
     }
 
     @FXML
-    public void onForgotPassword(ActionEvent event) {
+    private void onForgotPassword() {
+        // TODO: implement forgot-password flow
         System.out.println("Forgot password clicked");
+    }
+
+    private void showError(String message) {
+        loginErrorLabel.setText(message);
+        loginErrorLabel.setVisible(true);
     }
 }

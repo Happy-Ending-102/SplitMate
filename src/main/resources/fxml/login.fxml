@@ -8,17 +8,30 @@
            fx:controller="com.splitmate.controller.LoginController"
            prefWidth="800" prefHeight="600">
 
-    <VBox alignment="CENTER" spacing="15">
-        <Label text="Login" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <VBox alignment="CENTER" spacing="12">
+        <Label text="Login"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 
         <Label text="Email address" />
-        <TextField fx:id="emailField" promptText="Enter your email" maxWidth="300"/>
+        <TextField fx:id="emailField"
+                   promptText="Enter your email"
+                   maxWidth="300"/>
 
         <Label text="Password" />
-        <PasswordField fx:id="passwordField" promptText="Enter your password" maxWidth="300"/>
+        <PasswordField fx:id="passwordField"
+                       promptText="Enter your password"
+                       maxWidth="300"/>
 
-        <Button text="Login" onAction="#onLogin"
-                style="-fx-background-color: #5b2c91; -fx-text-fill: white;" maxWidth="200"/>
+        <!-- Inline error label -->
+        <Label fx:id="loginErrorLabel"
+               text=""
+               style="-fx-text-fill: red; -fx-font-size: 12px;"
+               visible="false" />
+
+        <Button text="Login"
+                onAction="#onLogin"
+                style="-fx-background-color: #5b2c91; -fx-text-fill: white;"
+                maxWidth="200"/>
 
         <HBox spacing="5" alignment="CENTER">
             <Label text="Don't have an account?" />

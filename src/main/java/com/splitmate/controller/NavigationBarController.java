@@ -37,7 +37,9 @@ public class NavigationBarController {
         // main.showProfileView();
     }
 
-    @FXML private void logout() {
-        // main.logout();
+    @FXML
+    private void logout() {
+        // Navigate back to the login screen
+        main.showLoginView();
     }
 }
