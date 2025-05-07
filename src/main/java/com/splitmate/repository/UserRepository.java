@@ -7,5 +7,9 @@ import com.splitmate.model.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
+    /** Used in login */
     User findByEmail(String email);
+
+    /** Quick existence check before registering */
+    boolean existsByEmail(String email);
 }

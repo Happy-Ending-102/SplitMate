@@ -25,14 +25,14 @@ public class LoginController {
     private void onLogin() {
         mainController.showGroupsView();
         System.out.println("clicked");
-        // String email = emailField.getText();
-        // String password = passwordField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
-        // if (userController.login(email, password)) {
-        //     mainController.showGroupsView();
-        // } else {
-        //     System.out.println("Login failed");
-        // }
+        if (userController.login(email, password)) {
+            mainController.showGroupsView();
+        } else {
+            System.out.println("Login failed");
+        }
     }
 
     @FXML

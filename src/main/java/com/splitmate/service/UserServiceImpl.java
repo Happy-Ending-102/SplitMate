@@ -1,14 +1,12 @@
 package com.splitmate.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import com.splitmate.model.Balance;
 import com.splitmate.model.User;
 import com.splitmate.repository.UserRepository;
 
@@ -32,19 +30,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User u, String rawPassword) {
-        // hash & set the password
-        u.setPasswordHash(passwordEncoder.encode(rawPassword));
-        // initialize balance if absent
-        if (u.getBalances() == null) {
-            u.setBalances( new ArrayList<>());
+        // Normalize email
+        String email = u.getEmail().trim().toLowerCase();
+
+        // Pre-check: email already in use?
+        if (userRepo.existsByEmail(email)) {
+            throw new IllegalArgumentException("That email is already registered.");
         }
-        return userRepo.save(u);
+
+        // Prepare user entity
+        u.setEmail(email);
+        u.setPasswordHash(passwordEncoder.encode(rawPassword));
+        if (u.getBalances() == null) {
+            u.setBalances(new ArrayList<>());
+        }
+
+        // Save, with catch for rare race conditions
+        try {
+            return userRepo.save(u);
+        } catch (DuplicateKeyException ex) {
+            throw new IllegalArgumentException("That email is already registered.");
+        }
     }
 
     @Override
     public boolean authenticate(String email, String rawPassword) {
-        // assume your UserRepository.findByEmail returns null when not found
-        User found = userRepo.findByEmail(email);
+        // Normalize email for lookup
+        String normalized = email.trim().toLowerCase();
+        User found = userRepo.findByEmail(normalized);
         return found != null && passwordEncoder.matches(rawPassword, found.getPasswordHash());
     }
 
