@@ -1,8 +1,11 @@
 // File: UserController.java
 package com.splitmate.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.splitmate.model.Group;
 import com.splitmate.model.User;
 import com.splitmate.service.UserService;
 
@@ -38,5 +41,12 @@ public class UserController {
      */
     public User findUserById(String id) {
         return userService.getUser(id);
+    }
+
+    /**
+     * Return user's groups
+     */
+    public List<Group> getGroupsOfUser(String userId){
+        return userService.getGroupsOfUser(userId);
     }
 }

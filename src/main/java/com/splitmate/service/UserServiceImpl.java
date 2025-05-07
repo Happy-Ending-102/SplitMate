@@ -1,12 +1,15 @@
 package com.splitmate.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.splitmate.model.Group;
 import com.splitmate.model.User;
 import com.splitmate.repository.UserRepository;
 
@@ -88,5 +91,11 @@ public class UserServiceImpl implements UserService {
         User u = getUser(userId);
         u.setAvatarBase64(base64);
         return userRepo.save(u);
+    }
+
+    @Override
+    public List<Group> getGroupsOfUser(String userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
+        return user.getGroups();
     }
 }
