@@ -12,7 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-public class addGroupController implements Initializable{
+public class AddGroupController implements Initializable{
 
     @FXML
     private Button addImageButton;
