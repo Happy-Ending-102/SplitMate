@@ -1,77 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.splitmate.controller.NavigationBarController"
-            prefWidth="210"
-            style="-fx-background-color: #5b2c91; -fx-padding: 30;">
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.splitmate.controller.NavigationBarController"
+      spacing="20" alignment="TOP_LEFT"
+      style="-fx-background-color: #5b2c91; -fx-padding: 30;">
 
-    <!-- TOP: Logo and Navigation -->
-    <top>
-        <VBox spacing="25">
-            <!-- Title -->
-            <VBox spacing="10">
-                <Label text="SplitMate"
-                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                <!-- Horizontal line -->
-                <Line startX="0" endX="180" stroke="white" strokeWidth="1"/>
-            </VBox>
+    <!-- App title -->
+    <Label text="SplitMate"
+           style="-fx-text-fill:white;
+                  -fx-font-size:24px;
+                  -fx-font-weight:bold;" />
+    <!-- Underline -->
+    <Region prefHeight="1" style="-fx-background-color:white;">
+        <VBox.margin>
+            <Insets top="0" right="0" bottom="20" left="0"/>
+        </VBox.margin>
+    </Region>
 
-            <!-- Menu Options -->
-            <VBox spacing="20">
-                <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoGroups" style="-fx-cursor: hand;">
-                    <ImageView fitWidth="22" fitHeight="22">
-                        <image><Image url="@/icons/groups.png"/></image>
-                    </ImageView>
-                    <Label text="Groups" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
-                </HBox>
-
-                <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoFriends" style="-fx-cursor: hand;">
-                    <ImageView fitWidth="22" fitHeight="22">
-                        <image><Image url="@/icons/friends.png"/></image>
-                    </ImageView>
-                    <Label text="Friends" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
-                </HBox>
-
-                <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoNotifications" style="-fx-cursor: hand;">
-                    <ImageView fitWidth="22" fitHeight="22">
-                        <image><Image url="@/icons/notifications.png"/></image>
-                    </ImageView>
-                    <Label text="Notifications" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
-                </HBox>
-
-                <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoPayments" style="-fx-cursor: hand;">
-                    <ImageView fitWidth="22" fitHeight="22">
-                        <image><Image url="@/icons/payments.png"/></image>
-                    </ImageView>
-                    <Label text="Payments" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
-                </HBox>
-
-                <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoHistory" style="-fx-cursor: hand;">
-                    <ImageView fitWidth="22" fitHeight="22">
-                        <image><Image url="@/icons/history.png"/></image>
-                    </ImageView>
-                    <Label text="History" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
-                </HBox>
-            </VBox>
-        </VBox>
-    </top>
-
-    <!-- BOTTOM: Logout Button -->
-    <bottom>
-        <HBox alignment="BOTTOM_RIGHT">
-            <Button text="Logout"
-                    onAction="#logout"
-                    style="-fx-background-color: #e74c3c;
-                           -fx-text-fill: white;
-                           -fx-font-weight: bold;
-                           -fx-background-radius: 20;
-                           -fx-padding: 6 14;" />
+    <!-- Menu items -->
+    <VBox spacing="20">
+        <!-- Groups -->
+        <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoGroups" style="-fx-cursor:hand;">
+            <ImageView fitWidth="22" fitHeight="22">
+                <image>
+                    <Image url="@/icons/groups.png"/>
+                </image>
+            </ImageView>
+            <Label text="Groups"
+                   style="-fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;"/>
         </HBox>
-    </bottom>
-</BorderPane>
+        <!-- Friends -->
+        <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoFriends" style="-fx-cursor:hand;">
+            <ImageView fitWidth="22" fitHeight="22">
+                <image>
+                    <Image url="@/icons/friends.png"/>
+                </image>
+            </ImageView>
+            <Label text="Friends"
+                   style="-fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;"/>
+        </HBox>
+        <!-- Notifications -->
+        <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoNotifications" style="-fx-cursor:hand;">
+            <ImageView fitWidth="22" fitHeight="22">
+                <image>
+                    <Image url="@/icons/notifications.png"/>
+                </image>
+            </ImageView>
+            <Label text="Notifications"
+                   style="-fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;"/>
+        </HBox>
+        <!-- Payments -->
+        <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoPayments" style="-fx-cursor:hand;">
+            <ImageView fitWidth="22" fitHeight="22">
+                <image>
+                    <Image url="@/icons/payments.png"/>
+                </image>
+            </ImageView>
+            <Label text="Payments"
+                   style="-fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;"/>
+        </HBox>
+        <!-- History -->
+        <HBox spacing="10" alignment="CENTER_LEFT" onMouseClicked="#gotoHistory" style="-fx-cursor:hand;">
+            <ImageView fitWidth="22" fitHeight="22">
+                <image>
+                    <Image url="@/icons/history.png"/>
+                </image>
+            </ImageView>
+            <Label text="History"
+                   style="-fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Spacer pushes the below HBox to the bottom -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Profile avatar + Logout -->
+    <HBox spacing="12" alignment="CENTER">
+        <ImageView fx:id="profileImageView"
+                   fitWidth="40" fitHeight="40"
+                   onMouseClicked="#gotoProfile"
+                   style="-fx-cursor:hand;">
+            <clip>
+                <Circle radius="20" centerX="20" centerY="20"/>
+            </clip>
+        </ImageView>
+        <Button text="Logout"
+                onAction="#logout"
+                style="-fx-background-color:#e74c3c;
+                       -fx-text-fill:white;
+                       -fx-font-weight:bold;
+                       -fx-background-radius:20;
+                       -fx-padding:6 14;"/>
+    </HBox>
+</VBox>

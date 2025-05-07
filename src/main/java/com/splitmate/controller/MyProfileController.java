@@ -7,7 +7,9 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
+import com.splitmate.model.Group;
 import com.splitmate.model.User;
+import com.splitmate.service.GroupService;
 import com.splitmate.service.SessionService;
 
 import javafx.event.ActionEvent;
@@ -41,8 +43,8 @@ public class MyProfileController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         User current = sessionService.getCurrentUser();
+
         if (current == null) {
-            // No user in session; you might redirect to login
             userIdText.setText("N/A");
             userNameText.setText("Guest");
             ibanText.setText("—");
@@ -55,7 +57,7 @@ public class MyProfileController implements Initializable {
         userNameText.setText(current.getName());
         ibanText.setText(current.getProfileImageUrl() != null
             ? current.getProfileImageUrl()
-            : "—"  // or another user.getIban() if you have it
+            : "—"
         );
 
         // Load profile image: first try avatarBase64, else default icon
@@ -65,20 +67,30 @@ public class MyProfileController implements Initializable {
                 byte[] bytes = Base64.getDecoder().decode(base64);
                 Image img = new Image(new ByteArrayInputStream(bytes));
                 userImage.setImage(img);
+                return;
             } catch (IllegalArgumentException ex) {
-                loadDefaultImage();
+                // fallback to default image
             }
-        } else {
-            loadDefaultImage();
         }
+
+        // If no valid avatarBase64 or decoding failed, load the default image
+        loadDefaultImage();
     }
 
+    /**
+     * Attempts to load the default avatar from classpath. If not found,
+     * logs an error and sets a placeholder.
+     */
     private void loadDefaultImage() {
-        Image img = new Image(
-            getClass().getResource("/icons/default-avatar.png")
-                   .toExternalForm()
-        );
-        userImage.setImage(img);
+        URL res = Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResource("icons/default-avatar.png");
+        if (res != null) {
+            userImage.setImage(new Image(res.toExternalForm()));
+        } else {
+            System.err.println("default-avatar.png not found on classpath");
+            userImage.setImage(new Image("https://via.placeholder.com/80"));
+        }
     }
 
     @FXML

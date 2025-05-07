@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,120 +13,92 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.MyProfileController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.splitmate.controller.MyProfileController">
 
-  <!-- Left nav bar -->
+  <!-- LEFT: sidebar -->
   <left>
-    <VBox prefWidth="0.0" style="-fx-background-color: #5b2c91;">
-      <fx:include source="navigationBar.fxml" />
-    </VBox>
+      <fx:include source="navigationBar.fxml"/>  
   </left>
-   <top>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b2c91" height="41.0" stroke="#5b2c91" strokeType="INSIDE" strokeWidth="0.0" width="1700.0" BorderPane.alignment="CENTER" />
-   </top>
-   <center>
-      <VBox prefHeight="710.0" prefWidth="1230.0" spacing="30.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label minWidth="100.0" prefHeight="41.0" prefWidth="179.0" text="My Profile">
-               <VBox.margin>
-                  <Insets left="50.0" top="50.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="40.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Label>
-            <HBox prefHeight="133.0" prefWidth="1232.0">
-               <children>
-                  <ImageView fx:id="userImage" fitHeight="136.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../Pictures/image.jpeg" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <VBox prefHeight="170.0" prefWidth="1064.0">
-                     <children>
-                        <Text fx:id="userNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Esra Nur Tat" wrappingWidth="840.4121398925781">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="50.0" top="20.0" />
-                           </VBox.margin>
-                        </Text>
-                        <Text fx:id="userIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: 22304567">
-                           <VBox.margin>
-                              <Insets left="50.0" top="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <Text fx:id="ibanText" strokeType="OUTSIDE" strokeWidth="0.0" text="IBAN: 2984293472394">
-               <font>
-                  <Font size="25.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="50.0" />
-               </VBox.margin>
-            </Text>
-            <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#onChangePassword" text="Change Password">
-               <VBox.margin>
-                  <Insets left="50.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Button>
-            <HBox prefHeight="59.0" prefWidth="1232.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Set Notification Frequency" wrappingWidth="423.9570617675781">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Text>
-                  <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="119.0" text="Daily">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="frequencyToggleGroup" />
-                     </toggleGroup>
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </RadioButton>
-                  <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
-                  <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="146.0" text="Weekly" toggleGroup="$frequencyToggleGroup">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </RadioButton>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <RadioButton mnemonicParsing="false" text="Monthly" toggleGroup="$frequencyToggleGroup">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </RadioButton>
-               </children>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </HBox>
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSave" prefHeight="1.0" prefWidth="146.0" style="-fx-background-color: green;" text="Save">
-               <font>
-                  <Font size="30.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="60.0" left="900.0" top="50.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-   </center>
+
+  <!-- TOP: small purple header -->
+  <top>
+    <Rectangle fill="#5b2c91" height="50" width="10000"/>
+  </top>
+
+  <!-- CENTER: profile content -->
+  <center>
+    <VBox spacing="30" style="-fx-background-color:white;">
+      <!-- PROPER PADDING -->
+      <padding>
+        <Insets top="50" right="50" bottom="50" left="50"/>
+      </padding>
+
+      <!-- 1) Title -->
+      <Label text="My Profile">
+        <font>
+          <Font size="40"/>
+        </font>
+      </Label>
+
+      <!-- 2) Avatar + name + ID -->
+      <HBox spacing="50">
+        <ImageView fx:id="userImage" fitWidth="120" fitHeight="120"/>
+        <VBox spacing="20">
+          <Text fx:id="userNameText">
+            <font><Font size="30"/></font>
+          </Text>
+          <Text fx:id="userIdText">
+            <font><Font size="30"/></font>
+          </Text>
+        </VBox>
+      </HBox>
+
+      <!-- 3) IBAN -->
+      <Text fx:id="ibanText">
+        <font><Font size="25"/></font>
+      </Text>
+
+      <!-- 4) Change Password -->
+      <Button fx:id="changePasswordButton"
+              onAction="#onChangePassword"
+              text="Change Password">
+        <font><Font size="25"/></font>
+      </Button>
+
+      <!-- 5) Notification frequency chooser -->
+      <HBox spacing="20">
+        <padding>
+          <Insets left="0" top="20" right="0" bottom="0"/>
+        </padding>
+        <Text text="Set Notification Frequency">
+          <font><Font size="30"/></font>
+        </Text>
+        <RadioButton text="Daily" toggleGroup="$frequencyToggleGroup">
+          <font><Font size="25"/></font>
+        </RadioButton>
+        <Separator orientation="VERTICAL"/>
+        <RadioButton text="Weekly" toggleGroup="$frequencyToggleGroup">
+          <font><Font size="25"/></font>
+        </RadioButton>
+        <Separator orientation="VERTICAL"/>
+        <RadioButton text="Monthly" toggleGroup="$frequencyToggleGroup">
+          <font><Font size="25"/></font>
+        </RadioButton>
+      </HBox>
+
+      <!-- 6) Save button -->
+      <Button fx:id="saveButton"
+              onAction="#onSave"
+              text="Save"
+              style="-fx-background-color:green;">
+        <font><Font size="30"/></font>
+        <VBox.margin>
+          <!-- push button down with bottom margin -->
+          <Insets top="50" right="0" bottom="60" left="900"/>
+        </VBox.margin>
+      </Button>
+    </VBox>
+  </center>
 </BorderPane>
