@@ -1,6 +1,7 @@
 package com.splitmate.controller;
 
 import org.springframework.stereotype.Component;
+
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
@@ -31,6 +32,7 @@ public class NavigationBarController {
 
     @FXML private void gotoHistory() {
         // main.showHistoryView();
+        main.showProfileView();
     }
 
     @FXML private void gotoProfile(MouseEvent evt) {

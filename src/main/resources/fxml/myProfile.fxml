@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.MyProfileController">
+
+  <!-- Left nav bar -->
+  <left>
+    <VBox prefWidth="0.0" style="-fx-background-color: #5b2c91;">
+      <fx:include source="navigationBar.fxml" />
+    </VBox>
+  </left>
+   <center>
+      <Pane prefHeight="1080.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="1080.0" prefWidth="1672.0" spacing="50.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b2c91" height="41.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="374.0" />
+                  <Label minWidth="100.0" text="My Profile">
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="65.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="290.0" prefWidth="1672.0">
+                     <children>
+                        <ImageView fx:id="userImage" fitHeight="72.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../Pictures/image.jpeg" />
+                           </image>
+                        </ImageView>
+                        <VBox prefHeight="290.0" prefWidth="215.0">
+                           <children>
+                              <Text fx:id="userNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Esra Nur Tat" />
+                              <Text fx:id="userIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: 22304567" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Text fx:id="ibanText" strokeType="OUTSIDE" strokeWidth="0.0" text="IBAN: 2984293472394" />
+                  <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#onChangePassword" text="Change Password" />
+                  <HBox prefHeight="25.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Set Notification Frequency" wrappingWidth="115.15704345703125" />
+                        <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="48.0" text="Daily">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="frequencyToggleGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+                        <RadioButton mnemonicParsing="false" text="Weekly" toggleGroup="$frequencyToggleGroup" />
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <RadioButton mnemonicParsing="false" text="Monthly" toggleGroup="$frequencyToggleGroup" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSave" prefHeight="23.0" prefWidth="57.0" style="-fx-background-color: green;" text="Save">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
