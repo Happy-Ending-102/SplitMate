@@ -31,9 +31,11 @@ public class MyProfileController implements Initializable {
     @FXML private Text ibanText;
 
     private final SessionService sessionService;
+    private final MainController mainController;
 
-    public MyProfileController(SessionService sessionService) {
+    public MyProfileController(SessionService sessionService, MainController mainController) {
         this.sessionService = sessionService;
+        this.mainController = mainController;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class MyProfileController implements Initializable {
 
     @FXML
     private void onChangePassword(ActionEvent event) {
-        // TODO: open change-password dialog
+        mainController.showChangePasswordView();
     }
 
     @FXML

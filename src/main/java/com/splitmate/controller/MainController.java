@@ -43,6 +43,7 @@ public class MainController {
         loadView("fxml/groupsList.fxml",  "Groups - SplitMate"); 
     }
 
+
     public void showAddGroupView(){
 
     }
@@ -73,5 +74,9 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showChangePasswordView() {
+        loadView("fxml/changePassword.fxml",  "Groups - SplitMate"); 
     }
 }
