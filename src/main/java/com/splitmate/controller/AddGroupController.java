@@ -110,6 +110,9 @@ public class AddGroupController implements Initializable {
         User current = sessionService.getCurrentUser();
         g.addMember(current);
 
+        current.joinGroup(g);
+        userService.updateUser(current);
+
         // TODO: invite selected users. the ui must change before.
 
         groupService.createGroup(g);
