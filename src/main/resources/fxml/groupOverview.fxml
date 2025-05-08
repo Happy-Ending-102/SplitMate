@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1473.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupOverviewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1392.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupOverviewController">
 
   <!-- LEFT: navigation bar -->
   <left>
@@ -23,12 +23,12 @@
 
   <!-- TOP: purple header bar -->
   <top>
-    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1810.0" />
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1638.0" />
   </top>
 
   <!-- CENTER: main content -->
   <center>
-    <VBox alignment="TOP_LEFT" prefHeight="770.0" prefWidth="1260.0" spacing="15">
+    <VBox alignment="TOP_LEFT" prefHeight="1030.0" prefWidth="1546.0" spacing="15">
 
       <!-- header row -->
       <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="1282.0" spacing="10">
@@ -51,7 +51,7 @@
                 <VBox spacing="5">
                   <children>
                     <Label text="Group Members" />
-                    <ScrollPane fx:id="membersScroll" fitToWidth="true" prefHeight="120">
+                    <ScrollPane fx:id="membersScroll" fitToWidth="true" prefHeight="120" prefWidth="1234.0">
                       <content>
                         <HBox fx:id="membersContainer" spacing="10" />
                       </content>
@@ -62,7 +62,7 @@
                 <VBox spacing="5">
                   <children>
                     <Label text="Regular Expenses" />
-                    <ScrollPane fx:id="RegularExpensesScroll" fitToWidth="true" prefHeight="120">
+                    <ScrollPane fx:id="RegularExpensesScroll" fitToWidth="true" prefHeight="120" prefWidth="1237.0">
                       <content>
                         <VBox fx:id="regularExpensesContainer" spacing="8" />
                       </content>

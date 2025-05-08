@@ -55,7 +55,7 @@ public class MainController {
     }
 
     public void showGroupDetailsView(String ID){
-
+        loadView("fxml/groupOverview.fxml",  "Group Details - SplitMate");
     }
 
     public void showProfileView(){
