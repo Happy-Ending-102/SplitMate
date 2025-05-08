@@ -29,12 +29,22 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public Group updateGroup(Group g) {
+        return this.groupRepo.save(g);
+    }
+
+    @Override
     public Group addUserToGroup(String groupId, String userId) {
         Group group = groupRepo.findById(groupId).orElseThrow(() -> new NoSuchElementException("Group not found"));
         User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         group.getMembers().add(user);
-        return groupRepo.save(group);
+        user.joinGroup(group);
+
+        groupRepo.save(group);
+        userRepo.save(user);
+
+        return group;
     }
 
     @Override
@@ -43,7 +53,11 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         group.getMembers().remove(user);
-        return groupRepo.save(group);
+        user.getGroups().remove(group);
+        groupRepo.save(group);
+        userRepo.save(user);
+
+        return group;
     }
 
     @Override

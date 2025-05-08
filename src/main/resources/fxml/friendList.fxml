@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.splitmate.controller.FrontFriendListController">
+
+  <!-- 1) Full-width purple bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="41" />
+  </top>
+
+  <!-- 2) Sidebar nav -->
+  <left>
+    <fx:include source="navigationBar.fxml"/>
+  </left>
+
+  <!-- 3) Everything to the right of the nav -->
+  <center>
+    <VBox>
+
+      <!-- 3a) White sub-header (starts right of nav) -->
+      <HBox alignment="CENTER_LEFT"
+            spacing="10"
+            prefHeight="60"
+            style="-fx-background-color: white;">
+        <padding>
+          <Insets top="0" right="24" bottom="0" left="24"/>
+        </padding>
+        <Label text="Friends"
+               style="-fx-font-size:32px; -fx-font-weight:bold; -fx-text-fill:#333333;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="+ Add new friend"
+               style="-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#5b2c91; -fx-cursor:hand;"
+               onMouseClicked="#onAddFriend"/>
+      </HBox>
+
+      <!-- 3b) Scrollable friend cards -->
+      <ScrollPane fitToWidth="true"
+                  hbarPolicy="NEVER"
+                  vbarPolicy="AS_NEEDED"
+                  style="-fx-background-color:transparent;">
+        <content>
+          <VBox fx:id="friendCardsContainer"
+                spacing="15"
+                style="-fx-padding:20; -fx-background-color:white;"/>
+        </content>
+      </ScrollPane>
+
+    </VBox>
+  </center>
+
+</BorderPane>

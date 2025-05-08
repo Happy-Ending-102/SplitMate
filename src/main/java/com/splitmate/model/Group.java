@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document("groups")
 public class Group extends BaseEntity {
@@ -18,6 +20,14 @@ public class Group extends BaseEntity {
     @DBRef private List<User> frozenMembers;
     @DBRef private List<Expense> expenses;
     @DBRef private List<Notification> notifications;
+
+    public Group() {
+        super();
+        this.members = new ArrayList<>();
+        this.frozenMembers = new ArrayList<>();
+        this.expenses = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
