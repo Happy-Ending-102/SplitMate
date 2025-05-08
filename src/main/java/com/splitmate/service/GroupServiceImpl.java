@@ -34,7 +34,12 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         group.getMembers().add(user);
-        return groupRepo.save(group);
+        user.joinGroup(group);
+
+        groupRepo.save(group);
+        userRepo.save(user);
+
+        return group;
     }
 
     @Override
@@ -43,7 +48,11 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         group.getMembers().remove(user);
-        return groupRepo.save(group);
+        user.getGroups().remove(group);
+        groupRepo.save(group);
+        userRepo.save(user);
+
+        return group;
     }
 
     @Override
