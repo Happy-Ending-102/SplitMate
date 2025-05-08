@@ -58,7 +58,7 @@ public class AddGroupController implements Initializable {
         currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
         currencyConversionComboBox.setItems(FXCollections.observableArrayList(ConversionPolicy.values()));
         // Placeholder image
-        groupImage.setImage(new Image(getClass().getResourceAsStream("/images/default-avatar.png")));
+        groupImage.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
     }
 
     @FXML

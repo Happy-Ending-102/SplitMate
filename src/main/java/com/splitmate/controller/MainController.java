@@ -45,7 +45,7 @@ public class MainController {
 
 
     public void showAddGroupView(){
-
+        loadView("fxml/addGroup.fxml",  "Add Group - SplitMate"); 
     }
 
     public void showGroupDetailsView(String ID){
