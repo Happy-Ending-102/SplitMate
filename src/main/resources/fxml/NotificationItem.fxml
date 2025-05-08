@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox alignment="CENTER_RIGHT" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label prefHeight="73.0" prefWidth="467.0" text="notification" />
-      <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Accept" textAlignment="CENTER" />
-      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Decline" />
-   </children>
+<HBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.splitmate.controller.NotificationItemController">
+  <children>
+    <Label fx:id="messageLabel" text="notification" />
+    <HBox fx:id="buttonBox" spacing="5">
+      <Button text="Accept" onAction="#onAccept"/>
+      <Button text="Decline" onAction="#onDecline"/>
+    </HBox>
+  </children>
 </HBox>
