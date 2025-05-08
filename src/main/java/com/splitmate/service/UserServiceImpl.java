@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.User;
 import com.splitmate.repository.UserRepository;
@@ -97,5 +98,19 @@ public class UserServiceImpl implements UserService {
     public List<Group> getGroupsOfUser(String userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
         return user.getGroups();
+    }
+
+    @Override
+    public List<User> getFriendsOfUser(User user) {
+        List<User> result = new ArrayList<>();
+        if (user.getFriends() != null) {
+            for (Friendship f : user.getFriends()) {
+                User other = f.getOtherUser(user);
+                if (other != null) {
+                    result.add(other);
+                }
+            }
+        }
+        return result;
     }
 }

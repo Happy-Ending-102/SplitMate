@@ -20,5 +20,12 @@ public class Friendship extends BaseEntity {
 
     public LocalDate getSince() { return since; }
     public void setSince(LocalDate since) { this.since = since; }
+
+    public User getOtherUser(User me) {
+        if (me == null) return null;
+        if (me.getId().equals(userA.getId())) return userB;
+        if (me.getId().equals(userB.getId())) return userA;
+        return null;
+    }
 }
 
