@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1473.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupOverviewController">
+
+  <!-- LEFT: navigation bar -->
+  <left>
+    <fx:include source="navigationBar.fxml" />
+  </left>
+
+  <!-- TOP: purple header bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1810.0" />
+  </top>
+
+  <!-- CENTER: main content -->
+  <center>
+    <VBox alignment="TOP_LEFT" prefHeight="770.0" prefWidth="1260.0" spacing="15">
+
+      <!-- header row -->
+      <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="1282.0" spacing="10">
+        <children>
+          <ImageView fx:id="groupIcon" fitHeight="40" fitWidth="40" />
+          <Label fx:id="groupName" text="Group Name" textFill="#5b2c91">
+            <font><Font name="System Bold" size="24.0" /></font>
+          </Label>
+          <Button fx:id="settingsButton" onAction="#onSettingsAction" text="⚙" />
+        </children>
+      </HBox>
+
+      <!-- tabs -->
+      <TabPane fx:id="tabPane">
+        <tabs>
+          <Tab closable="false" text="Overview">
+            <content>
+              <VBox spacing="20">
+                <!-- Group Members -->
+                <VBox spacing="5">
+                  <children>
+                    <Label text="Group Members" />
+                    <ScrollPane fx:id="membersScroll" fitToWidth="true" prefHeight="120">
+                      <content>
+                        <HBox fx:id="membersContainer" spacing="10" />
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </VBox>
+                <!-- Regular Expenses -->
+                <VBox spacing="5">
+                  <children>
+                    <Label text="Regular Expenses" />
+                    <ScrollPane fx:id="RegularExpensesScroll" fitToWidth="true" prefHeight="120">
+                      <content>
+                        <VBox fx:id="regularExpensesContainer" spacing="8" />
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </VBox>
+              </VBox>
+            </content>
+          </Tab>
+
+          <Tab closable="false" text="Expenses">
+            <content>
+                <AnchorPane>
+                <!-- full-bleed gray rounded background -->
+                <VBox layoutX="20" layoutY="20" spacing="10" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+                    
+                    <!-- padding via explicit Insets -->
+                    <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+
+                    <!-- Scrollable list of expense “cards” -->
+                    <ScrollPane fx:id="expensesScroll" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="expenseItemsContainer" spacing="8">
+                        <!--
+                            In your controller you’ll do something like:
+                            addExpenseItem("₺600 Expense from Zeynep Özdur", "23.02.2025");
+                        -->
+                        </VBox>
+                    </content>
+                    </ScrollPane>
+
+                    <!-- Add expense button + label -->
+                    <HBox alignment="CENTER_RIGHT" spacing="5">
+                    <Button fx:id="addExpenseButton" onAction="#onAddExpenseAction" style="                                 -fx-background-radius: 20px;                                 -fx-min-width: 40px;                                 -fx-min-height: 40px;                                 -fx-font-size: 24px;                             " text="+" />
+                    <Label text="Add expense">
+                                 <HBox.margin>
+                                    <Insets right="300.0" />
+                                 </HBox.margin></Label>
+                    </HBox>
+                </VBox>
+                </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+
+    </VBox>
+  </center>
+</BorderPane>
