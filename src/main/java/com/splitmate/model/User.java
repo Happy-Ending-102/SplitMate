@@ -37,6 +37,14 @@ public class User extends BaseEntity {
     @DBRef
     private List<Notification> notifications;
 
+    public User() {
+        super();
+        this.members = new ArrayList<>();
+        this.frozenMembers = new ArrayList<>();
+        this.expenses = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
+
     public String getName() {
         return name;
     }

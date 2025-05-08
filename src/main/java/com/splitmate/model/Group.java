@@ -19,6 +19,14 @@ public class Group extends BaseEntity {
     @DBRef private List<Expense> expenses;
     @DBRef private List<Notification> notifications;
 
+    public Group() {
+        super();
+        this.members = new ArrayList<>();
+        this.frozenMembers = new ArrayList<>();
+        this.expenses = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
