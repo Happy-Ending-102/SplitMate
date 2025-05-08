@@ -10,6 +10,7 @@ import com.splitmate.repository.NotificationRepository;
 import com.splitmate.repository.UserRepository;
 import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
+import com.splitmate.model.User;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -47,5 +48,27 @@ public class NotificationServiceImpl implements NotificationService {
 
         notif.setRead(true);
         notifRepo.save(notif);
+    }
+
+    @Override
+    public void sendFriendRequest(String userId) {
+        // 1) Load the user who will receive the request
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
+
+        // 2) Build the notification
+        Notification notification = new Notification();
+        notification.setUser(user);
+        notification.setType(NotificationType.FRIEND_REQUEST);
+        notification.setMessage("You have a new friend request from " + user.getName() + ".");
+        notification.setRead(false);
+        notification.setCreatedAt(LocalDateTime.now());
+
+        // 3) Persist the notification
+        notifRepo.save(notification);
+
+        // 4) Add it into the user’s in-memory list and save user
+        user.addNotification(notification);
+        userRepo.save(user);
     }
 }
