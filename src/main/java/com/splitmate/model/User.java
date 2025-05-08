@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document("users")
 public class User extends BaseEntity {
@@ -39,9 +41,9 @@ public class User extends BaseEntity {
 
     public User() {
         super();
-        this.members = new ArrayList<>();
-        this.frozenMembers = new ArrayList<>();
-        this.expenses = new ArrayList<>();
+        this.balances = new ArrayList<>();
+        this.friends = new ArrayList<>();
+        this.groups = new ArrayList<>();
         this.notifications = new ArrayList<>();
     }
 
