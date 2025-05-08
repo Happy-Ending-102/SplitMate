@@ -43,9 +43,15 @@ public class MainController {
         loadView("fxml/groupsList.fxml",  "Groups - SplitMate"); 
     }
 
+    public void showFriendsView() { 
+        loadView("fxml/friendList.fxml",  "Groups - SplitMate"); 
+    }
 
     public void showAddGroupView(){
+        loadView("fxml/addGroup.fxml",  "Add Group - SplitMate"); 
+    }
 
+    public void showAddFriendView(){
     }
 
     public void showGroupDetailsView(String ID){

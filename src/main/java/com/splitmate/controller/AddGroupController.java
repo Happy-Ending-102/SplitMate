@@ -58,7 +58,13 @@ public class AddGroupController implements Initializable {
         currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
         currencyConversionComboBox.setItems(FXCollections.observableArrayList(ConversionPolicy.values()));
         // Placeholder image
-        groupImage.setImage(new Image(getClass().getResourceAsStream("/images/default-avatar.png")));
+        groupImage.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+        /*URL url = getClass().getResource("/icons/default-avatar.png");
+        if (url == null) {
+            throw new IllegalStateException("Resource not found: /images/default-avatar.png");
+        }
+        groupImage.setImage(new Image(url.toExternalForm()));*/
+        // Set up friends list (this should be a scrollable list of users)}
     }
 
     @FXML
@@ -92,6 +98,7 @@ public class AddGroupController implements Initializable {
         Group g = new Group();
         g.setName(name);
         g.setAvatarBase64(avatarBase64); //TODO CHECK THIS
+        groupService.createGroup(g);
 
         if (currencyComboBox.getValue() != null) {
             g.setDefaultCurrency(currencyComboBox.getValue());
@@ -104,8 +111,12 @@ public class AddGroupController implements Initializable {
         User current = sessionService.getCurrentUser();
         g.addMember(current);
 
+        current.joinGroup(g);
+        userService.updateUser(current);
+
         // TODO: invite selected users. the ui must change before.
 
-        groupService.createGroup(g);
+        groupService.updateGroup(g);
+
     }
 }
