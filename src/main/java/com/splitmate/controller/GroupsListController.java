@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.model.Group;
-import com.splitmate.service.GroupService;
+import com.splitmate.repository.GroupRepository;
 import com.splitmate.service.SessionService;
 import com.splitmate.service.UserService;
 
@@ -30,6 +31,7 @@ public class GroupsListController implements Initializable {
     private final UserService   userService;
     private final SessionService sessionService;
     private final MainController mainController;
+    @Autowired private GroupRepository groupRepository; 
 
     public GroupsListController(UserService userService,
                                 SessionService ss,
@@ -80,13 +82,9 @@ public class GroupsListController implements Initializable {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Label updated = new Label("last update:");
-        updated.setStyle(
-          "-fx-font-size:12px;" +
-          "-fx-text-fill:#555;"
-        );
+        
 
-        card.getChildren().addAll(icon, name, spacer, updated);
+        card.getChildren().addAll(icon, name, spacer);
         card.setOnMouseClicked(evt -> {
             if (evt.getClickCount() == 2) {
                 mainController.showGroupDetailsView(g.getId());

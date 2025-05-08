@@ -58,7 +58,13 @@ public class AddGroupController implements Initializable {
         currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
         currencyConversionComboBox.setItems(FXCollections.observableArrayList(ConversionPolicy.values()));
         // Placeholder image
-        groupImage.setImage(new Image(getClass().getResourceAsStream("/images/default-avatar.png")));
+        groupImage.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+        /*URL url = getClass().getResource("/icons/default-avatar.png");
+        if (url == null) {
+            throw new IllegalStateException("Resource not found: /images/default-avatar.png");
+        }
+        groupImage.setImage(new Image(url.toExternalForm()));*/
+        // Set up friends list (this should be a scrollable list of users)}
     }
 
     @FXML
