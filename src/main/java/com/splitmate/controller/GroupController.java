@@ -2,6 +2,9 @@
 package com.splitmate.controller;
 
 import com.splitmate.model.*;
+
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import com.splitmate.service.*;
 
@@ -38,5 +41,9 @@ public class GroupController {
 
     public Group unfreezeMember(String groupId, String userId){
         return groupService.unfreezeUserInGroup(groupId, userId);
+    }
+
+    public List<Group> getMutualGroups(String userAId, String userBId){
+        return groupService.getMutualGroups(userAId, userBId);
     }
 }

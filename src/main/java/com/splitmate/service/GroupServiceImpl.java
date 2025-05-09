@@ -1,12 +1,16 @@
 // File: GroupServiceImpl.java
 package com.splitmate.service;
 import com.splitmate.model.User;
+
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.splitmate.repository.GroupRepository;
 import com.splitmate.repository.UserRepository;
 import com.splitmate.model.Group;
+
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -101,5 +105,22 @@ public class GroupServiceImpl implements GroupService {
     Group g = getGroup(groupId);
     g.setAvatarBase64(base64);
     return groupRepo.save(g);
+    }
+
+    @Override
+    public List<Group> getMutualGroups(String userAId, String userBId) {
+        // 1) Load both users (or fail early)
+    User userA = userRepo.findById(userAId)
+        .orElseThrow(() -> new NoSuchElementException("User not found: " + userAId));
+    User userB = userRepo.findById(userBId)
+        .orElseThrow(() -> new NoSuchElementException("User not found: " + userBId));
+
+    // 2) Find all groups that userA belongs to
+    List<Group> groupsOfA = groupRepo.findByMembersContaining(userA);
+
+    // 3) Filter only those groups where userB is also a member
+    return groupsOfA.stream()
+        .filter(g -> g.getMembers().contains(userB))
+        .collect(Collectors.toList());
     }
 }
