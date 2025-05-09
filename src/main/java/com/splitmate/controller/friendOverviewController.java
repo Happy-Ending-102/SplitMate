@@ -1,7 +1,6 @@
 package com.splitmate.controller;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -85,8 +84,10 @@ public class FriendOverviewController implements Initializable {
 
         @Autowired private UserService userService;
         @Autowired private GroupService groupService;
-        @Autowired private PaymentService paymentService;
+        
+        // @Autowired private PaymentService paymentService;  this not exists yet
         @Autowired private SessionService sessionService;
+        @Autowired private FriendshipService friendshipService;
     
         @FXML
         void addExpense(ActionEvent event) {
@@ -117,13 +118,13 @@ public class FriendOverviewController implements Initializable {
      
 
         public void initializeFriendData(User friend) {
-            this.friend = friend;
+            // this.friend = friend;
             friendNameLabel.setText(friend.getName());
             friendIDLabel.setText("ID: " + friend.getId());
             friendIBANLabel.setText("IBAN: " + friend.getIban());
         
-            loadCommonGroups();
-            updateCurrentStatus();
+            // loadCommonGroups();
+            // updateCurrentStatus();
             loadTransactionHistory();
         }
 
@@ -145,16 +146,37 @@ public class FriendOverviewController implements Initializable {
         //     currentStatusLabel.setText(status);
         // }
 
-        // private void loadTransactionHistory() {
-        //     List<String> history = paymentService.getTransactionHistory(sessionService.getCurrentUser(), friend);
-        //     transactionHistoryVBox.getChildren().clear();
-        
-        //     for (String entry : history) {
-        //         Label label = new Label(entry);
-        //         label.setStyle("-fx-padding: 5 10 5 10; -fx-font-size: 13px;");
-        //         transactionHistoryVBox.getChildren().add(label);
-        //     }
-        // }
+        private void loadTransactionHistory() {
+            User currentUser = sessionService.getCurrentUser();
+            Friendship friendship = friendshipService.getFriendshipBetween(currentUser.getId(), friend.getId());
+
+            transactionHistoryVBox.getChildren().clear();
+
+            if (friendship == null) {
+                Label error = new Label("Friendship not found.");
+                error.setStyle("-fx-padding: 10; -fx-text-fill: red;");
+                transactionHistoryVBox.getChildren().add(error);
+                return;
+            }
+
+            List<Payment> history = friendshipService.sortByDateDesc(friendship);
+
+            if (history == null || history.isEmpty()) {
+                Label noData = new Label("No transactions yet.");
+                noData.setStyle("-fx-padding: 10; -fx-text-fill: gray;");
+                transactionHistoryVBox.getChildren().add(noData);
+                return;
+            }
+
+            for (Payment p : history) {
+                String payer = p.getFrom().equals(currentUser) ? "You" : friend.getName();
+                String text = payer + " paid ₺" + p.getAmount() + " on " + p.getPaymentDate().toLocalDate();
+
+                Label label = new Label(text);
+                label.setStyle("-fx-padding: 5 10 5 10; -fx-font-size: 13px;");
+                transactionHistoryVBox.getChildren().add(label);
+            }
+        }
 
         
         // @FXML
@@ -177,7 +199,7 @@ public class FriendOverviewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        currencySelectionComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
+        // TO DO
     }
 
 }
