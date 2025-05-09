@@ -117,4 +117,21 @@ public class FriendshipServiceImpl implements FriendshipService {
         return friendshipRepo.findById(friendshipId)
         .orElseThrow(() -> new NoSuchElementException("Friendship not found with ID: " + friendshipId));
     }
+
+    @Override
+    public Friendship getFriendshipBetween(String userAId, String userBId) {
+        User a = userRepo.findById(userAId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userAId));
+        User b = userRepo.findById(userBId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userBId));
+
+        return friendshipRepo.findByUserAOrUserB(a, b)
+            .stream()
+            .filter(f ->
+                (f.getUserA().equals(a) && f.getUserB().equals(b)) ||
+                (f.getUserA().equals(b) && f.getUserB().equals(a))
+            )
+            .findFirst()
+            .orElse(null);
+    }
 }
