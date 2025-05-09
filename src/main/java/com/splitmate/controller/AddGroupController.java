@@ -43,6 +43,9 @@ public class AddGroupController implements Initializable {
     @Autowired private GroupService groupService;
     @Autowired private UserService userService;
     @Autowired private SessionService sessionService;
+    @Autowired private MainController mainController;  // for navigation
+
+    
 
     private String avatarBase64 = "";
     private final List<User> invitedUsers = new ArrayList<>();
@@ -151,6 +154,7 @@ public class AddGroupController implements Initializable {
         invitedUsers.forEach(g::addMember);
 
         groupService.createGroup(g);
-        // TODO: navigate away or show success message
+        // Navigate to group list page after saving
+        mainController.showGroupsView();
     }
 }
