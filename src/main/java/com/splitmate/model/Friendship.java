@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("friendships")
 public class Friendship extends BaseEntity {
     @DBRef private User userA;
     @DBRef private User userB;

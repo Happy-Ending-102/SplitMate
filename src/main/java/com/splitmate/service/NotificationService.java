@@ -6,8 +6,7 @@ import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
 
 public interface NotificationService {
-    void createNotification(Notification notification);
-    void markAsRead(String notificationId);
-
     public Notification createNotification(Notification notification);
+    public List<Notification> listNotifications(String userId);
+    void markAsRead(String notificationId);
 }

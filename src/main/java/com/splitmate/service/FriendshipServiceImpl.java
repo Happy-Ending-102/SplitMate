@@ -12,6 +12,9 @@ import com.splitmate.model.NotificationType;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 @Service
 public class FriendshipServiceImpl implements FriendshipService {
@@ -47,12 +50,6 @@ public class FriendshipServiceImpl implements FriendshipService {
         userRepo.save(requester);
         userRepo.save(recipient);
 
-        // 4) Notify the requester
-        notificationService.createNotification(
-            requesterId,
-            NotificationType.FRIEND_REQUEST,
-            recipient.getName() + " accepted your friend request."
-        );
     }
 
     @Override
@@ -69,7 +66,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         notification.setType(NotificationType.FRIEND_REQUEST);
         notification.setMessage(requester.getName() + " sent you a friend request.");
         notification.setRead(false);
-        notification.setCreatedAt(LocalDate.now());
+        notification.setCreatedAt(LocalDateTime.now());
         notification.setFriendUser(requester);
 
         notificationService.createNotification(notification);
