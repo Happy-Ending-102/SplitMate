@@ -18,7 +18,7 @@
 
   <!-- 1) Sidebar nav -->
   <left>
-    <fx:include source="navigationBar.fxml"/>
+    <fx:include source="navigationBar.fxml" />
   </left>
    <center>
       <Pane prefHeight="1000.0" prefWidth="1700.0" BorderPane.alignment="CENTER">
@@ -27,7 +27,10 @@
                <children>
                   <HBox prefHeight="182.0" prefWidth="1700.0">
                      <children>
-                        <ImageView fx:id="groupImage" fitHeight="187.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="groupImage" fitHeight="187.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets left="70.0" />
+                           </HBox.margin></ImageView>
                         <Button fx:id="addImageButton" mnemonicParsing="false" onAction="#addGroupImage" text="+">
                            <HBox.margin>
                               <Insets right="20.0" top="150.0" />
@@ -52,12 +55,12 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets top="80.0" />
+                        <Insets left="70.0" top="80.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox prefHeight="123.0" prefWidth="1700.0">
                      <VBox.margin>
-                        <Insets top="30.0" />
+                        <Insets left="70.0" top="30.0" />
                      </VBox.margin>
                      <children>
                         <Label text="Default Currency">
@@ -90,7 +93,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets left="70.0" top="20.0" />
                      </VBox.margin>
                      <children>
                         <Label text="Enter Friend Name:">
@@ -108,9 +111,9 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox prefHeight="94.0" prefWidth="1700.0">
+                  <HBox fx:id="addedFriendsHBox" prefHeight="94.0" prefWidth="1700.0">
                      <VBox.margin>
-                        <Insets top="30.0" />
+                        <Insets left="70.0" top="30.0" />
                      </VBox.margin>
                      <children>
                         <Label text="Added Friends:">
@@ -129,6 +132,9 @@
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
+                           <content>
+                              <VBox fx:id="friendsListVBox" prefHeight="334.0" prefWidth="1032.0" />
+                           </content>
                         </ScrollPane>
                         <Button fx:id="groupSaveButton" mnemonicParsing="false" onAction="#saveGroup" style="-fx-background-color: green;" text="Save">
                            <HBox.margin>
@@ -139,6 +145,9 @@
                            </font>
                         </Button>
                      </children>
+                     <VBox.margin>
+                        <Insets left="70.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>

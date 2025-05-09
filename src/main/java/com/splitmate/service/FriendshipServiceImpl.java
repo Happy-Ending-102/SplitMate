@@ -39,7 +39,6 @@ public class FriendshipServiceImpl implements FriendshipService {
         Friendship f = new Friendship();
         f.setUserA(requester);
         f.setUserB(recipient);
-        f.setSince(LocalDate.now());
         friendshipRepo.save(f);
 
         // 3) Add to each user's list and save

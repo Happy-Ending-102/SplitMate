@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1473.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupOverviewController">
+
+  <!-- LEFT: navigation bar -->
+  <left>
+    <fx:include source="navigationBar.fxml" />
+  </left>
+
+  <!-- TOP: purple header bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1474.0" />
+  </top>
+
+  <!-- CENTER: main content -->
+  <center>
+    <VBox alignment="TOP_LEFT" prefHeight="770.0" prefWidth="1260.0" spacing="15">
+
+      <!-- tabs -->
+      <TabPane fx:id="tabPane" prefHeight="798.0" prefWidth="1423.0">
+        <tabs>
+          <Tab fx:id="infoTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Info">
+            <content>
+              <VBox prefHeight="693.0" prefWidth="1283.0" spacing="20">
+                        <children>
+                           <HBox prefHeight="139.0" prefWidth="1283.0">
+                              <children>
+                                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <HBox.margin>
+                                       <Insets left="70.0" />
+                                    </HBox.margin>
+                                 </ImageView>
+                                 <VBox prefHeight="150.0" prefWidth="804.0">
+                                    <children>
+                                       <Label fx:id="friendNameLabel" prefHeight="53.0" prefWidth="327.0" text="Semih Çağlar">
+                                          <font>
+                                             <Font name="System Bold" size="30.0" />
+                                          </font>
+                                          <VBox.margin>
+                                             <Insets left="30.0" />
+                                          </VBox.margin>
+                                       </Label>
+                                       <Label fx:id="friendIDLabel" prefHeight="40.0" prefWidth="299.0" text="ID: ">
+                                          <font>
+                                             <Font name="System Bold" size="20.0" />
+                                          </font>
+                                          <VBox.margin>
+                                             <Insets left="30.0" />
+                                          </VBox.margin>
+                                       </Label>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                           <Label fx:id="friendIBANLabel" prefHeight="58.0" prefWidth="648.0" text="IBAN: ">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                              <VBox.margin>
+                                 <Insets left="20.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Label prefHeight="63.0" prefWidth="708.0" text="Common Groups" textFill="#5b2c91">
+                              <font>
+                                 <Font name="System Bold" size="30.0" />
+                              </font>
+                           </Label>
+                           <ScrollPane prefHeight="364.0" prefWidth="1165.0">
+                              <content>
+                                 <VBox fx:id="commonGroupsVBox" prefHeight="363.0" prefWidth="1161.0" />
+                              </content></ScrollPane>
+                        </children>
+              </VBox>
+            </content>
+          </Tab>
+
+          <Tab fx:id="paymentTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Payments">
+                  <content>
+                     <VBox prefHeight="200.0" prefWidth="100.0" />
+                  </content>
+                  <content>
+                     <VBox prefHeight="200.0" prefWidth="100.0">
+                        <children>
+                           <HBox prefHeight="356.0" prefWidth="1283.0">
+                              <cursor>
+                                 <Cursor fx:constant="DEFAULT" />
+                              </cursor>
+                              <children>
+                                 <Label fx:id="currentStatusLabel" prefHeight="171.0" prefWidth="796.0" style="-fx-background-color: lightgray;" text="Current Status:&#10;&#10;">
+                                    <font>
+                                       <Font name="System Bold" size="25.0" />
+                                    </font>
+                                    <HBox.margin>
+                                       <Insets left="150.0" top="50.0" />
+                                    </HBox.margin>
+                                 </Label>
+                                 <VBox fx:id="paymentVBox" prefHeight="356.0" prefWidth="860.0">
+                                    <HBox.margin>
+                                       <Insets left="300.0" right="100.0" />
+                                    </HBox.margin>
+                                    <children>
+                                       <Label text="Pay">
+                                          <font>
+                                             <Font name="System Bold" size="35.0" />
+                                          </font>
+                                          <VBox.margin>
+                                             <Insets top="50.0" />
+                                          </VBox.margin>
+                                       </Label>
+                                       <HBox prefHeight="59.0" prefWidth="399.0">
+                                          <children>
+                                             <Label prefHeight="40.0" prefWidth="118.0" text="Amount: " textAlignment="CENTER">
+                                                <font>
+                                                   <Font name="System Bold" size="20.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets top="30.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <TextField fx:id="amountToPayTextField">
+                                                <HBox.margin>
+                                                   <Insets top="30.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                          </children>
+                                       </HBox>
+                                       <HBox layoutX="10.0" layoutY="111.0" prefHeight="59.0" prefWidth="399.0">
+                                          <children>
+                                             <Label prefHeight="40.0" prefWidth="118.0" text="Currency:" textAlignment="CENTER">
+                                                <font>
+                                                   <Font name="System Bold" size="20.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets top="30.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <ComboBox fx:id="currencySelectionComboBox" prefWidth="150.0">
+                                                <HBox.margin>
+                                                   <Insets top="30.0" />
+                                                </HBox.margin>
+                                             </ComboBox>
+                                          </children>
+                                       </HBox>
+                                       <Button fx:id="paymentConfirmationButton" mnemonicParsing="false" prefHeight="9.0" prefWidth="153.0" style="-fx-background-color: green;" text="Confirm">
+                                          <font>
+                                             <Font name="System Bold" size="15.0" />
+                                          </font>
+                                          <VBox.margin>
+                                             <Insets left="130.0" top="30.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                           <VBox prefHeight="340.0" prefWidth="1283.0">
+                              <children>
+                                 <HBox prefHeight="54.0" prefWidth="1283.0">
+                                    <children>
+                                       <Label text="Transaction History">
+                                          <font>
+                                             <Font name="System Bold" size="30.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets />
+                                          </HBox.margin>
+                                       </Label>
+                                       <Button fx:id="transactionSettingsButton" mnemonicParsing="false" text="Settings">
+                                          <font>
+                                             <Font name="System Bold" size="15.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets left="600.0" top="10.0" />
+                                          </HBox.margin>
+                                       </Button>
+                                    </children>
+                                 </HBox>
+                                 <HBox prefHeight="287.0" prefWidth="1283.0">
+                                    <children>
+                                       <ScrollPane prefHeight="286.0" prefWidth="957.0">
+                                          <content>
+                                             <VBox fx:id="transactionHistoryVBox" prefHeight="286.0" prefWidth="944.0" />
+                                          </content>
+                                       </ScrollPane>
+                                       <VBox prefHeight="106.0" prefWidth="111.0">
+                                          <children>
+                                             <Button fx:id="addExpenseButton" mnemonicParsing="false" style="-fx-background-radius: 50;" text="+">
+                                                <font>
+                                                   <Font name="System Bold" size="30.0" />
+                                                </font>
+                                                <VBox.margin>
+                                                   <Insets left="20.0" />
+                                                </VBox.margin>
+                                             </Button>
+                                             <Label text="Add Expense">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <VBox.margin>
+                                                   <Insets left="8.0" top="10.0" />
+                                                </VBox.margin>
+                                             </Label>
+                                          </children>
+                                          <HBox.margin>
+                                             <Insets left="150.0" top="180.0" />
+                                          </HBox.margin>
+                                       </VBox>
+                                    </children>
+                                 </HBox>
+                              </children>
+                           </VBox>
+                        </children>
+                     </VBox>
+                  </content>
+          </Tab>
+        </tabs>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+      </TabPane>
+
+    </VBox>
+  </center>
+</BorderPane>
