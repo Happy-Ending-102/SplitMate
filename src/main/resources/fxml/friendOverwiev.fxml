@@ -25,7 +25,7 @@
 
   <!-- TOP: purple header bar -->
   <top>
-    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1474.0" />
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1994.0" />
   </top>
 
   <!-- CENTER: main content -->
@@ -70,7 +70,7 @@
                            </HBox>
                            <Label fx:id="friendIBANLabel" prefHeight="58.0" prefWidth="648.0" text="IBAN: ">
                               <font>
-                                 <Font size="20.0" />
+                                 <Font name="System Bold" size="20.0" />
                               </font>
                               <VBox.margin>
                                  <Insets left="20.0" />

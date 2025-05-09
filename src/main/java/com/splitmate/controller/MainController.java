@@ -6,11 +6,17 @@ import java.net.URL;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.config.SpringContext;
+import com.splitmate.model.User;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import com.splitmate.service.SessionService;
+import com.splitmate.service.UserService;
+import com.splitmate.service.GroupService;
+import com.splitmate.service.FriendshipService;
 
 @Component
 public class MainController {
@@ -29,6 +35,8 @@ public class MainController {
         primaryStage.setMaximized(true);
         primaryStage.setResizable(true);
         primaryStage.show();
+
+        
     }
 
     public void showLoginView() {
@@ -67,6 +75,9 @@ public class MainController {
         loadView("fxml/groupSettings.fxml",  "Group Settings - SplitMate");
     }
 
+    public void showChangePasswordView(){
+        loadView("fxml/changePassword.fxml",  "Group Settings - SplitMate");
+    }
     private void loadView(String fxmlPath, String title) {
         try {
             URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);
@@ -86,8 +97,26 @@ public class MainController {
             e.printStackTrace();
         }
     }
+    public void showFriendOverview(User friend) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/friendOverwiev.fxml"));
 
-    public void showChangePasswordView() {
-        loadView("fxml/changePassword.fxml",  "Groups - SplitMate"); 
+            // 💉 Use Spring to create the controller
+            loader.setControllerFactory(SpringContext.get()::getBean);
+
+            Parent friendOverviewRoot = loader.load();
+
+            // ✅ Get the Spring-injected controller and pass the friend
+            FriendOverviewController controller = loader.getController();
+            controller.initializeFriendData(friend);
+
+            mainScene.setRoot(friendOverviewRoot);
+            primaryStage.setTitle("Friend Overview - SplitMate");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
