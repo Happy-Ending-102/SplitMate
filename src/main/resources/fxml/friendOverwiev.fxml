@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1473.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupOverviewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1473.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.FriendOverviewController">
 
   <!-- LEFT: navigation bar -->
   <left>
@@ -157,7 +157,7 @@
                                              </ComboBox>
                                           </children>
                                        </HBox>
-                                       <Button fx:id="paymentConfirmationButton" mnemonicParsing="false" prefHeight="9.0" prefWidth="153.0" style="-fx-background-color: green;" text="Confirm">
+                                       <Button fx:id="paymentConfirmationButton" mnemonicParsing="false" onAction="#confirmPayment" prefHeight="9.0" prefWidth="153.0" style="-fx-background-color: green;" text="Confirm">
                                           <font>
                                              <Font name="System Bold" size="15.0" />
                                           </font>
@@ -181,7 +181,7 @@
                                              <Insets />
                                           </HBox.margin>
                                        </Label>
-                                       <Button fx:id="transactionSettingsButton" mnemonicParsing="false" text="Settings">
+                                       <Button fx:id="transactionSettingsButton" mnemonicParsing="false" onAction="#showTransactionSettings" text="Settings">
                                           <font>
                                              <Font name="System Bold" size="15.0" />
                                           </font>
@@ -200,7 +200,7 @@
                                        </ScrollPane>
                                        <VBox prefHeight="106.0" prefWidth="111.0">
                                           <children>
-                                             <Button fx:id="addExpenseButton" mnemonicParsing="false" style="-fx-background-radius: 50;" text="+">
+                                             <Button fx:id="addExpenseButton" mnemonicParsing="false" onAction="#addExpense" style="-fx-background-radius: 50;" text="+">
                                                 <font>
                                                    <Font name="System Bold" size="30.0" />
                                                 </font>

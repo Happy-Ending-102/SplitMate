@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.*?>
-<VBox spacing="10" xmlns:fx="http://javafx.com/fxml" fx:controller="com.splitmate.controller.MainController">
-    <TextField fx:id="nameField" promptText="Name" />
-    <TextField fx:id="emailField" promptText="Email" />
-    <PasswordField fx:id="passwordField" promptText="Password" />
-    <Button fx:id="registerButton" text="Register" onAction="#onRegister" />
-</VBox>
