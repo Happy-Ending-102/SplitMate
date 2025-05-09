@@ -25,4 +25,8 @@ public class NotificationController {
     public void markAsRead(String notificationId) {
         notificationService.markAsRead(notificationId);
     }
+
+    public void sendFriendRequest(String userId){
+        notificationService.sendFriendRequest(userId);
+    }
 }

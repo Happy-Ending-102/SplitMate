@@ -51,11 +51,12 @@ public class MainController {
         loadView("fxml/addGroup.fxml",  "Add Group - SplitMate"); 
     }
 
-    public void showAddFriendView(){
+    public void showNotificationsView(){
+        loadView("fxml/NotificationsPage.fxml",  "Notifications - SplitMate"); 
     }
 
     public void showGroupDetailsView(String ID){
-
+        loadView("fxml/groupOverview.fxml",  "Group Details - SplitMate");
     }
 
     public void showProfileView(){
