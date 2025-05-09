@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private List<Balance> balances;
 
     @DBRef
-    private List<Friendship> friends;
+    private List<User> friends;
 
     @DBRef
     private List<Group> groups;
@@ -111,12 +111,12 @@ public class User extends BaseEntity {
         this.balances = balances;
     }
 
-    public List<Friendship> getFriends() {
+    public List<User> getFriends() {
         return friends;
     }
 
-    public void addFriend(Friendship f) {
-        this.friends.add(f);
+    public void addFriend(User friend) {
+        this.friends.add(friend);
     }
 
     public List<Group> getGroups() {

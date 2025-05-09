@@ -9,4 +9,5 @@ public interface FriendshipService {
      * @param recipientId the ID of the user accepting it
      */
     void acceptFriendRequest(String requesterId, String recipientId);
+    void sendFriendRequest(String requesterId, String recipientId);
 }
