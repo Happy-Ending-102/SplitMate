@@ -14,6 +14,8 @@ import java.util.List;
 public class User extends BaseEntity {
     private String name;
 
+    private String iban;
+
     /** Unique email for login */
     @Indexed(unique = true)
     private String email;
@@ -134,4 +136,10 @@ public class User extends BaseEntity {
     public void addNotification(Notification n) {
         this.notifications.add(n);
     }
+
+    public String getIban() { return iban; }
+
+    public void setIban(String iban) { this.iban = iban; }
+
+    
 }
