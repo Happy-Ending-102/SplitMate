@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
+import com.splitmate.model.Payment;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+
+import java.util.Comparator;
+import java.util.Collections;
 
 @Service
 public class FriendshipServiceImpl implements FriendshipService {
@@ -82,5 +86,35 @@ public class FriendshipServiceImpl implements FriendshipService {
         User user = userRepo.findById(userId)
             .orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
         return user.getFriends();
+    }
+
+    // from minimum to maximum
+    @Override
+    public List<Payment> sortByAmountAsc(Friendship friendship) {
+        List<Payment> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Payment::getAmount));
+        return history;
+    }
+
+    // from maximum to minimum
+    @Override
+    public List<Payment> sortByAmountDesc(Friendship friendship) {
+        List<Payment> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Payment::getAmount).reversed());
+        return history;
+    }
+
+    // sorts from newest to oldest
+    @Override
+    public List<Payment> sortByDateDesc(Friendship friendship) {
+        List<Payment> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Payment::getPaymentDate).reversed());
+        return history;
+    }
+
+    @Override
+    public Friendship getFriendshipById(String friendshipId) {
+        return friendshipRepo.findById(friendshipId)
+        .orElseThrow(() -> new NoSuchElementException("Friendship not found with ID: " + friendshipId));
     }
 }
