@@ -34,10 +34,15 @@
       <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="1282.0" spacing="10">
         <children>
           <ImageView fx:id="groupIcon" fitHeight="40" fitWidth="40" />
-          <Label fx:id="groupName" text="Group Name" textFill="#5b2c91">
+          <Label fx:id="groupName" text="Group Name">
             <font><Font name="System Bold" size="24.0" /></font>
           </Label>
           <Button fx:id="settingsButton" onAction="#onSettingsAction" text="⚙" />
+               <Label fx:id="backToGroupsLabel" prefHeight="42.0" prefWidth="159.0" text="←Back to the groups page" textFill="#5b2c91">
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+               </Label>
         </children>
       </HBox>
 

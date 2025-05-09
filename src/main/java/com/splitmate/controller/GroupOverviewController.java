@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -20,6 +21,8 @@ import javafx.scene.layout.VBox;
 
 @Controller
 public class GroupOverviewController implements Initializable {
+
+    @FXML private Label backToGroupsLabel;
 
     @FXML private ImageView groupIcon;
     @FXML private Label groupName;
@@ -36,16 +39,27 @@ public class GroupOverviewController implements Initializable {
     @FXML private VBox expenseItemsContainer;
     @FXML private Button addExpenseButton;
 
+    private final MainController mainController;
+
+    public GroupOverviewController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO groupicon, groupname should be added
         //TODO membersContainer, regularExpencesContainer and expenseItemsContainer(for group expences page) should be filled here
+        backToGroupsLabel.setOnMouseClicked(this::onBack);
+
+    }
+
+    private void onBack(MouseEvent e) {
+        mainController.showGroupsView();
     }
 
     @FXML
     private void onSettingsAction(ActionEvent event) {
-        // TODO: open your group settings dialog
-        System.out.println("Settings button clicked for group: " + groupName.getText());
+        mainController.showGroupSettingsView();
     }
     @FXML
     private void onAddExpenseAction(ActionEvent event) {
