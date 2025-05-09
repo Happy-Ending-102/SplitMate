@@ -1,66 +1,124 @@
 package com.splitmate.controller;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
-import javafx.fxml.Initializable;
 
 import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
+import com.splitmate.service.NotificationService;
 import com.splitmate.service.SessionService;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the Notifications page. Renders notifications and handles user actions.
+ */
 @Component
 public class NotificationsPageController implements Initializable {
 
-    @FXML private VBox notificationList;
+    // Notification types that should display Accept/Decline buttons
+    private static final Set<NotificationType> ACTIONABLE = Set.of(
+        NotificationType.FRIEND_REQUEST,
+        NotificationType.GROUP_INVITE,
+        NotificationType.PAYMENT_RECEIVED
+    );
 
-    @Autowired private NotificationController notificationController;
-    @Autowired private SessionService sessionService;
-    @Autowired private ConfigurableApplicationContext springContext;  // to let FXMLLoader use Spring
+    @FXML private VBox notificationsContainer;
+
+    private final NotificationService notificationService;
+    private final SessionService sessionService;
+    private final FriendshipController friendshipController;
+
+    @Autowired
+    public NotificationsPageController(NotificationService notificationService,
+                                       SessionService sessionService,
+                                       FriendshipController friendshipController) {
+        this.notificationService = notificationService;
+        this.sessionService = sessionService;
+        this.friendshipController = friendshipController;
+    }
 
     @Override
-    public void initialize(URL loc, ResourceBundle res) {
-        String userId = sessionService.getCurrentUser().getId();
-        List<Notification> notifs = notificationController.listUnread(userId);
-        for (Notification n : notifs) {
-            boolean isFriendRequest = n.getType() == NotificationType.FRIEND_REQUEST;
-            addNotification(n.getMessage(), isFriendRequest);
+    public void initialize(URL location, ResourceBundle resources) {
+        loadNotifications();
+    }
+
+    private void loadNotifications() {
+        notificationsContainer.getChildren().clear();
+        String currentUserId = sessionService.getCurrentUser().getId();
+
+        List<Notification> notifications = notificationService
+            .listNotifications(currentUserId).stream()
+            .filter(n -> !n.isRead())
+            .sorted(Comparator.comparing(Notification::getCreatedAt).reversed())
+            .collect(Collectors.toList());
+
+        for (Notification n : notifications) {
+            notificationsContainer.getChildren().add(createCard(n));
         }
     }
 
-    public void addNotification(String message, boolean hasButtons) {
-        try {
-            // 1) Tell FXMLLoader exactly where to find the FXML
-            FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/NotificationItem.fxml")
-            );
-            // 2) Let Spring inject @Autowired into the item controller
-            loader.setControllerFactory(springContext::getBean);
-            HBox item = loader.load();  // now it knows the location!
+    private HBox createCard(Notification notification) {
+        HBox card = new HBox(10);
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.setStyle("-fx-background-color: #e0e0e0; " +
+                      "-fx-background-radius: 10; " +
+                      "-fx-padding: 10;");
 
-            // 3) Customize the item
-            NotificationItemController ctrl = loader.getController();
-            ctrl.setMessage(message);
-            ctrl.setButtonsVisible(hasButtons);
+        Label message = new Label(notification.getMessage());
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-            // 4) Add it to the list
-            notificationList.getChildren().add(item);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (ACTIONABLE.contains(notification.getType())) {
+            Button acceptBtn = new Button("Accept");
+            acceptBtn.setOnAction(evt -> handleAccept(notification));
+
+            Button declineBtn = new Button("Decline");
+            declineBtn.setOnAction(evt -> handleDecline(notification));
+
+            card.getChildren().addAll(message, spacer, acceptBtn, declineBtn);
+        } else {
+            card.getChildren().addAll(message, spacer);
         }
+
+        return card;
+    }
+
+    /**
+     * Handles acceptance of actionable notifications.
+     */
+    private void handleAccept(Notification notification) {
+        if (notification.getType() == NotificationType.FRIEND_REQUEST) {
+            String requesterId = notification.getFriendUser().getId();
+            String recipientId = sessionService.getCurrentUser().getId();
+            friendshipController.acceptFriendRequest(requesterId, recipientId);
+        }
+        // TODO: implement accept logic for GROUP_INVITE and PAYMENT_RECEIVED if desired
+
+        notificationService.markAsRead(notification.getId());
+        loadNotifications();
+    }
+
+    /**
+     * Handles decline action by simply marking the notification as read.
+     */
+    private void handleDecline(Notification notification) {
+        notificationService.markAsRead(notification.getId());
+        loadNotifications();
     }
 }
-
-

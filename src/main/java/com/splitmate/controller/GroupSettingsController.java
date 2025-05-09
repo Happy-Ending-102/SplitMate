@@ -62,7 +62,7 @@ public class GroupSettingsController implements Initializable {
     }
 
     private void onBack(MouseEvent e) {
-        //mainController.showGroupDetailsView(ID);
+        mainController.showGroupDetailsView();
     }
 
     private void onAddMember() {

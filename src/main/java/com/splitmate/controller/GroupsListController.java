@@ -87,7 +87,8 @@ public class GroupsListController implements Initializable {
         card.getChildren().addAll(icon, name, spacer);
         card.setOnMouseClicked(evt -> {
             if (evt.getClickCount() == 2) {
-                mainController.showGroupDetailsView(g.getId());
+                sessionService.setCurrentGroup(g);
+                mainController.showGroupDetailsView();
             }
         });
 

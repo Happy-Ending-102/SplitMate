@@ -55,7 +55,7 @@ public class MainController {
         loadView("fxml/NotificationsPage.fxml",  "Notifications - SplitMate"); 
     }
 
-    public void showGroupDetailsView(String ID){
+    public void showGroupDetailsView(){
         loadView("fxml/groupOverview.fxml",  "Group Details - SplitMate");
     }
 

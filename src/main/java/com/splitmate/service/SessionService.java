@@ -1,6 +1,8 @@
 package com.splitmate.service;
 
 import org.springframework.stereotype.Component;
+
+import com.splitmate.model.Group;
 import com.splitmate.model.User;
 
 /**
@@ -9,6 +11,7 @@ import com.splitmate.model.User;
 @Component
 public class SessionService {
     private User currentUser;
+    private Group currentGroup;
 
     /**
      * Get the full User object of the currently logged-in user.
@@ -37,4 +40,19 @@ public class SessionService {
     public void clear() {
         this.currentUser = null;
     }
+
+    public Group getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Group group) {
+        this.currentGroup = group;
+    }
+    public String getCurrentGroupId() {
+        return (currentGroup != null) ? currentGroup.getId() : null;
+    }
+    public void clearGroup() {
+        this.currentGroup = null;
+    }
+    
 }
