@@ -63,6 +63,10 @@ public class MainController {
         loadView("fxml/myProfile.fxml",  "Groups - SplitMate"); 
     }
 
+    public void showGroupSettingsView(){
+        loadView("fxml/groupSettings.fxml",  "Group Settings - SplitMate");
+    }
+
     private void loadView(String fxmlPath, String title) {
         try {
             URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);

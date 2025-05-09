@@ -102,15 +102,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getFriendsOfUser(User user) {
-        List<User> result = new ArrayList<>();
-        if (user.getFriends() != null) {
-            for (Friendship f : user.getFriends()) {
-                User other = f.getOtherUser(user);
-                if (other != null) {
-                    result.add(other);
-                }
-            }
-        }
-        return result;
+        return user.getFriends();
     }
 }

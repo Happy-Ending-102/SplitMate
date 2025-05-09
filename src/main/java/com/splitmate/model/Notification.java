@@ -6,9 +6,10 @@ import java.time.LocalDateTime;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("notifications")
 public class Notification extends BaseEntity {
-    @DBRef private User user;
+    @DBRef private User user; // Assuming a notification is related to a user
+    @DBRef private Group group; // Assuming a notification can be related to a group
+    @DBRef private User friendUser; // Assuming a notification can be a friend request from another user
     private NotificationType type;
     private String message;
     private boolean read;
@@ -28,4 +29,10 @@ public class Notification extends BaseEntity {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public Group getGroup() { return group; }
+    public void setGroup(Group group) { this.group = group; }
+
+    public User getFriendUser() { return friendUser; }
+    public void setFriendUser(User friendUser) { this.friendUser = friendUser; }
 }

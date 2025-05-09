@@ -19,14 +19,12 @@ public class Group extends BaseEntity {
     @DBRef private List<User> members;
     @DBRef private List<User> frozenMembers;
     @DBRef private List<Expense> expenses;
-    @DBRef private List<Notification> notifications;
 
     public Group() {
         super();
         this.members = new ArrayList<>();
         this.frozenMembers = new ArrayList<>();
         this.expenses = new ArrayList<>();
-        this.notifications = new ArrayList<>();
     }
 
     public String getName() { return name; }
@@ -50,6 +48,4 @@ public class Group extends BaseEntity {
     public List<Expense> getExpenses() { return expenses; }
     public void addExpense(Expense e) { this.expenses.add(e); }
 
-    public List<Notification> getNotifications() { return notifications; }
-    public void addNotification(Notification n) { this.notifications.add(n); }
 }

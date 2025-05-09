@@ -7,10 +7,14 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import com.splitmate.model.Friendship;
+import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 @Service
 public class FriendshipServiceImpl implements FriendshipService {
@@ -41,16 +45,42 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendshipRepo.save(f);
 
         // 3) Add to each user's list and save
-        requester.addFriend(f);
-        recipient.addFriend(f);
+        requester.addFriend(recipient);
+        recipient.addFriend(requester);
         userRepo.save(requester);
         userRepo.save(recipient);
 
-        // 4) Notify the requester
-        notificationService.createNotification(
-            requesterId,
-            NotificationType.FRIEND_REQUEST,
-            recipient.getName() + " accepted your friend request."
-        );
+    }
+
+    @Override
+    public void sendFriendRequest(String requesterId, String recipientId) {
+        // 1) Load both users
+        User requester = userRepo.findById(requesterId)
+            .orElseThrow(() -> new NoSuchElementException("Requester not found: " + requesterId));
+        User recipient = userRepo.findById(recipientId)
+            .orElseThrow(() -> new NoSuchElementException("Recipient not found: " + recipientId));
+
+        Notification notification = new Notification();
+
+        notification.setUser(recipient);
+        notification.setType(NotificationType.FRIEND_REQUEST);
+        notification.setMessage(requester.getName() + " sent you a friend request.");
+        notification.setRead(false);
+        notification.setCreatedAt(LocalDateTime.now());
+        notification.setFriendUser(requester);
+
+        System.out.println("Sending friend request notification: " + notification.getUser().getName());
+
+        notificationService.createNotification(notification);
+
+        recipient.addNotification(notification);
+        userRepo.save(recipient);
+    }
+
+    @Override
+    public List<User> getFriends(String userId) {
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
+        return user.getFriends();
     }
 }
