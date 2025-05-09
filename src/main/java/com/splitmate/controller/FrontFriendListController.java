@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
+import com.splitmate.service.FriendshipService;
 import com.splitmate.service.SessionService;
 
 import javafx.fxml.FXML;
@@ -37,9 +38,9 @@ public class FrontFriendListController implements Initializable {
     @FXML private VBox addFriendPopup;
     @FXML private TextField friendIdField;
 
-    @Autowired private FriendshipRepository friendshipRepo;
     @Autowired private SessionService sessionService;
-    @Autowired private NotificationController notificationController;
+    @Autowired private NotificationController notificationService;
+    @Autowired private FriendshipService friendshipService;
 
     @Override
     public void initialize(URL loc, ResourceBundle res) {
@@ -48,10 +49,9 @@ public class FrontFriendListController implements Initializable {
 
     private void loadFriends() {
         User current = sessionService.getCurrentUser();
-        List<Friendship> list = friendshipRepo.findByUserAOrUserB(current, current);
+        List<User> friends = friendshipService.getFriends(current.getId());
         friendCardsContainer.getChildren().clear();
-        for (Friendship f : list) {
-            User friend = f.getUserA().equals(current) ? f.getUserB() : f.getUserA();
+        for (User friend : friends) {
             renderFriendCard(friend);
         }
     }
@@ -70,8 +70,9 @@ public class FrontFriendListController implements Initializable {
     @FXML
     private void onSendFriendRequest(ActionEvent evt) {
         String idText = friendIdField.getText().trim();
+        User current = sessionService.getCurrentUser();
         if (!idText.isEmpty()) {
-            notificationController.sendFriendRequest(idText);
+            friendshipService.sendFriendRequest(current.getId(), idText);
         }
         addFriendPopup.setVisible(false);
     }

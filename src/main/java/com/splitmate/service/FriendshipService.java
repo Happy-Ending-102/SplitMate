@@ -1,6 +1,8 @@
 // File: FriendshipService.java
 package com.splitmate.service;
 
+import java.util.List;
+
 public interface FriendshipService {
     /**
      * Called by the recipient to accept a pending friend request.
@@ -10,4 +12,6 @@ public interface FriendshipService {
      */
     void acceptFriendRequest(String requesterId, String recipientId);
     void sendFriendRequest(String requesterId, String recipientId);
+
+    List<User> getFriends(String userId);
 }

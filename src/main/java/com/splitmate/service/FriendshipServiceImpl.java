@@ -74,4 +74,11 @@ public class FriendshipServiceImpl implements FriendshipService {
 
         notificationService.createNotification(notification);
     }
+
+    @Override
+    public List<User> getFriends(String userId) {
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
+        return user.getFriends();
+    }
 }
