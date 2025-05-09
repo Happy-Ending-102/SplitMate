@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupSettingsController">
+<BorderPane prefHeight="497.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupSettingsController">
 
   <!-- LEFT: your nav -->
   <left>
@@ -23,12 +23,12 @@
 
   <!-- TOP: purple header bar -->
   <top>
-    <Rectangle fill="#5b2c91" height="50" width="10000" />
+    <Rectangle fill="#5b2c91" height="50" width="1600.0" />
   </top>
 
   <!-- CENTER: the settings UI -->
   <center>
-    <AnchorPane>
+    <AnchorPane prefHeight="446.0" prefWidth="1674.0">
 
       <!-- Title row -->
       <HBox alignment="CENTER_LEFT" layoutX="20" layoutY="10" spacing="10">
@@ -39,7 +39,7 @@
       </HBox>
 
       <!-- Grey rounded panel -->
-      <VBox layoutX="20" layoutY="60" spacing="15" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="60">
+      <VBox layoutX="20" layoutY="60" prefHeight="276.0" prefWidth="1004.0" spacing="15" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="385.0" AnchorPane.topAnchor="60">
         <padding>
           <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
@@ -77,7 +77,10 @@
       </VBox>
 
       <!-- Save button bottom-right -->
-      <Button fx:id="saveButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
+      <Button fx:id="saveButton" prefHeight="52.0" prefWidth="101.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" textFill="#29bf0b" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="150.0">
+            <font>
+               <Font size="20.0" />
+            </font></Button>
     </AnchorPane>
   </center>
 </BorderPane>
