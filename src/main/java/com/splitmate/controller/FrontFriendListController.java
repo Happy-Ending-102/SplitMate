@@ -69,9 +69,11 @@ public class FrontFriendListController implements Initializable {
 
     @FXML
     private void onSendFriendRequest(ActionEvent evt) {
+        System.out.println("Sending friend request");
         String idText = friendIdField.getText().trim();
         User current = sessionService.getCurrentUser();
         if (!idText.isEmpty()) {
+            System.out.println("Sending friend request to " + idText);
             friendshipService.sendFriendRequest(current.getId(), idText);
         }
         addFriendPopup.setVisible(false);

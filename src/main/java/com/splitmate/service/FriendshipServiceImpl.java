@@ -69,7 +69,12 @@ public class FriendshipServiceImpl implements FriendshipService {
         notification.setCreatedAt(LocalDateTime.now());
         notification.setFriendUser(requester);
 
+        System.out.println("Sending friend request notification: " + notification.getUser().getName());
+
         notificationService.createNotification(notification);
+
+        recipient.addNotification(notification);
+        userRepo.save(recipient);
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("notifications")
 public class Notification extends BaseEntity {
     @DBRef private User user; // Assuming a notification is related to a user
     @DBRef private Group group; // Assuming a notification can be related to a group
