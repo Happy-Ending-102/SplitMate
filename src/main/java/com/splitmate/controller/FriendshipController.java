@@ -46,4 +46,8 @@ public class FriendshipController {
         Friendship friendship = friendshipService.getFriendshipById(friendshipId);
         return friendshipService.sortByDateDesc(friendship);
     }
+
+    public Friendship getFriendshipBetween(String userAId, String userBId){
+        return friendshipService.getFriendshipBetween(userAId, userBId);
+    }
 }

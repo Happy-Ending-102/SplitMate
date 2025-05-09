@@ -22,4 +22,5 @@ public interface FriendshipService {
     List<Payment> sortByAmountDesc(Friendship friendship);
     List<Payment> sortByDateDesc(Friendship friendship);
     Friendship getFriendshipById(String friendshipId);
+    Friendship getFriendshipBetween(String userAId, String userBId);
 }
