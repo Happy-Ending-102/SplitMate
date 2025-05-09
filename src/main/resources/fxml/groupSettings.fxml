@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupSettingsController">
+
+  <!-- LEFT: your nav -->
+  <left>
+    <fx:include source="navigationBar.fxml" />
+  </left>
+
+  <!-- TOP: purple header bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="50" width="10000" />
+  </top>
+
+  <!-- CENTER: the settings UI -->
+  <center>
+    <AnchorPane>
+
+      <!-- Title row -->
+      <HBox alignment="CENTER_LEFT" layoutX="20" layoutY="10" spacing="10">
+        <Label style="-fx-font-size: 24px;" text="⚙" />
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Group Settings" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Label fx:id="backLabel" style="-fx-text-fill: #5b2c91; -fx-cursor: hand;" text="← Back to the group" />
+      </HBox>
+
+      <!-- Grey rounded panel -->
+      <VBox layoutX="20" layoutY="60" spacing="15" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="60">
+        <padding>
+          <Insets bottom="20" left="20" right="20" top="20" />
+        </padding>
+
+        <!-- Row 1: add/delete -->
+        <HBox spacing="20">
+          <Button fx:id="addMemberButton" text="Add group member" />
+          <Button fx:id="deleteMemberButton" text="Delete member" />
+        </HBox>
+        <Separator />
+
+        <!-- Row 2: currency settings -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+          <Label text="Set default currency" />
+               <ComboBox fx:id="currencyComboBox" prefWidth="150.0" />
+          <Label text="Currency conversion" />
+               <ComboBox fx:id="currencyConversionComboBox" prefWidth="150.0" />
+        </HBox>
+        <Separator />
+
+        <!-- Row 3: freeze/unfreeze -->
+        <HBox spacing="20">
+          <Button fx:id="freezeMemberButton" text="Freeze Member" />
+          <Button fx:id="unfreezeMemberButton" text="Unfreeze Member" />
+        </HBox>
+        <Separator />
+
+        <!-- Row 4: budget display + input -->
+        <Label fx:id="currentBudgetLabel" text="Current Budget: get this part" />
+        <HBox alignment="CENTER_LEFT" spacing="10">
+          <Label text="Set Budget" />
+          <TextField fx:id="budgetTextField" promptText="Enter amount" />
+        </HBox>
+
+      </VBox>
+
+      <!-- Save button bottom-right -->
+      <Button fx:id="saveButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
+    </AnchorPane>
+  </center>
+</BorderPane>
