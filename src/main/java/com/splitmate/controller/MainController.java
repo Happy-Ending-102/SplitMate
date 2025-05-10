@@ -101,26 +101,11 @@ public class MainController {
             e.printStackTrace();
         }
     }
-    public void showFriendOverview(User friend) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/friendOverwiev.fxml"));
-
-            // 💉 Use Spring to create the controller
-            loader.setControllerFactory(SpringContext.get()::getBean);
-
-            Parent friendOverviewRoot = loader.load();
-
-            // ✅ Get the Spring-injected controller and pass the friend
-            FriendOverviewController controller = loader.getController();
-            controller.initializeFriendData(friend);
-
-            mainScene.setRoot(friendOverviewRoot);
-            primaryStage.setTitle("Friend Overview - SplitMate");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  
+    public void showFriendOverview() {
+        loadView("fxml/friendOverwiev.fxml", "Friend Overview - SplitMate");
     }
+    
 
 
 }

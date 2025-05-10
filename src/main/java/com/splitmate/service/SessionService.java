@@ -12,6 +12,7 @@ import com.splitmate.model.User;
 public class SessionService {
     private User currentUser;
     private Group currentGroup;
+    private User currentFriend;
 
     /**
      * Get the full User object of the currently logged-in user.
@@ -53,6 +54,23 @@ public class SessionService {
     }
     public void clearGroup() {
         this.currentGroup = null;
+    }
+
+    
+    public User getCurrentFriend() {
+        return currentFriend;
+    }
+
+    public void setCurrentFriend(User friend) {
+        this.currentFriend = friend;
+    }
+
+    public void clearFriend() {
+        this.currentFriend = null;
+    }
+
+    public String getCurrentFriendId() {
+        return currentFriend != null ? currentFriend.getId() : null;
     }
     
 }

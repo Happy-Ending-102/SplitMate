@@ -83,7 +83,8 @@ public class FrontFriendListController implements Initializable {
         card.setPadding(new Insets(10));
         card.setStyle("-fx-background-color:#e0e0e0; -fx-background-radius:8;");
         card.setOnMouseClicked(event -> {
-        mainController.showFriendOverview(friend);  // ✅ this line triggers navigation
+        sessionService.setCurrentFriend(friend);
+        mainController.showFriendOverview();  // ✅ this line triggers navigation
     });
 
 
