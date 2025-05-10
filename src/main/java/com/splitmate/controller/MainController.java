@@ -78,6 +78,10 @@ public class MainController {
     public void showChangePasswordView(){
         loadView("fxml/changePassword.fxml",  "Group Settings - SplitMate");
     }
+
+    public void showHistoryView(){
+        loadView("fxml/history.fxml",  "History - SplitMate");
+    }
     private void loadView(String fxmlPath, String title) {
         try {
             URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);
