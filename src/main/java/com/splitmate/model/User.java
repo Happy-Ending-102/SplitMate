@@ -41,6 +41,9 @@ public class User extends BaseEntity {
     @DBRef
     private List<Notification> notifications;
 
+    @DBRef
+    private List<Payment> history;
+
     public User() {
         super();
         this.balances = new ArrayList<>();
@@ -140,6 +143,12 @@ public class User extends BaseEntity {
     public String getIban() { return iban; }
 
     public void setIban(String iban) { this.iban = iban; }
+
+    public List<Payment> getHistory() { return history;}
+
+    public void setHistory(List<Payment> history) { this.history = history; }
+
+    
 
     
 }
