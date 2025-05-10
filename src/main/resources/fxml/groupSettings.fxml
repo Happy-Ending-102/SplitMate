@@ -4,83 +4,184 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="497.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupSettingsController">
+<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.GroupSettingsController">
 
-  <!-- LEFT: your nav -->
-  <left>
-    <fx:include source="navigationBar.fxml" />
-  </left>
+  <children>
+    <!-- 1) Your existing settings page -->
+    <BorderPane prefHeight="497.0" prefWidth="980.0">
+      <left>
+        <fx:include source="navigationBar.fxml" />
+      </left>
+      <top>
+        <Rectangle fill="#5b2c91" height="50" width="1600.0" />
+      </top>
 
-  <!-- TOP: purple header bar -->
-  <top>
-    <Rectangle fill="#5b2c91" height="50" width="1600.0" />
-  </top>
+    <!-- CENTER: the settings UI -->
+      <center>
+        <AnchorPane prefHeight="446.0" prefWidth="1674.0">
 
-  <!-- CENTER: the settings UI -->
-  <center>
-    <AnchorPane prefHeight="446.0" prefWidth="1674.0">
+          <!-- Title row -->
+          <HBox alignment="CENTER_LEFT" layoutX="20" layoutY="10" spacing="10">
+            <Label style="-fx-font-size: 24px;" text="⚙" />
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Group Settings" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label fx:id="backLabel" style="-fx-text-fill: #5b2c91; -fx-cursor: hand;" text="← Back to the group" />
+          </HBox>
 
-      <!-- Title row -->
-      <HBox alignment="CENTER_LEFT" layoutX="20" layoutY="10" spacing="10">
-        <Label style="-fx-font-size: 24px;" text="⚙" />
-        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Group Settings" />
-        <Pane HBox.hgrow="ALWAYS" />
-        <Label fx:id="backLabel" style="-fx-text-fill: #5b2c91; -fx-cursor: hand;" text="← Back to the group" />
-      </HBox>
+          <!-- Grey rounded panel -->
+          <VBox layoutX="20" layoutY="60" prefHeight="276.0" prefWidth="1004.0" spacing="15" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="385.0" AnchorPane.topAnchor="60">
+            <padding>
+              <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
 
-      <!-- Grey rounded panel -->
-      <VBox layoutX="20" layoutY="60" prefHeight="276.0" prefWidth="1004.0" spacing="15" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="385.0" AnchorPane.topAnchor="60">
-        <padding>
-          <Insets bottom="20" left="20" right="20" top="20" />
-        </padding>
+            <!-- Row 1: add/delete -->
+            <HBox spacing="20">
+              <Button fx:id="addMemberButton" text="Add group member" />
+              <Button fx:id="deleteMemberButton" text="Delete member" />
+            </HBox>
+            <Separator />
 
-        <!-- Row 1: add/delete -->
-        <HBox spacing="20">
-          <Button fx:id="addMemberButton" text="Add group member" />
-          <Button fx:id="deleteMemberButton" text="Delete member" />
-        </HBox>
-        <Separator />
+            <!-- Row 2: currency settings -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+              <Label text="Set default currency" />
+                  <ComboBox fx:id="currencyComboBox" prefWidth="150.0" />
+              <Label text="Currency conversion" />
+                  <ComboBox fx:id="currencyConversionComboBox" prefWidth="150.0" />
+            </HBox>
+            <Separator />
 
-        <!-- Row 2: currency settings -->
-        <HBox alignment="CENTER_LEFT" spacing="10">
-          <Label text="Set default currency" />
-               <ComboBox fx:id="currencyComboBox" prefWidth="150.0" />
-          <Label text="Currency conversion" />
-               <ComboBox fx:id="currencyConversionComboBox" prefWidth="150.0" />
-        </HBox>
-        <Separator />
+            <!-- Row 3: freeze/unfreeze -->
+            <HBox spacing="20">
+              <Button fx:id="freezeMemberButton" text="Freeze Member" />
+              <Button fx:id="unfreezeMemberButton" text="Unfreeze Member" />
+            </HBox>
+            <Separator />
 
-        <!-- Row 3: freeze/unfreeze -->
-        <HBox spacing="20">
-          <Button fx:id="freezeMemberButton" text="Freeze Member" />
-          <Button fx:id="unfreezeMemberButton" text="Unfreeze Member" />
-        </HBox>
-        <Separator />
+            <!-- Row 4: budget display + input -->
+            <Label fx:id="currentBudgetLabel" text="Current Budget: get this part" />
+            <HBox alignment="CENTER_LEFT" spacing="10">
+              <Label text="Set Budget" />
+              <TextField fx:id="budgetTextField" promptText="Enter amount" />
+            </HBox>
 
-        <!-- Row 4: budget display + input -->
-        <Label fx:id="currentBudgetLabel" text="Current Budget: get this part" />
-        <HBox alignment="CENTER_LEFT" spacing="10">
-          <Label text="Set Budget" />
-          <TextField fx:id="budgetTextField" promptText="Enter amount" />
-        </HBox>
+          </VBox>
 
-      </VBox>
+          <!-- Save button bottom-right -->
+          <Button fx:id="saveButton" prefHeight="52.0" prefWidth="101.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" textFill="#29bf0b" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="150.0">
+                <font>
+                  <Font size="20.0" />
+                </font></Button>
+        </AnchorPane>
+      </center>
+    </BorderPane>
 
-      <!-- Save button bottom-right -->
-      <Button fx:id="saveButton" prefHeight="52.0" prefWidth="101.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" textFill="#29bf0b" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="150.0">
-            <font>
-               <Font size="20.0" />
-            </font></Button>
-    </AnchorPane>
-  </center>
-</BorderPane>
+    <!-- 2) Overlay container: holds all 4 pop-ups -->
+    <Pane pickOnBounds="false">
+      <children>
+
+        <!-- Add Member Popup -->
+        <AnchorPane fx:id="addMemberOverlay" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color:rgba(0,0,0,0.4);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <children>
+            <VBox layoutX="200" layoutY="100" prefHeight="300" prefWidth="400" spacing="10" style="-fx-background-color:#e0e0e0; -fx-background-radius:12px;">
+              <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                    <Label style="-fx-font-size:16px; -fx-font-weight:bold;" text="Add Group Member" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#onCloseOverlay" text="✖" />
+                  </children>
+                </HBox>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                  <content>
+                    <VBox fx:id="addMembersListContainer" spacing="8" />
+                  </content>
+                </ScrollPane>
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+
+        <!-- Freeze Member Popup -->
+        <AnchorPane fx:id="freezeMemberOverlay" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color:rgba(0,0,0,0.4);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <children>
+            <VBox layoutX="200" layoutY="100" prefHeight="300" prefWidth="400" spacing="10" style="-fx-background-color:#e0e0e0; -fx-background-radius:12px;">
+              <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                    <Label style="-fx-font-size:16px; -fx-font-weight:bold;" text="Freeze Group Member" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#onCloseOverlay" text="✖" />
+                  </children>
+                </HBox>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                  <content>
+                    <VBox fx:id="freezeMembersListContainer" spacing="8" />
+                  </content>
+                </ScrollPane>
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>     
+
+        <!-- Delete Member Popup -->
+        <AnchorPane fx:id="deleteMemberOverlay" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color:rgba(0,0,0,0.4);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <children>
+            <VBox layoutX="200" layoutY="100" prefHeight="300" prefWidth="400" spacing="10" style="-fx-background-color:#e0e0e0; -fx-background-radius:12px;">
+              <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                    <Label style="-fx-font-size:16px; -fx-font-weight:bold;" text="Delete Group Member" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#onCloseOverlay" text="✖" />
+                  </children>
+                </HBox>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                  <content>
+                    <VBox fx:id="deleteMembersListContainer" spacing="8" />
+                  </content>
+                </ScrollPane>
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+
+
+        <!-- Unfreeze Member Popup -->
+        <AnchorPane fx:id="unfreezeMemberOverlay" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color:rgba(0,0,0,0.4);" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <children>
+            <VBox layoutX="200" layoutY="100" prefHeight="300" prefWidth="400" spacing="10" style="-fx-background-color:#e0e0e0; -fx-background-radius:12px;">
+              <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                    <Label style="-fx-font-size:16px; -fx-font-weight:bold;" text="Unfreeze Group Member" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#onCloseOverlay" text="✖" />
+                  </children>
+                </HBox>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                  <content>
+                    <VBox fx:id="unfreezeMembersListContainer" spacing="8" />
+                  </content>
+                </ScrollPane>
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+
+      </children>
+    </Pane>
+  </children>
+</StackPane>
