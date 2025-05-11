@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.splitmate.repository.GroupRepository;
 import com.splitmate.repository.UserRepository;
 import com.splitmate.model.Group;
+import com.splitmate.model.User;
 
 
 @Service

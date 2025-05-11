@@ -51,6 +51,22 @@ def solve_debt_settlement(nodes, edges, balances):
                 transactions.append((v, u, -val))
     return transactions
 
+import sys, json
+import pulp
+
+def main():
+    # Read JSON input from stdin
+    data = json.load(sys.stdin)
+    nodes = data["nodes"]
+    edges = [tuple(e) for e in data["edges"]]
+    balances = data["balances"]
+
+    # Solve
+    txns = solve_debt_settlement(nodes, edges, balances)
+
+    # Emit JSON array of [payer, payee, amount]
+    json.dump(txns, sys.stdout)
+
 if __name__ == "__main__":
     
     # Example usage
