@@ -1,11 +1,16 @@
 // File: FriendshipServiceImpl.java
 package com.splitmate.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
+import com.splitmate.model.FilterType;
 import org.springframework.stereotype.Service;
 
+import com.splitmate.model.Currency;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.Notification;
@@ -175,4 +180,62 @@ public class FriendshipServiceImpl implements FriendshipService {
             }
         }
     }
+
+    @Override
+    public List<Transaction> filterByDateRange(List<Transaction> transactions,
+                                               LocalDate start,
+                                               LocalDate end) {
+      return transactions.stream()                             
+        .filter(tx -> {
+            LocalDate txDate = tx.getPaymentDate().toLocalDate();
+            boolean afterOrEqStart = (start == null) || !txDate.isBefore(start);
+            boolean beforeOrEqEnd  = (end   == null) || !txDate.isAfter(end);
+            return afterOrEqStart && beforeOrEqEnd;
+        })
+        .collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<Transaction> filterByAmountRange(List<Transaction> transactions,
+                                                 BigDecimal min,
+                                                 BigDecimal max) {
+        return transactions.stream()
+            .filter(tx -> {
+                BigDecimal amt = tx.getAmount();
+                return (min == null || amt.compareTo(min) >= 0)
+                    && (max == null || amt.compareTo(max) <= 0);
+            })
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency){
+        transactions.removeIf(tx -> !tx.getCurrency().equals(currency));
+        return transactions;
+    }
+
+    @Override
+    public List<Transaction> filterByType(Friendship f,
+                                          String currentUserId,
+                                          FilterType type) {
+
+         return f.getHistory().stream()
+        .filter(tx -> {
+            // if “from” is current user → payment; otherwise → receivement
+            boolean isPayment = tx.getFrom().getId().equals(currentUserId);
+
+            switch (type) {
+                case PAYMENTS:
+                    return isPayment;
+                case RECEIVEMENTS:
+                    return !isPayment;
+                case BOTH:
+                    return true;
+                default:
+                    return false;
+            }
+        })
+        .collect(Collectors.toList());
+    }
+
 }

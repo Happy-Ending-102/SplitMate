@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.splitmate.model.Frequency;
 import com.splitmate.model.Group;
 import com.splitmate.model.User;
 import com.splitmate.service.UserService;
@@ -52,5 +53,9 @@ public class UserController {
 
     public boolean resetPassword(String email){
         return userService.resetPassword(email);
+    }
+
+    public void updateFrequency(String userId, Frequency frequency){
+        userService.getUser(userId).setFrequency(frequency);
     }
 }

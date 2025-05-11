@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.splitmate.model.Frequency;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.User;
@@ -147,5 +148,12 @@ public class UserServiceImpl implements UserService {
             "— The SplitMate Team"
         );
         mailSender.send(msg);
+    }
+
+    @Override
+    public void updateFrequency(String userId, Frequency frequency) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new NoSuchElementException("User with: " + userId + " not find"));
+        user.setFrequency(frequency);
+        userRepo.save(user);
     }
 }

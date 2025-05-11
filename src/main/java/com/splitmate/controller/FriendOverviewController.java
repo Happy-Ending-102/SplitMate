@@ -80,6 +80,25 @@ public class FriendOverviewController implements Initializable {
 
     @FXML private Button transactionSettingsButton;
 
+    @FXML private AnchorPane addExpensePopUp;
+
+    @FXML private Button closeExpensePopUpButton;
+
+    @FXML private TextField expenseAmountTextField;
+
+    @FXML private ComboBox<Currency> expenseCurrencySelectionComboBox;
+
+    @FXML private TextField expenseDescriptionTextField;
+
+    @FXML private TextField expenseFriendDivisionTextField;
+
+    @FXML private TextField expenseUserDivisionTextField;
+
+    @FXML private Label friendNamePopUpLabel;
+
+    @FXML private Button saveExpenseButton;
+
+
     private User friend;
 
     @Autowired private SessionService sessionService;
@@ -98,6 +117,8 @@ public class FriendOverviewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         currencySelectionComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
+        expenseCurrencySelectionComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
+        currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
 
         friend = sessionService.getCurrentFriend();
         if (friend == null) {
@@ -113,7 +134,7 @@ public class FriendOverviewController implements Initializable {
 
         loadCommonGroups();
         // updateCurrentStatus();
-        loadTransactionHistory();
+        // loadTransactionHistory();
 
     }
 
@@ -143,42 +164,43 @@ public class FriendOverviewController implements Initializable {
     //     currentStatusLabel.setText(status);
     // }
 
-    private void loadTransactionHistory() {
-        User currentUser = sessionService.getCurrentUser();
-        Friendship friendship = friendshipService.getFriendshipBetween(currentUser.getId(), friend.getId());
+    // private void loadTransactionHistory() {
+    //     User currentUser = sessionService.getCurrentUser();
+    //     Friendship friendship = friendshipService.getFriendshipBetween(currentUser.getId(), friend.getId());
 
-        transactionHistoryVBox.getChildren().clear();
+    //     transactionHistoryVBox.getChildren().clear();
 
-        if (friendship == null) {
-            Label error = new Label("Friendship not found.");
-            error.setStyle("-fx-padding: 10; -fx-text-fill: red;");
-            transactionHistoryVBox.getChildren().add(error);
-            return;
-        }
+    //     if (friendship == null) {
+    //         Label error = new Label("Friendship not found.");
+    //         error.setStyle("-fx-padding: 10; -fx-text-fill: red;");
+    //         transactionHistoryVBox.getChildren().add(error);
+    //         return;
+    //     }
 
-        List<Transaction> history = friendshipService.sortByDateDesc(friendship);
+    //     List<Transaction> history = friendshipService.sortByDateDesc(friendship);
 
-        if (history == null || history.isEmpty()) {
-            Label noData = new Label("No transactions yet.");
-            noData.setStyle("-fx-padding: 10; -fx-text-fill: gray;");
-            transactionHistoryVBox.getChildren().add(noData);
-            return;
-        }
+    //     if (history == null || history.isEmpty()) {
+    //         Label noData = new Label("No transactions yet.");
+    //         noData.setStyle("-fx-padding: 10; -fx-text-fill: gray;");
+    //         transactionHistoryVBox.getChildren().add(noData);
+    //         return;
+    //     }
 
-        for (Transaction p : history) {
-            String payer = p.getFrom().equals(currentUser) ? "You" : friend.getName();
-            String text = payer + " paid ₺" + p.getAmount() + " on " + p.getPaymentDate().toLocalDate();
+    //     for (Transaction p : history) {
+    //         String payer = p.getFrom().equals(currentUser) ? "You" : friend.getName();
+    //         String text = payer + " paid ₺" + p.getAmount() + " on " + p.getPaymentDate().toLocalDate();
 
-            Label label = new Label(text);
-            label.setStyle("-fx-padding: 5 10 5 10; -fx-font-size: 13px;");
-            transactionHistoryVBox.getChildren().add(label);
-        }
-    }
+    //         Label label = new Label(text);
+    //         label.setStyle("-fx-padding: 5 10 5 10; -fx-font-size: 13px;");
+    //         transactionHistoryVBox.getChildren().add(label);
+    //     }
+    // }
 
     
     @FXML
     void addExpense(ActionEvent event) {
-        // TO DO
+        friendNamePopUpLabel.setText(friend.getName());
+        addExpensePopUp.setVisible(true);
     }
 
     @FXML
@@ -212,6 +234,17 @@ public class FriendOverviewController implements Initializable {
         historyPane.setVisible(true);
 
         // TO DO filtering and sorting the list
+    }
+
+    @FXML
+    void closeExpensePopUp(ActionEvent event) {
+        addExpensePopUp.setVisible(false);
+    }
+
+    
+    @FXML
+    void saveExpense(ActionEvent event) {
+        // TO DO
     }
 
     
