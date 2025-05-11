@@ -49,4 +49,8 @@ public class UserController {
     public List<Group> getGroupsOfUser(String userId){
         return userService.getGroupsOfUser(userId);
     }
+
+    public boolean resetPassword(String email){
+        return userService.resetPassword(email);
+    }
 }
