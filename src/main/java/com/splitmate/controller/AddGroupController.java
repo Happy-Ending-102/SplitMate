@@ -152,9 +152,10 @@ public class AddGroupController implements Initializable {
 
         User current = sessionService.getCurrentUser();
         g.addMember(current);
+        userService.saveUser(current);
         for(User user : invitedUsers) {
             g.addMember(user);
-            userService.saveUser(user);
+            userService.updateUser(user);
         }
 
         groupService.updateGroup(g);
