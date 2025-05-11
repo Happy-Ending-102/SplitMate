@@ -40,7 +40,10 @@ public class Group extends BaseEntity {
     public void setConversionPolicy(ConversionPolicy conversionPolicy) { this.conversionPolicy = conversionPolicy; }
 
     public List<User> getMembers() { return members; }
-    public void addMember(User u) { this.members.add(u); }
+    public void addMember(User u) { 
+        this.members.add(u); 
+        u.joinGroup(this);
+    }
 
     public List<User> getFrozenMembers() { return frozenMembers; }
     public void setFrozenMembers(List<User> frozenMembers) { this.frozenMembers = frozenMembers; }
