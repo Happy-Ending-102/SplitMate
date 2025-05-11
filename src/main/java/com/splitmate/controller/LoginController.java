@@ -87,8 +87,6 @@ public class LoginController {
         } else {
             showError("No user was found registered with this email address.");
         }
-
-        // TODO: implement forgot-password flow
     }
 
     private void showError(String message) {
