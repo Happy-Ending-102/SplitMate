@@ -181,9 +181,13 @@ public class GroupSettingsController implements Initializable {
                 "Delete Member",
                 "-fx-background-color:red;",
                 evt -> {
-                groupService.removeUserFromGroup(currentGroup.getId(), user.getId());
-                HBox row = (HBox)((Button)evt.getSource()).getParent();
-                deleteMembersListContainer.getChildren().remove(row);
+                    Group g = sessionService.getCurrentGroup();
+                    groupService.removeUserFromGroup(g.getId(), user.getId());
+
+                    g.getMembers().removeIf(u -> u.getId().equals(user.getId()));
+
+                    populateDeleteMembersList();
+                    populateAddMembersList();
                 }
             )
         );
