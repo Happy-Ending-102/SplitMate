@@ -3,6 +3,7 @@ package com.splitmate.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,62 +84,19 @@ public class GroupSettingsController implements Initializable {
 
         // wire up all actions
         backLabel.setOnMouseClicked(this::onBack);
-        addMemberButton.setOnAction(e -> showOverlay(addMemberOverlay));
-        deleteMemberButton.setOnAction(e -> showOverlay(deleteMemberOverlay));
-        freezeMemberButton.setOnAction(e -> showOverlay(freezeMemberOverlay));
-        unfreezeMemberButton.setOnAction(e -> showOverlay(unfreezeMemberOverlay));
+        addMemberButton.setOnAction(e -> {populateAddMembersList(); 
+        showOverlay(addMemberOverlay);} 
+        );
+        deleteMemberButton.setOnAction(e -> {populateDeleteMembersList(); 
+        showOverlay(deleteMemberOverlay);} 
+        );
+        freezeMemberButton.setOnAction(e -> {populateFreezeMembersList(); 
+        showOverlay(freezeMemberOverlay);}
+        );
+        unfreezeMemberButton.setOnAction(e -> {populateUnfreezeMembersList(); 
+        showOverlay(unfreezeMemberOverlay);}
+        );
         saveButton.setOnAction(e -> onSave());
-
-        // populate each overlay list with sample data (replace with real Users)
-        Group currentGroup = sessionService.getCurrentGroup();
-        User currentUser = sessionService.getCurrentUser();
-        List<User> invitableUsers = groupService.getPossiblMembersToAdd(currentGroup.getId(), currentUser.getId());
-        invitableUsers.forEach(user ->
-            createRow(
-                user.getName(),
-                addMembersListContainer,
-                "Add Member",
-                "-fx-background-color:limegreen;",
-                evt -> {
-                groupService.addUserToGroup(currentGroup.getId(), user.getId());
-                }
-            )
-        );
-        List<User> usersOfGroup = currentGroup.getMembers();
-        usersOfGroup.forEach(user ->
-            createRow(
-                user.getName(),
-                deleteMembersListContainer,
-                "Delete Member",
-                "-fx-background-color:red;",
-                evt -> {
-                groupService.removeUserFromGroup(currentGroup.getId(), user.getId());
-                }
-            )
-        );
-        usersOfGroup.forEach(user ->
-            createRow(
-                user.getName(),
-                freezeMembersListContainer,
-                "Freeze",
-                "-fx-background-color:blue;",
-                evt -> {
-                groupService.frozeUserInAGroup(currentGroup.getId(), user.getId());
-                }
-            )
-        );
-        List<User> frozenUsers = currentGroup.getFrozenMembers();
-                usersOfGroup.forEach(user ->
-            createRow(
-                user.getName(),
-                unfreezeMembersListContainer,
-                "Unfreeze",
-                "-fx-background-color:blue;",
-                evt -> {
-                groupService.unfreezeUserInGroup(currentGroup.getId(), user.getId());
-                }
-            )
-        );
     }
 
     private void hideAllOverlays() {
@@ -188,5 +146,106 @@ public class GroupSettingsController implements Initializable {
 
         row.getChildren().setAll(nameLabel, spacer, actionBtn);
         container.getChildren().add(row);
+    }
+
+    private void populateAddMembersList() {
+        addMembersListContainer.getChildren().clear();
+        Group currentGroup = sessionService.getCurrentGroup();
+        User currentUser = sessionService.getCurrentUser();
+        List<User> invitableUsers = groupService.getPossiblMembersToAdd(currentGroup.getId(), currentUser.getId());
+        invitableUsers.forEach(user ->
+            createRow(
+                user.getName(),
+                addMembersListContainer,
+                "Add Member",
+                "-fx-background-color:limegreen;",
+                evt -> {
+                groupService.addUserToGroup(currentGroup.getId(), user.getId());
+                HBox row = (HBox)((Button)evt.getSource()).getParent();
+                addMembersListContainer.getChildren().remove(row);
+                populateDeleteMembersList();
+                }
+            )
+        );
+    }
+    private void populateDeleteMembersList() {
+        deleteMembersListContainer.getChildren().clear();
+        Group currentGroup = sessionService.getCurrentGroup();
+        User currentUser = sessionService.getCurrentUser();
+        List<User> usersOfGroup = currentGroup.getMembers();
+        List<User> otherMembers = usersOfGroup.stream().filter(u -> !u.getId().equals(currentUser.getId())).collect(Collectors.toList());
+        otherMembers.forEach(user ->
+            createRow(
+                user.getName(),
+                deleteMembersListContainer,
+                "Delete Member",
+                "-fx-background-color:red;",
+                evt -> {
+                groupService.removeUserFromGroup(currentGroup.getId(), user.getId());
+                HBox row = (HBox)((Button)evt.getSource()).getParent();
+                deleteMembersListContainer.getChildren().remove(row);
+                }
+            )
+        );
+    }
+
+    private void populateFreezeMembersList() {
+        freezeMembersListContainer.getChildren().clear();
+        Group currentGroup = sessionService.getCurrentGroup();
+        User currentUser = sessionService.getCurrentUser();
+
+        List<User> usersOfGroup = currentGroup.getMembers();
+        List<User> otherMembers = usersOfGroup.stream().filter(u -> !u.getId().equals(currentUser.getId())).collect(Collectors.toList());
+
+        otherMembers.forEach(user ->
+            createRow(
+                user.getName(),
+                freezeMembersListContainer,
+                "Freeze",
+                "-fx-background-color:blue;",
+                evt -> {
+                    Group g = sessionService.getCurrentGroup();
+                    User u  = user;  // captured from your forEach
+
+                    // 1) Persist the change
+                    groupService.frozeUserInAGroup(g.getId(), u.getId());
+
+                    // 2) Update in-memory lists
+                    g.getMembers().removeIf(mem -> mem.getId().equals(u.getId()));
+                    g.getFrozenMembers().add(u);
+
+                    // 3) Rebuild both pop-ups from the fresh model
+                    populateFreezeMembersList();
+                    populateUnfreezeMembersList();
+                }
+            )
+        );    
+    }
+
+    private void populateUnfreezeMembersList() {
+        unfreezeMembersListContainer.getChildren().clear();
+        Group currentGroup = sessionService.getCurrentGroup();
+        User currentUser = sessionService.getCurrentUser();
+        List<User> frozenUsers = currentGroup.getFrozenMembers();
+                frozenUsers.forEach(user ->
+            createRow(
+                user.getName(),
+                unfreezeMembersListContainer,
+                "Unfreeze",
+                "-fx-background-color:blue;",
+                evt -> {
+                    Group g = sessionService.getCurrentGroup();
+                    User u  = user;
+
+                    groupService.unfreezeUserInGroup(g.getId(), u.getId());
+
+                    g.getFrozenMembers().removeIf(f -> f.getId().equals(u.getId()));
+                    g.getMembers().add(u);
+
+                    populateFreezeMembersList();
+                    populateUnfreezeMembersList();
+                }
+            )
+        );    
     }
 }
