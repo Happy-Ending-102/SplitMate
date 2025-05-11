@@ -37,7 +37,7 @@
   <center>
     <VBox alignment="TOP_LEFT" prefHeight="770.0" prefWidth="1260.0" spacing="15">
 
-      <!-- tabs -->
+            <!-- tabs -->
       <TabPane fx:id="tabPane" prefHeight="798.0" prefWidth="1423.0">
         <tabs>
           <Tab fx:id="infoTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Info">
@@ -89,321 +89,469 @@
                            <ScrollPane prefHeight="364.0" prefWidth="1165.0">
                               <content>
                                  <VBox fx:id="commonGroupsVBox" prefHeight="363.0" prefWidth="1161.0" />
-                              </content></ScrollPane>
+                              </content>
+                           </ScrollPane>
                         </children>
               </VBox>
             </content>
           </Tab>
 
-          <Tab fx:id="paymentTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Payments">
+                <Tab fx:id="paymentTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Payments">
                   <content>
                      <VBox prefHeight="200.0" prefWidth="100.0" />
                   </content>
                   <content>
-                     <VBox prefHeight="200.0" prefWidth="100.0">
+                     <StackPane prefHeight="723.0" prefWidth="1338.0">
                         <children>
-                           <HBox prefHeight="356.0" prefWidth="1283.0">
-                              <cursor>
-                                 <Cursor fx:constant="DEFAULT" />
-                              </cursor>
+                           <VBox prefHeight="741.0" prefWidth="1224.0">
                               <children>
-                                 <Label fx:id="currentStatusLabel" prefHeight="171.0" prefWidth="796.0" style="-fx-background-color: lightgray;" text="Current Status:&#10;&#10;">
-                                    <font>
-                                       <Font name="System Bold" size="25.0" />
-                                    </font>
-                                    <HBox.margin>
-                                       <Insets left="150.0" top="50.0" />
-                                    </HBox.margin>
-                                 </Label>
-                                 <VBox fx:id="paymentVBox" prefHeight="356.0" prefWidth="860.0">
-                                    <HBox.margin>
-                                       <Insets left="300.0" right="100.0" />
-                                    </HBox.margin>
+                                 <HBox prefHeight="356.0" prefWidth="1283.0">
+                                    <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
                                     <children>
-                                       <Label text="Pay">
+                                       <Label fx:id="currentStatusLabel" prefHeight="171.0" prefWidth="796.0" style="-fx-background-color: lightgray;" text="Current Status:&#10;&#10;">
                                           <font>
-                                             <Font name="System Bold" size="35.0" />
-                                          </font>
-                                          <VBox.margin>
-                                             <Insets top="50.0" />
-                                          </VBox.margin>
-                                       </Label>
-                                       <HBox prefHeight="59.0" prefWidth="399.0">
-                                          <children>
-                                             <Label prefHeight="40.0" prefWidth="118.0" text="Amount: " textAlignment="CENTER">
-                                                <font>
-                                                   <Font name="System Bold" size="20.0" />
-                                                </font>
-                                                <HBox.margin>
-                                                   <Insets top="30.0" />
-                                                </HBox.margin>
-                                             </Label>
-                                             <TextField fx:id="amountToPayTextField">
-                                                <HBox.margin>
-                                                   <Insets top="30.0" />
-                                                </HBox.margin>
-                                             </TextField>
-                                          </children>
-                                       </HBox>
-                                       <HBox layoutX="10.0" layoutY="111.0" prefHeight="59.0" prefWidth="399.0">
-                                          <children>
-                                             <Label prefHeight="40.0" prefWidth="118.0" text="Currency:" textAlignment="CENTER">
-                                                <font>
-                                                   <Font name="System Bold" size="20.0" />
-                                                </font>
-                                                <HBox.margin>
-                                                   <Insets top="30.0" />
-                                                </HBox.margin>
-                                             </Label>
-                                             <ComboBox fx:id="currencySelectionComboBox" prefWidth="150.0">
-                                                <HBox.margin>
-                                                   <Insets top="30.0" />
-                                                </HBox.margin>
-                                             </ComboBox>
-                                          </children>
-                                       </HBox>
-                                       <Button fx:id="paymentConfirmationButton" mnemonicParsing="false" onAction="#confirmPayment" prefHeight="9.0" prefWidth="153.0" style="-fx-background-color: green;" text="Confirm">
-                                          <font>
-                                             <Font name="System Bold" size="15.0" />
-                                          </font>
-                                          <VBox.margin>
-                                             <Insets left="130.0" top="30.0" />
-                                          </VBox.margin>
-                                       </Button>
-                                    </children>
-                                 </VBox>
-                              </children>
-                           </HBox>
-                           <Separator prefWidth="200.0" />
-                           <VBox prefHeight="340.0" prefWidth="1283.0">
-                              <children>
-                                 <HBox prefHeight="54.0" prefWidth="1283.0">
-                                    <children>
-                                       <Label text="Transaction History">
-                                          <font>
-                                             <Font name="System Bold" size="30.0" />
+                                             <Font name="System Bold" size="25.0" />
                                           </font>
                                           <HBox.margin>
-                                             <Insets />
+                                             <Insets left="150.0" top="50.0" />
                                           </HBox.margin>
                                        </Label>
-                                       <Button fx:id="transactionSettingsButton" mnemonicParsing="false" onAction="#showTransactionSettings" text="Settings">
-                                          <font>
-                                             <Font name="System Bold" size="15.0" />
-                                          </font>
+                                       <VBox fx:id="paymentVBox" prefHeight="356.0" prefWidth="860.0">
                                           <HBox.margin>
-                                             <Insets left="600.0" top="10.0" />
+                                             <Insets left="300.0" right="100.0" />
                                           </HBox.margin>
-                                       </Button>
-                                    </children>
-                                 </HBox>
-                                 <HBox prefHeight="287.0" prefWidth="1283.0">
-                                    <children>
-                                       <StackPane prefHeight="287.0" prefWidth="954.0">
                                           <children>
-                                             <AnchorPane fx:id="historyPane">
-                                                <children>
-                                                   <ScrollPane prefHeight="286.0" prefWidth="957.0">
-                                                      <content>
-                                                         <VBox fx:id="transactionHistoryVBox" prefHeight="286.0" prefWidth="944.0" />
-                                                      </content>
-                                                   </ScrollPane>
-                                                </children>
-                                             </AnchorPane>
-                                             <AnchorPane fx:id="historySettingsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
-                                                <children>
-                                                   <HBox prefHeight="284.0" prefWidth="954.0" style="-fx-background-color: gray;">
-                                                      <children>
-                                                         <VBox prefHeight="284.0" prefWidth="314.0">
-                                                            <children>
-                                                               <VBox prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
-                                                                  <opaqueInsets>
-                                                                     <Insets />
-                                                                  </opaqueInsets>
-                                                                  <VBox.margin>
-                                                                     <Insets left="30.0" right="30.0" top="30.0" />
-                                                                  </VBox.margin>
-                                                                  <children>
-                                                                     <Label text="Start Date">
-                                                                        <font>
-                                                                           <Font name="System Bold" size="15.0" />
-                                                                        </font>
-                                                                        <VBox.margin>
-                                                                           <Insets left="20.0" top="10.0" />
-                                                                        </VBox.margin>
-                                                                     </Label>
-                                                                     <TextField fx:id="startDateTextField" prefHeight="25.0" prefWidth="230.0">
-                                                                        <VBox.margin>
-                                                                           <Insets left="10.0" right="20.0" />
-                                                                        </VBox.margin>
-                                                                     </TextField>
-                                                                  </children>
-                                                               </VBox>
-                                                               <VBox layoutX="40.0" layoutY="40.0" prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
-                                                                  <opaqueInsets>
-                                                                     <Insets />
-                                                                  </opaqueInsets>
-                                                                  <children>
-                                                                     <Label text="End Date">
-                                                                        <font>
-                                                                           <Font name="System Bold" size="15.0" />
-                                                                        </font>
-                                                                        <VBox.margin>
-                                                                           <Insets left="20.0" top="10.0" />
-                                                                        </VBox.margin>
-                                                                     </Label>
-                                                                     <TextField fx:id="endDateTextField" prefHeight="25.0" prefWidth="230.0">
-                                                                        <VBox.margin>
-                                                                           <Insets left="10.0" right="20.0" />
-                                                                        </VBox.margin>
-                                                                     </TextField>
-                                                                  </children>
-                                                                  <VBox.margin>
-                                                                     <Insets left="30.0" right="30.0" />
-                                                                  </VBox.margin>
-                                                               </VBox>
-                                                            </children>
-                                                         </VBox>
-                                                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                                         <VBox prefHeight="284.0" prefWidth="324.0">
-                                                            <children>
-                                                               <VBox prefHeight="78.0" prefWidth="309.0" style="-fx-background-color: light gray;">
-                                                                  <opaqueInsets>
-                                                                     <Insets />
-                                                                  </opaqueInsets>
-                                                                  <children>
-                                                                     <Label text="Minimum Amount">
-                                                                        <font>
-                                                                           <Font name="System Bold" size="15.0" />
-                                                                        </font>
-                                                                        <VBox.margin>
-                                                                           <Insets left="20.0" top="10.0" />
-                                                                        </VBox.margin>
-                                                                     </Label>
-                                                                     <TextField fx:id="minimumAmountTextField" prefHeight="25.0" prefWidth="230.0">
-                                                                        <VBox.margin>
-                                                                           <Insets left="10.0" right="20.0" />
-                                                                        </VBox.margin>
-                                                                     </TextField>
-                                                                  </children>
-                                                                  <VBox.margin>
-                                                                     <Insets top="30.0" />
-                                                                  </VBox.margin>
-                                                               </VBox>
-                                                               <VBox layoutX="10.0" layoutY="20.0" prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
-                                                                  <opaqueInsets>
-                                                                     <Insets />
-                                                                  </opaqueInsets>
-                                                                  <children>
-                                                                     <Label text="Maximum Amount">
-                                                                        <font>
-                                                                           <Font name="System Bold" size="15.0" />
-                                                                        </font>
-                                                                        <VBox.margin>
-                                                                           <Insets left="20.0" top="10.0" />
-                                                                        </VBox.margin>
-                                                                     </Label>
-                                                                     <TextField fx:id="maximumAmountTextField" prefHeight="25.0" prefWidth="230.0">
-                                                                        <VBox.margin>
-                                                                           <Insets left="10.0" right="20.0" />
-                                                                        </VBox.margin>
-                                                                     </TextField>
-                                                                  </children>
-                                                               </VBox>
-                                                               <HBox prefHeight="64.0" prefWidth="309.0">
-                                                                  <children>
-                                                                     <Label text="Currency">
-                                                                        <font>
-                                                                           <Font name="System Bold" size="15.0" />
-                                                                        </font>
-                                                                        <HBox.margin>
-                                                                           <Insets left="25.0" top="10.0" />
-                                                                        </HBox.margin>
-                                                                     </Label>
-                                                                     <ComboBox fx:id="currencyComboBox" prefHeight="17.0" prefWidth="139.0">
-                                                                        <HBox.margin>
-                                                                           <Insets left="20.0" top="10.0" />
-                                                                        </HBox.margin>
-                                                                     </ComboBox>
-                                                                  </children>
-                                                               </HBox>
-                                                            </children>
-                                                         </VBox>
-                                                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                                         <VBox prefHeight="284.0" prefWidth="348.0">
-                                                            <children>
-                                                               <RadioButton fx:id="paymentsRadioButton" mnemonicParsing="false" prefHeight="21.0" prefWidth="104.0" text="Payments">
-                                                                  <font>
-                                                                     <Font name="System Bold" size="15.0" />
-                                                                  </font>
-                                                                  <VBox.margin>
-                                                                     <Insets left="100.0" top="50.0" />
-                                                                  </VBox.margin>
-                                                                  <toggleGroup>
-                                                                     <ToggleGroup fx:id="paymentRecievementToggleGroup" />
-                                                                  </toggleGroup>
-                                                               </RadioButton>
-                                                               <RadioButton fx:id="recievementsRadiButton" layoutX="110.0" layoutY="60.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="135.0" text="Recievements" toggleGroup="$paymentRecievementToggleGroup">
-                                                                  <font>
-                                                                     <Font name="System Bold" size="15.0" />
-                                                                  </font>
-                                                                  <VBox.margin>
-                                                                     <Insets left="100.0" top="20.0" />
-                                                                  </VBox.margin>
-                                                               </RadioButton>
-                                                               <RadioButton fx:id="bothRadiButton" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="104.0" selected="true" text="Both" toggleGroup="$paymentRecievementToggleGroup">
-                                                                  <font>
-                                                                     <Font name="System Bold" size="15.0" />
-                                                                  </font>
-                                                                  <VBox.margin>
-                                                                     <Insets left="100.0" top="20.0" />
-                                                                  </VBox.margin>
-                                                               </RadioButton>
-                                                               <Button fx:id="filterButton" mnemonicParsing="false" onAction="#showFilteredTransactionHistory" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: green;" text="Filter">
-                                                                  <font>
-                                                                     <Font name="System Bold" size="15.0" />
-                                                                  </font>
-                                                                  <VBox.margin>
-                                                                     <Insets left="100.0" top="30.0" />
-                                                                  </VBox.margin>
-                                                               </Button>
-                                                            </children>
-                                                         </VBox>
-                                                      </children>
-                                                   </HBox>
-                                                </children>
-                                             </AnchorPane>
-                                          </children>
-                                       </StackPane>
-                                       <VBox prefHeight="106.0" prefWidth="111.0">
-                                          <children>
-                                             <Button fx:id="addExpenseButton" mnemonicParsing="false" onAction="#addExpense" style="-fx-background-radius: 50;" text="+">
+                                             <Label text="Pay">
                                                 <font>
-                                                   <Font name="System Bold" size="30.0" />
+                                                   <Font name="System Bold" size="35.0" />
                                                 </font>
                                                 <VBox.margin>
-                                                   <Insets left="20.0" />
+                                                   <Insets top="50.0" />
                                                 </VBox.margin>
-                                             </Button>
-                                             <Label text="Add Expense">
+                                             </Label>
+                                             <HBox prefHeight="59.0" prefWidth="399.0">
+                                                <children>
+                                                   <Label prefHeight="40.0" prefWidth="118.0" text="Amount: " textAlignment="CENTER">
+                                                      <font>
+                                                         <Font name="System Bold" size="20.0" />
+                                                      </font>
+                                                      <HBox.margin>
+                                                         <Insets top="30.0" />
+                                                      </HBox.margin>
+                                                   </Label>
+                                                   <TextField fx:id="amountToPayTextField">
+                                                      <HBox.margin>
+                                                         <Insets top="30.0" />
+                                                      </HBox.margin>
+                                                   </TextField>
+                                                </children>
+                                             </HBox>
+                                             <HBox layoutX="10.0" layoutY="111.0" prefHeight="59.0" prefWidth="399.0">
+                                                <children>
+                                                   <Label prefHeight="40.0" prefWidth="118.0" text="Currency:" textAlignment="CENTER">
+                                                      <font>
+                                                         <Font name="System Bold" size="20.0" />
+                                                      </font>
+                                                      <HBox.margin>
+                                                         <Insets top="30.0" />
+                                                      </HBox.margin>
+                                                   </Label>
+                                                   <ComboBox fx:id="currencySelectionComboBox" prefWidth="150.0">
+                                                      <HBox.margin>
+                                                         <Insets top="30.0" />
+                                                      </HBox.margin>
+                                                   </ComboBox>
+                                                </children>
+                                             </HBox>
+                                             <Button fx:id="paymentConfirmationButton" mnemonicParsing="false" onAction="#confirmPayment" prefHeight="9.0" prefWidth="153.0" style="-fx-background-color: green;" text="Confirm">
                                                 <font>
                                                    <Font name="System Bold" size="15.0" />
                                                 </font>
                                                 <VBox.margin>
-                                                   <Insets left="8.0" top="10.0" />
+                                                   <Insets left="130.0" top="30.0" />
                                                 </VBox.margin>
-                                             </Label>
+                                             </Button>
                                           </children>
-                                          <HBox.margin>
-                                             <Insets left="150.0" top="180.0" />
-                                          </HBox.margin>
                                        </VBox>
                                     </children>
                                  </HBox>
+                                 <Separator prefWidth="200.0" />
+                                 <VBox prefHeight="340.0" prefWidth="1283.0">
+                                    <children>
+                                       <HBox prefHeight="54.0" prefWidth="1283.0">
+                                          <children>
+                                             <Label text="Transaction History">
+                                                <font>
+                                                   <Font name="System Bold" size="30.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets />
+                                                </HBox.margin>
+                                             </Label>
+                                             <Button fx:id="transactionSettingsButton" mnemonicParsing="false" onAction="#showTransactionSettings" text="Settings">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets left="600.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                          </children>
+                                       </HBox>
+                                       <HBox prefHeight="287.0" prefWidth="1283.0">
+                                          <children>
+                                             <StackPane prefHeight="287.0" prefWidth="954.0">
+                                                <children>
+                                                   <AnchorPane fx:id="historyPane">
+                                                      <children>
+                                                         <ScrollPane prefHeight="286.0" prefWidth="957.0">
+                                                            <content>
+                                                               <VBox fx:id="transactionHistoryVBox" prefHeight="286.0" prefWidth="944.0" />
+                                                            </content>
+                                                         </ScrollPane>
+                                                      </children>
+                                                   </AnchorPane>
+                                                   <AnchorPane fx:id="historySettingsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                                                      <children>
+                                                         <HBox prefHeight="284.0" prefWidth="954.0" style="-fx-background-color: gray;">
+                                                            <children>
+                                                               <VBox prefHeight="284.0" prefWidth="314.0">
+                                                                  <children>
+                                                                     <VBox prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
+                                                                        <opaqueInsets>
+                                                                           <Insets />
+                                                                        </opaqueInsets>
+                                                                        <VBox.margin>
+                                                                           <Insets left="30.0" right="30.0" top="30.0" />
+                                                                        </VBox.margin>
+                                                                        <children>
+                                                                           <Label text="Start Date">
+                                                                              <font>
+                                                                                 <Font name="System Bold" size="15.0" />
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                 <Insets left="20.0" top="10.0" />
+                                                                              </VBox.margin>
+                                                                           </Label>
+                                                                           <TextField fx:id="startDateTextField" prefHeight="25.0" prefWidth="230.0">
+                                                                              <VBox.margin>
+                                                                                 <Insets left="10.0" right="20.0" />
+                                                                              </VBox.margin>
+                                                                           </TextField>
+                                                                        </children>
+                                                                     </VBox>
+                                                                     <VBox layoutX="40.0" layoutY="40.0" prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
+                                                                        <opaqueInsets>
+                                                                           <Insets />
+                                                                        </opaqueInsets>
+                                                                        <children>
+                                                                           <Label text="End Date">
+                                                                              <font>
+                                                                                 <Font name="System Bold" size="15.0" />
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                 <Insets left="20.0" top="10.0" />
+                                                                              </VBox.margin>
+                                                                           </Label>
+                                                                           <TextField fx:id="endDateTextField" prefHeight="25.0" prefWidth="230.0">
+                                                                              <VBox.margin>
+                                                                                 <Insets left="10.0" right="20.0" />
+                                                                              </VBox.margin>
+                                                                           </TextField>
+                                                                        </children>
+                                                                        <VBox.margin>
+                                                                           <Insets left="30.0" right="30.0" />
+                                                                        </VBox.margin>
+                                                                     </VBox>
+                                                                  </children>
+                                                               </VBox>
+                                                               <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                                               <VBox prefHeight="284.0" prefWidth="324.0">
+                                                                  <children>
+                                                                     <VBox prefHeight="78.0" prefWidth="309.0" style="-fx-background-color: light gray;">
+                                                                        <opaqueInsets>
+                                                                           <Insets />
+                                                                        </opaqueInsets>
+                                                                        <children>
+                                                                           <Label text="Minimum Amount">
+                                                                              <font>
+                                                                                 <Font name="System Bold" size="15.0" />
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                 <Insets left="20.0" top="10.0" />
+                                                                              </VBox.margin>
+                                                                           </Label>
+                                                                           <TextField fx:id="minimumAmountTextField" prefHeight="25.0" prefWidth="230.0">
+                                                                              <VBox.margin>
+                                                                                 <Insets left="10.0" right="20.0" />
+                                                                              </VBox.margin>
+                                                                           </TextField>
+                                                                        </children>
+                                                                        <VBox.margin>
+                                                                           <Insets top="30.0" />
+                                                                        </VBox.margin>
+                                                                     </VBox>
+                                                                     <VBox layoutX="10.0" layoutY="20.0" prefHeight="89.0" prefWidth="197.0" style="-fx-background-color: light gray;">
+                                                                        <opaqueInsets>
+                                                                           <Insets />
+                                                                        </opaqueInsets>
+                                                                        <children>
+                                                                           <Label text="Maximum Amount">
+                                                                              <font>
+                                                                                 <Font name="System Bold" size="15.0" />
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                 <Insets left="20.0" top="10.0" />
+                                                                              </VBox.margin>
+                                                                           </Label>
+                                                                           <TextField fx:id="maximumAmountTextField" prefHeight="25.0" prefWidth="230.0">
+                                                                              <VBox.margin>
+                                                                                 <Insets left="10.0" right="20.0" />
+                                                                              </VBox.margin>
+                                                                           </TextField>
+                                                                        </children>
+                                                                     </VBox>
+                                                                     <HBox prefHeight="64.0" prefWidth="309.0">
+                                                                        <children>
+                                                                           <Label text="Currency">
+                                                                              <font>
+                                                                                 <Font name="System Bold" size="15.0" />
+                                                                              </font>
+                                                                              <HBox.margin>
+                                                                                 <Insets left="25.0" top="10.0" />
+                                                                              </HBox.margin>
+                                                                           </Label>
+                                                                           <ComboBox fx:id="currencyComboBox" prefHeight="17.0" prefWidth="139.0">
+                                                                              <HBox.margin>
+                                                                                 <Insets left="20.0" top="10.0" />
+                                                                              </HBox.margin>
+                                                                           </ComboBox>
+                                                                        </children>
+                                                                     </HBox>
+                                                                  </children>
+                                                               </VBox>
+                                                               <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                                               <VBox prefHeight="284.0" prefWidth="348.0">
+                                                                  <children>
+                                                                     <RadioButton fx:id="paymentsRadioButton" mnemonicParsing="false" prefHeight="21.0" prefWidth="104.0" text="Payments">
+                                                                        <font>
+                                                                           <Font name="System Bold" size="15.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                           <Insets left="100.0" top="50.0" />
+                                                                        </VBox.margin>
+                                                                        <toggleGroup>
+                                                                           <ToggleGroup fx:id="paymentRecievementToggleGroup" />
+                                                                        </toggleGroup>
+                                                                     </RadioButton>
+                                                                     <RadioButton fx:id="recievementsRadiButton" layoutX="110.0" layoutY="60.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="135.0" text="Recievements" toggleGroup="$paymentRecievementToggleGroup">
+                                                                        <font>
+                                                                           <Font name="System Bold" size="15.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                           <Insets left="100.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                     </RadioButton>
+                                                                     <RadioButton fx:id="bothRadiButton" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="104.0" selected="true" text="Both" toggleGroup="$paymentRecievementToggleGroup">
+                                                                        <font>
+                                                                           <Font name="System Bold" size="15.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                           <Insets left="100.0" top="20.0" />
+                                                                        </VBox.margin>
+                                                                     </RadioButton>
+                                                                     <Button fx:id="filterButton" mnemonicParsing="false" onAction="#showFilteredTransactionHistory" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: green;" text="Filter">
+                                                                        <font>
+                                                                           <Font name="System Bold" size="15.0" />
+                                                                        </font>
+                                                                        <VBox.margin>
+                                                                           <Insets left="100.0" top="30.0" />
+                                                                        </VBox.margin>
+                                                                     </Button>
+                                                                  </children>
+                                                               </VBox>
+                                                            </children>
+                                                         </HBox>
+                                                      </children>
+                                                   </AnchorPane>
+                                                </children>
+                                             </StackPane>
+                                             <VBox prefHeight="106.0" prefWidth="111.0">
+                                                <children>
+                                                   <Button fx:id="addExpenseButton" mnemonicParsing="false" onAction="#addExpense" style="-fx-background-radius: 50;" text="+">
+                                                      <font>
+                                                         <Font name="System Bold" size="30.0" />
+                                                      </font>
+                                                      <VBox.margin>
+                                                         <Insets left="20.0" />
+                                                      </VBox.margin>
+                                                   </Button>
+                                                   <Label text="Add Expense">
+                                                      <font>
+                                                         <Font name="System Bold" size="15.0" />
+                                                      </font>
+                                                      <VBox.margin>
+                                                         <Insets left="8.0" top="10.0" />
+                                                      </VBox.margin>
+                                                   </Label>
+                                                </children>
+                                                <HBox.margin>
+                                                   <Insets left="150.0" top="180.0" />
+                                                </HBox.margin>
+                                             </VBox>
+                                          </children>
+                                       </HBox>
+                                    </children>
+                                 </VBox>
                               </children>
+                              <StackPane.margin>
+                                 <Insets />
+                              </StackPane.margin>
                            </VBox>
+                           <AnchorPane fx:id="addExpensePopUp" prefHeight="404.0" prefWidth="761.0" visible="false">
+                              <StackPane.margin>
+                                 <Insets bottom="150.0" left="100.0" right="200.0" top="100.0" />
+                              </StackPane.margin>
+                              <children>
+                                 <VBox prefHeight="442.0" prefWidth="782.0" style="-fx-background-color: gray;">
+                                    <children>
+                                       <HBox prefHeight="65.0" prefWidth="782.0">
+                                          <VBox.margin>
+                                             <Insets top="20.0" />
+                                          </VBox.margin>
+                                          <children>
+                                             <Label text="Expense Amount: ">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets left="30.0" top="30.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <TextField fx:id="expenseAmountTextField">
+                                                <HBox.margin>
+                                                   <Insets left="10.0" top="30.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                             <Button fx:id="closeExpensePopUpButton" mnemonicParsing="false" onAction="#closeExpensePopUp" style="-fx-background-radius: 20; -fx-background-color: red;" text="X">
+                                                <HBox.margin>
+                                                   <Insets left="410.0" top="10.0" />
+                                                </HBox.margin>
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                             </Button>
+                                          </children>
+                                       </HBox>
+                                       <HBox layoutX="10.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
+                                          <children>
+                                             <Label text="Expense Description: ">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets left="30.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <TextField fx:id="expenseDescriptionTextField" prefHeight="80.0" prefWidth="415.0">
+                                                <HBox.margin>
+                                                   <Insets left="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                          </children>
+                                       </HBox>
+                                       <HBox layoutX="10.0" layoutY="95.0" prefHeight="125.0" prefWidth="782.0">
+                                          <children>
+                                             <Label text="Divide Expense: ">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets left="30.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <VBox prefHeight="125.0" prefWidth="363.0" style="-fx-background-color: white;">
+                                                <HBox.margin>
+                                                   <Insets left="30.0" />
+                                                </HBox.margin>
+                                                <children>
+                                                   <HBox prefHeight="77.0" prefWidth="363.0">
+                                                      <children>
+                                                         <Label text="You: ">
+                                                            <font>
+                                                               <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                            <HBox.margin>
+                                                               <Insets left="50.0" top="30.0" />
+                                                            </HBox.margin>
+                                                         </Label>
+                                                         <TextField fx:id="expenseUserDivisionTextField" style="-fx-background-color: gray;">
+                                                            <HBox.margin>
+                                                               <Insets left="30.0" top="30.0" />
+                                                            </HBox.margin>
+                                                         </TextField>
+                                                      </children>
+                                                   </HBox>
+                                                   <HBox layoutX="10.0" layoutY="10.0" prefHeight="80.0" prefWidth="363.0">
+                                                      <children>
+                                                         <Label fx:id="friendNamePopUpLabel">
+                                                            <font>
+                                                               <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                            <HBox.margin>
+                                                               <Insets left="50.0" top="20.0" />
+                                                            </HBox.margin>
+                                                         </Label>
+                                                         <TextField fx:id="expenseFriendDivisionTextField" style="-fx-background-color: gray;">
+                                                            <HBox.margin>
+                                                               <Insets left="30.0" top="20.0" />
+                                                            </HBox.margin>
+                                                         </TextField>
+                                                      </children>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                          <VBox.margin>
+                                             <Insets top="20.0" />
+                                          </VBox.margin>
+                                       </HBox>
+                                       <HBox layoutX="10.0" layoutY="95.0" prefHeight="102.0" prefWidth="782.0">
+                                          <children>
+                                             <Label text="Choose Currency: ">
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                   <Insets left="30.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Label>
+                                             <ComboBox fx:id="expenseCurrencySelectionComboBox" prefWidth="150.0">
+                                                <HBox.margin>
+                                                   <Insets left="30.0" top="10.0" />
+                                                </HBox.margin>
+                                             </ComboBox>
+                                             <Button fx:id="saveExpenseButton" mnemonicParsing="false" onAction="#saveExpense" style="-fx-background-color: green;" text="Add">
+                                                <HBox.margin>
+                                                   <Insets left="300.0" top="50.0" />
+                                                </HBox.margin>
+                                                <font>
+                                                   <Font name="System Bold" size="15.0" />
+                                                </font>
+                                             </Button>
+                                          </children>
+                                          <VBox.margin>
+                                             <Insets top="20.0" />
+                                          </VBox.margin>
+                                       </HBox>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </AnchorPane>
                         </children>
-                     </VBox>
+                     </StackPane>
                   </content>
           </Tab>
         </tabs>
