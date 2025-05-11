@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         private void sendResetEmail(String email, String newPassword) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(email);
-        msg.setSubject("SplitMate: Your New Temporary Password");
+        msg.setSubject("SplitMate: Your New Password");
         msg.setText(
             "Hello,\n\n" +
             "Your password has been reset. Your new password is:\n\n" +
