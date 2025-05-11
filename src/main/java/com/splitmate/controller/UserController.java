@@ -55,7 +55,7 @@ public class UserController {
         return userService.resetPassword(email);
     }
 
-    public void setFrequency(String userId, Frequency frequency){
+    public void updateFrequency(String userId, Frequency frequency){
         userService.getUser(userId).setFrequency(frequency);
     }
 }
