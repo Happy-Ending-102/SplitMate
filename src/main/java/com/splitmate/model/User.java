@@ -179,7 +179,9 @@ public class User extends BaseEntity {
         this.frequency = frequency;
     }
 
-    
+    public Frequency getFrequency(){
+        return this.frequency;
+    }
 
     
 }

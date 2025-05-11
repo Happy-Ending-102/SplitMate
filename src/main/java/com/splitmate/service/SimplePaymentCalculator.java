@@ -71,7 +71,11 @@ public class SimplePaymentCalculator implements PaymentCalculator {
 
         // 3) Call Python solver
         List<Payment> newDebts = new ArrayList<>();
-        ProcessBuilder pb = new ProcessBuilder("python3", "calculate.py"); // TODO check path and the right usage
+                ProcessBuilder pb = new ProcessBuilder(
+            "py",           // Windows “py” launcher
+            "-3",           // use Python 3
+            "src/main/resources/py/calculate.py"  // relative to projectRoot
+        );
         pb.redirectErrorStream(true);
 
         try {
