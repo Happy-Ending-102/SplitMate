@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1392.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitmate.controller.FrontPaymentController">
+
+  <!-- LEFT: navigation bar -->
+  <left>
+    <fx:include source="navigationBar.fxml" />
+  </left>
+
+  <!-- TOP: purple header bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1931.0" />
+  </top>
+
+  <!-- CENTER: main content -->
+  <center>
+    <VBox alignment="TOP_LEFT" prefHeight="1030.0" prefWidth="1546.0" spacing="15">
+
+      <!-- header row -->
+      <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="1282.0" spacing="10">
+        <children>
+          <Label text="Payments">
+            <font><Font name="System Bold" size="24.0" /></font>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+          </Label>
+        </children>
+      </HBox>
+
+      <!-- tabs -->
+      <TabPane fx:id="tabPane">
+        <tabs>
+          <Tab fx:id="toPayTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="To pay">
+                  <content>
+                     <ScrollPane prefHeight="601.0" prefWidth="1202.0">
+                        <content>
+                           <VBox fx:id="toPayVBox" prefHeight="600.0" prefWidth="1190.0" />
+                        </content>
+                     </ScrollPane>
+                  </content>
+          </Tab>
+
+          <Tab fx:id="toRecieveTab" closable="false" style="-fx-font-size: 16; -fx-font-weight: bold;" text="To recieve">
+                  <content>
+                     <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                        <content>
+                           <VBox fx:id="toRecieveVBox" prefHeight="599.0" prefWidth="1195.0" />
+                        </content>
+                     </ScrollPane>
+                  </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+
+    </VBox>
+  </center>
+</BorderPane>
