@@ -34,7 +34,6 @@ public class NotificationsPageController implements Initializable {
     // Notification types that should display Accept/Decline buttons
     private static final Set<NotificationType> ACTIONABLE = Set.of(
         NotificationType.FRIEND_REQUEST,
-        NotificationType.GROUP_INVITE,
         NotificationType.PAYMENT_RECEIVED
     );
 
