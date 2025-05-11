@@ -123,4 +123,18 @@ public class GroupServiceImpl implements GroupService {
         .filter(g -> g.getMembers().contains(userB))
         .collect(Collectors.toList());
     }
+
+    @Override
+    public List<User> getPossiblMembersToAdd(String groupId, String userId) {
+        Group group = groupRepo.findById(groupId)
+            .orElseThrow(() -> new NoSuchElementException("Group not found"));
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        // Get all frinds of the user who are not already members of the group
+        return user.getFriends().stream()
+            .filter(friend -> !group.getMembers().contains(friend))
+            .filter(friend -> !group.getFrozenMembers().contains(friend))
+            .collect(Collectors.toList());
+    }
 }
