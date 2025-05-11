@@ -4,12 +4,19 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.splitmate.model.ConversionPolicy;
 import com.splitmate.model.Currency;
+import com.splitmate.model.Group;
+import com.splitmate.model.User;
+import com.splitmate.service.GroupService;
+import com.splitmate.service.SessionService;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -57,9 +64,13 @@ public class GroupSettingsController implements Initializable {
                       unfreezeMembersListContainer;
 
     private final MainController mainController;
+    private final SessionService sessionService;
+    @Autowired private GroupService groupService;
 
-    public GroupSettingsController(MainController mainController) {
+
+    public GroupSettingsController(MainController mainController, SessionService sessionService) {
         this.mainController = mainController;
+        this.sessionService = sessionService;
     }
 
     @Override
@@ -79,11 +90,55 @@ public class GroupSettingsController implements Initializable {
         saveButton.setOnAction(e -> onSave());
 
         // populate each overlay list with sample data (replace with real Users)
-        List<String> sample = List.of("Semih Çağlar","Sude Kaplan","Bilgekağan Çanak");
-        sample.forEach(name -> createRow(name, addMembersListContainer,  "Send Invitation",   "-fx-background-color:limegreen;"));
-        sample.forEach(name -> createRow(name, deleteMembersListContainer, "Delete",            "-fx-background-color:red;"));
-        sample.forEach(name -> createRow(name, freezeMembersListContainer, "Freeze",            "-fx-background-color:blue;"));
-        sample.forEach(name -> createRow(name, unfreezeMembersListContainer, "Unfreeze",        "-fx-background-color:blue;"));
+        Group currentGroup = sessionService.getCurrentGroup();
+        User currentUser = sessionService.getCurrentUser();
+        List<User> invitableUsers = groupService.getPossiblMembersToAdd(currentGroup.getId(), currentUser.getId());
+        invitableUsers.forEach(user ->
+            createRow(
+                user.getName(),
+                addMembersListContainer,
+                "Add Member",
+                "-fx-background-color:limegreen;",
+                evt -> {
+                groupService.addUserToGroup(currentGroup.getId(), user.getId());
+                }
+            )
+        );
+        List<User> usersOfGroup = currentGroup.getMembers();
+        usersOfGroup.forEach(user ->
+            createRow(
+                user.getName(),
+                deleteMembersListContainer,
+                "Delete Member",
+                "-fx-background-color:red;",
+                evt -> {
+                groupService.removeUserFromGroup(currentGroup.getId(), user.getId());
+                }
+            )
+        );
+        usersOfGroup.forEach(user ->
+            createRow(
+                user.getName(),
+                freezeMembersListContainer,
+                "Freeze",
+                "-fx-background-color:blue;",
+                evt -> {
+                groupService.frozeUserInAGroup(currentGroup.getId(), user.getId());
+                }
+            )
+        );
+        List<User> frozenUsers = currentGroup.getFrozenMembers();
+                usersOfGroup.forEach(user ->
+            createRow(
+                user.getName(),
+                unfreezeMembersListContainer,
+                "Unfreeze",
+                "-fx-background-color:blue;",
+                evt -> {
+                groupService.unfreezeUserInGroup(currentGroup.getId(), user.getId());
+                }
+            )
+        );
     }
 
     private void hideAllOverlays() {
@@ -112,7 +167,7 @@ public class GroupSettingsController implements Initializable {
         
     }
 
-    private void createRow(String name, VBox container, String btnText, String btnStyle) {
+    private void createRow(String name, VBox container, String btnText, String btnStyle,  EventHandler<ActionEvent> handler) {
         HBox row = new HBox(10);
         row.setStyle("-fx-background-color:white; -fx-padding:8px; -fx-background-radius:8px;");
 
@@ -129,10 +184,7 @@ public class GroupSettingsController implements Initializable {
 
         Button actionBtn = new Button(btnText);
         actionBtn.setStyle(btnStyle + "; -fx-text-fill:white;");
-        actionBtn.setOnAction(e -> {
-            // you can branch by btnText or by container
-            actionBtn.setText(btnText.equals("Send Invitation") ? "Sent Invitation" : btnText);
-        });
+        actionBtn.setOnAction(handler); 
 
         row.getChildren().setAll(nameLabel, spacer, actionBtn);
         container.getChildren().add(row);

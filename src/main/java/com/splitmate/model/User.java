@@ -53,6 +53,18 @@ public class User extends BaseEntity {
         this.friends = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.notifications = new ArrayList<>();
+        this.history = new ArrayList<>();
+        this.debts = new ArrayList<>();
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User u)) return false;
+        return Objects.equals(id, u.id);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public String getName() {
