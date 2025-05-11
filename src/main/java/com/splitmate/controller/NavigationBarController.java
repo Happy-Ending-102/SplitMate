@@ -64,7 +64,7 @@ public class NavigationBarController implements Initializable {
     @FXML private void gotoFriends()       { main.showFriendsView(); }
     @FXML private void gotoNotifications() { main.showNotificationsView();}
     @FXML private void gotoPayments()      { /* TODO */ }
-    @FXML private void gotoHistory()       { /* TODO */ }
+    @FXML private void gotoHistory()       {main.showHistoryView();}
     @FXML private void gotoProfile(MouseEvent e) { main.showProfileView(); }
 
     @FXML

@@ -25,79 +25,35 @@ import org.springframework.stereotype.Component;
 public class FriendOverviewController implements Initializable {
 
 
-    @FXML
-    private Button addExpenseButton;
+    @FXML private Button addExpenseButton;
 
-    @FXML
-    private TextField amountToPayTextField;
+    @FXML private TextField amountToPayTextField;
 
-    @FXML
-    private VBox commonGroupsVBox;
+    @FXML private VBox commonGroupsVBox;
 
-    @FXML
-    private ComboBox<Currency> currencySelectionComboBox;
+    @FXML private ComboBox<Currency> currencySelectionComboBox;
 
-    @FXML
-    private Label currentStatusLabel;
+    @FXML private Label currentStatusLabel;
 
-    @FXML
-    private Label friendIBANLabel;
+    @FXML private Label friendIBANLabel;
 
-    @FXML
-    private Label friendIDLabel;
+    @FXML private Label friendIDLabel;
 
-    @FXML
-    private Label friendNameLabel;
+    @FXML private Label friendNameLabel;
 
-    @FXML
-    private Tab infoTab;
+    @FXML private Tab infoTab;
 
-    @FXML
-    private Button paymentConfirmationButton;
+    @FXML private Button paymentConfirmationButton;
 
-    @FXML
-    private Tab paymentTab;
+    @FXML private Tab paymentTab;
 
-    @FXML
-    private VBox paymentVBox;
+    @FXML private VBox paymentVBox;
 
-    @FXML
-    private TabPane tabPane;
+    @FXML private TabPane tabPane;
 
-    @FXML
-    private VBox transactionHistoryVBox;
+    @FXML private VBox transactionHistoryVBox;
 
-    @FXML
-    private Button transactionSettingsButton;
-
-    @FXML
-    void addExpense(ActionEvent event) {
-
-    }
-
-    @FXML
-    void confirmPayment(ActionEvent event) {
-    //     try {
-    //         BigDecimal amount = new BigDecimal(amountToPayTextField.getText());
-    //         Currency currency = currencySelectionComboBox.getValue();
-    //         User currentUser = sessionService.getCurrentUser();
-
-    //         paymentService.sendPayment(currentUser, friend, amount, currency);
-
-    //         updateCurrentStatus();
-    //         loadTransactionHistory();
-    //         amountToPayTextField.clear();
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    }
-
-    @FXML
-    void showTransactionSettings(ActionEvent event) {
-
-    }
+    @FXML private Button transactionSettingsButton;
 
     private User friend;
 
@@ -107,14 +63,25 @@ public class FriendOverviewController implements Initializable {
     // @Autowired private PaymentService paymentService;
     @Autowired private FriendshipService friendshipService;
 
+    private final MainController mainController;
+
+    public FriendOverviewController(MainController mainController) {
+        this.mainController = mainController;
+    }   
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         currencySelectionComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
-    }
 
-    public void initializeFriendData(User friend) {
-        this.friend = friend;
+        friend = sessionService.getCurrentFriend();
+        if (friend == null) {
+            String id = sessionService.getCurrentGroupId();
+            friend = userService.getUser(id);
+            sessionService.setCurrentFriend(friend);
+        }
 
+        
         friendNameLabel.setText(friend.getName());
         friendIDLabel.setText("ID: " + friend.getId());
         friendIBANLabel.setText("IBAN: " + (friend.getIban() != null ? friend.getIban() : "Not provided"));
@@ -122,7 +89,9 @@ public class FriendOverviewController implements Initializable {
         loadCommonGroups();
         // updateCurrentStatus();
         // loadTransactionHistory();
+
     }
+
 
     private void loadCommonGroups() {
         User currentUser = sessionService.getCurrentUser();
@@ -130,9 +99,16 @@ public class FriendOverviewController implements Initializable {
 
         commonGroupsVBox.getChildren().clear();
 
+        if (commonGroups.isEmpty()) {
+            Label none = new Label("No common groups found.");
+            none.setStyle("-fx-text-fill: gray; -fx-padding: 8;");
+            commonGroupsVBox.getChildren().add(none);
+            return;
+        }
+
         for (Group group : commonGroups) {
-            Label label = new Label(group.getName() + " — Last updated: "); //+ group.getLastUpdated());
-            label.setStyle("-fx-padding: 5 0 5 10; -fx-font-size: 14px;");
+            Label label = new Label(group.getName());
+            label.setStyle("-fx-padding: 5 10; -fx-font-size: 14px;");
             commonGroupsVBox.getChildren().add(label);
         }
     }
@@ -173,6 +149,36 @@ public class FriendOverviewController implements Initializable {
     //         transactionHistoryVBox.getChildren().add(label);
     //     }
     // }
+
+    
+    @FXML
+    void addExpense(ActionEvent event) {
+        // TO DO
+    }
+
+    @FXML
+    void confirmPayment(ActionEvent event) {
+    //     try {
+    //         BigDecimal amount = new BigDecimal(amountToPayTextField.getText());
+    //         Currency currency = currencySelectionComboBox.getValue();
+    //         User currentUser = sessionService.getCurrentUser();
+
+    //         paymentService.sendPayment(currentUser, friend, amount, currency);
+
+    //         updateCurrentStatus();
+    //         loadTransactionHistory();
+    //         amountToPayTextField.clear();
+
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    }
+
+    @FXML
+    void showTransactionSettings(ActionEvent event) {
+        // TO DO
+    }
 
 
     
