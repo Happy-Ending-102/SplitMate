@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import com.splitmate.model.Friendship;
+import com.splitmate.model.Group;
 import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
 import com.splitmate.model.Payment;
@@ -25,13 +26,16 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final FriendshipRepository friendshipRepo;
     private final UserRepository userRepo;
     private final NotificationService notificationService;
+    private final GroupService groupService;
 
     public FriendshipServiceImpl(FriendshipRepository friendshipRepo,
                                  UserRepository userRepo,
-                                 NotificationService notificationService) {
+                                 NotificationService notificationService,
+                                 GroupService groupService) {
         this.friendshipRepo = friendshipRepo;
         this.userRepo       = userRepo;
         this.notificationService = notificationService;
+        this.groupService = groupService;
     }
 
     @Override
@@ -133,5 +137,41 @@ public class FriendshipServiceImpl implements FriendshipService {
             )
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public void friendAllInGroup(String groupId) {
+    // 1) Load the group and its members
+        Group group = groupService.getGroup(groupId);
+        List<User> members = group.getMembers();
+
+        // 2) For each unordered pair (i,j) in members
+        for (int i = 0; i < members.size(); i++) {
+            User a = members.get(i);
+            for (int j = i + 1; j < members.size(); j++) {
+                User b = members.get(j);
+
+                boolean alreadyFriends = false;
+                
+                // 3) Skip if already friends
+                List<User> friends = a.getFriends();
+                if(friends.contains(b)){
+                    alreadyFriends = true;
+                }
+                if (alreadyFriends) continue;
+
+               // 4) Persist the friendship
+                Friendship f = new Friendship();
+                f.setUserA(a);
+                f.setUserB(b);
+                friendshipRepo.save(f);
+
+                // 5) Add to each user's list and save
+                a.addFriend(b);
+                b.addFriend(a);
+                userRepo.save(a);
+                userRepo.save(b);
+            }
+        }
     }
 }

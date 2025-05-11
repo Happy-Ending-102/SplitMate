@@ -16,11 +16,11 @@ public interface FriendshipService {
      */
     void acceptFriendRequest(String requesterId, String recipientId);
     void sendFriendRequest(String requesterId, String recipientId);
-
     List<User> getFriends(String userId);
     List<Payment> sortByAmountAsc(Friendship friendship);
     List<Payment> sortByAmountDesc(Friendship friendship);
     List<Payment> sortByDateDesc(Friendship friendship);
     Friendship getFriendshipById(String friendshipId);
     Friendship getFriendshipBetween(String userAId, String userBId);
+    void friendAllInGroup(String groupId);
 }
