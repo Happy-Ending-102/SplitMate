@@ -136,6 +136,17 @@
                               <VBox fx:id="friendsListVBox" prefHeight="334.0" prefWidth="1032.0" />
                            </content>
                         </ScrollPane>
+                        <Label 
+                           fx:id="saveErrorLabel"
+                           text=""
+                           textFill="red"
+                           visible="false"
+                           wrapText="true"
+                           styleClass="error-label">
+                           <HBox.margin>
+                              <Insets left="50.0" top="10.0"/>
+                           </HBox.margin>
+                        </Label>
                         <Button fx:id="groupSaveButton" mnemonicParsing="false" onAction="#saveGroup" style="-fx-background-color: green;" text="Save">
                            <HBox.margin>
                               <Insets left="400.0" top="250.0" />

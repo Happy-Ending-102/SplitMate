@@ -39,6 +39,7 @@ public class AddGroupController implements Initializable {
     @FXML private TextField groupName;
     @FXML private Button groupSaveButton;
     @FXML private HBox addedFriendsHBox;
+    @FXML private Label saveErrorLabel; 
 
     @Autowired private GroupService groupService;
     @Autowired private UserService userService;
@@ -56,6 +57,9 @@ public class AddGroupController implements Initializable {
         currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
         currencyConversionComboBox.setItems(FXCollections.observableArrayList(ConversionPolicy.values()));
         groupImage.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+
+        // Hide error label initially
+        saveErrorLabel.setVisible(false);
 
         loadRealFriends();
     }
@@ -134,11 +138,39 @@ public class AddGroupController implements Initializable {
 
     @FXML
     void saveGroup(ActionEvent event) {
+        // Hide previous error
+        saveErrorLabel.setVisible(false);
+
+        // Trim and validate group name
         String name = groupName.getText().trim();
+        if (name.isEmpty()) {
+            showError("Group name is required.");
+            return;
+        }
+
+        // Validate that at least one member has been added
+        if (invitedUsers.isEmpty()) {
+            showError("Please add at least one member.");
+            return;
+        }
+
+        // Validate default currency selection
+        if (currencyComboBox.getValue() == null) {
+            showError("Please select a default currency.");
+            return;
+        }
+
+        // Validate conversion policy selection
+        if (currencyConversionComboBox.getValue() == null) {
+            showError("Please select a conversion policy.");
+            return;
+        }
+
+        String nameG = groupName.getText().trim();
         if (name.isEmpty()) return;
 
         Group g = new Group();
-        g.setName(name);
+        g.setName(nameG);
         g.setAvatarBase64(avatarBase64);
 
         if (currencyComboBox.getValue() != null) {
@@ -162,5 +194,9 @@ public class AddGroupController implements Initializable {
 
         // Navigate to group list page after saving
         mainController.showGroupsView();
+    }
+    private void showError(String message) {
+        saveErrorLabel.setText(message);
+        saveErrorLabel.setVisible(true);
     }
 }
