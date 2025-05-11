@@ -39,6 +39,26 @@ public class MainController {
         
     }
 
+    private void loadView(String fxmlPath, String title) {
+        try {
+            URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);
+            if (resource == null) {
+                throw new RuntimeException("FXML file not found at path: " + fxmlPath);
+            }
+
+            FXMLLoader loader = new FXMLLoader(resource);
+            loader.setControllerFactory(SpringContext.get()::getBean);
+            Parent root = loader.load();
+
+            // Reuse the same scene — just set the root
+            mainScene.setRoot(root);
+            primaryStage.setTitle(title);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showLoginView() {
         loadView("fxml/login.fxml", "Login - SplitMate");
     }
@@ -82,30 +102,15 @@ public class MainController {
     public void showHistoryView(){
         loadView("fxml/history.fxml",  "History - SplitMate");
     }
-    private void loadView(String fxmlPath, String title) {
-        try {
-            URL resource = Thread.currentThread().getContextClassLoader().getResource(fxmlPath);
-            if (resource == null) {
-                throw new RuntimeException("FXML file not found at path: " + fxmlPath);
-            }
 
-            FXMLLoader loader = new FXMLLoader(resource);
-            loader.setControllerFactory(SpringContext.get()::getBean);
-            Parent root = loader.load();
-
-            // Reuse the same scene — just set the root
-            mainScene.setRoot(root);
-            primaryStage.setTitle(title);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
   
     public void showFriendOverview() {
         loadView("fxml/friendOverwiev.fxml", "Friend Overview - SplitMate");
     }
     
+    public void showPaymentsView(){
+        loadView("fxml/payments.fxml", "Payments - SplitMate");
+    }
 
 
 }
