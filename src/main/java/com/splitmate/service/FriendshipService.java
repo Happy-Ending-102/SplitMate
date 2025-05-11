@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Payment;
+import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 
 public interface FriendshipService {
@@ -17,9 +18,9 @@ public interface FriendshipService {
     void acceptFriendRequest(String requesterId, String recipientId);
     void sendFriendRequest(String requesterId, String recipientId);
     List<User> getFriends(String userId);
-    List<Payment> sortByAmountAsc(Friendship friendship);
-    List<Payment> sortByAmountDesc(Friendship friendship);
-    List<Payment> sortByDateDesc(Friendship friendship);
+    List<Transaction> sortByAmountAsc(Friendship friendship);
+    List<Transaction> sortByAmountDesc(Friendship friendship);
+    List<Transaction> sortByDateDesc(Friendship friendship);
     Friendship getFriendshipById(String friendshipId);
     Friendship getFriendshipBetween(String userAId, String userBId);
     void friendAllInGroup(String groupId);

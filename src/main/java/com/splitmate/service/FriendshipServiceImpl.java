@@ -11,6 +11,7 @@ import com.splitmate.model.Group;
 import com.splitmate.model.Notification;
 import com.splitmate.model.NotificationType;
 import com.splitmate.model.Payment;
+import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
@@ -94,25 +95,25 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     // from minimum to maximum
     @Override
-    public List<Payment> sortByAmountAsc(Friendship friendship) {
-        List<Payment> history = new ArrayList<>(friendship.getHistory());
-        history.sort(Comparator.comparing(Payment::getAmount));
+    public List<Transaction> sortByAmountAsc(Friendship friendship) {
+        List<Transaction> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Transaction::getAmount));
         return history;
     }
 
     // from maximum to minimum
     @Override
-    public List<Payment> sortByAmountDesc(Friendship friendship) {
-        List<Payment> history = new ArrayList<>(friendship.getHistory());
-        history.sort(Comparator.comparing(Payment::getAmount).reversed());
+    public List<Transaction> sortByAmountDesc(Friendship friendship) {
+        List<Transaction> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Transaction::getAmount).reversed());
         return history;
     }
 
     // sorts from newest to oldest
     @Override
-    public List<Payment> sortByDateDesc(Friendship friendship) {
-        List<Payment> history = new ArrayList<>(friendship.getHistory());
-        history.sort(Comparator.comparing(Payment::getPaymentDate).reversed());
+    public List<Transaction> sortByDateDesc(Friendship friendship) {
+        List<Transaction> history = new ArrayList<>(friendship.getHistory());
+        history.sort(Comparator.comparing(Transaction::getPaymentDate).reversed());
         return history;
     }
 
