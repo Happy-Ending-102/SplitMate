@@ -48,6 +48,8 @@ public class User extends BaseEntity {
     @DBRef
     private List<Debt> debts;
 
+    private Frequency frequency;
+
     public User() {
         super();
         this.balances = new ArrayList<>();
@@ -172,7 +174,9 @@ public class User extends BaseEntity {
         this.debts = debts;
     }
 
-    
+    public void setFrequency(Frequency frequency){
+        this.frequency = frequency;
+    }
 
     
 
