@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -20,14 +21,23 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Service;
 
 import com.splitmate.model.Currency;
+import com.splitmate.model.Debt;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Payment;
 import com.splitmate.model.User;
+import com.splitmate.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.splitmate.repository.DebtRepository;
+import com.fasterxml.jackson.databind.JsonNode;                   // ← for JsonNode
+import com.fasterxml.jackson.databind.node.ObjectNode;            // ← if you use ObjectNode
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 @Service
 public class SimplePaymentCalculator implements PaymentCalculator {
     private final CurrencyConverter converter;
     private final ObjectMapper mapper = new ObjectMapper();
+    @Autowired private DebtRepository debtRepo;
+    @Autowired private UserService userService;
 
     public SimplePaymentCalculator(CurrencyConverter converter) {
         this.converter = converter;
@@ -35,98 +45,84 @@ public class SimplePaymentCalculator implements PaymentCalculator {
 
     @Override
     public List<Payment> calculate(List<User> users, List<Friendship> friendships) {
-        // 1) Compute net balances in TRY for each user
-        Map<String, Double> balances = new LinkedHashMap<>();
+        // 1) Clear out any existing debts
+        users.forEach(u -> u.setDebts(new ArrayList<>()));
+
+        // 2) Build JSON payload
+        ObjectNode payload = mapper.createObjectNode();
+        ArrayNode nodesArr = payload.putArray("nodes");
+        users.forEach(u -> nodesArr.add(u.getId()));
+
+        ArrayNode edgesArr = payload.putArray("edges");
+        for (Friendship f : friendships) {
+            edgesArr.add(mapper.createArrayNode()
+                              .add(f.getUserA().getId())
+                              .add(f.getUserB().getId()));
+        }
+
+        ObjectNode balancesObj = payload.putObject("balances");
         for (User u : users) {
-            BigDecimal net = BigDecimal.ZERO;
-            // Assume User.balances holds per-currency amounts
-            if (u.getBalances() != null) {
-                for (var b : u.getBalances()) {
-                    BigDecimal inTry = converter.convert(b.getAmount(), b.getCurrency(), Currency.TRY);
-                    net = net.add(inTry);
+            // Sum all of this user's balances into TRY
+            BigDecimal totalTL = u.getBalances().stream()
+                .map(b -> converter.convert(b.getAmount(), b.getCurrency(), Currency.TRY))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            balancesObj.put(u.getId(), totalTL.doubleValue());
+        }
+
+        // 3) Call Python solver
+        List<Payment> newDebts = new ArrayList<>();
+        ProcessBuilder pb = new ProcessBuilder("python3", "calculate.py"); // TODO check path and the right usage
+        pb.redirectErrorStream(true);
+
+        try {
+            Process proc = pb.start();
+            // Send JSON to Python
+            try (BufferedWriter w = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()))) {
+                mapper.writeValue(w, payload);
+            }
+            // Read JSON result
+            JsonNode result = mapper.readTree(proc.getInputStream());
+            proc.waitFor();
+
+            // 4) Convert JSON back into Debt objects
+            if (result.isArray()) {
+                for (JsonNode txn : result) {
+                    String fromId = txn.get(0).asText();
+                    String toId   = txn.get(1).asText();
+                    BigDecimal amt = BigDecimal.valueOf(txn.get(2).asDouble());
+
+                    Debt debt = new Debt();
+                    User from = findUser(fromId, users);
+                    User to   = findUser(toId,   users);
+
+                    debt.setFrom(from);
+                    debt.setTo(to);
+                    debt.setAmount(amt);
+                    debtRepo.save(debt);
+
+                    // Attach to both users
+                    from.getDebts().add(debt);
+                    to.getDebts().add(debt);
+
+                    newDebts.add(debt);
                 }
             }
-            balances.put(u.getId(), net.doubleValue());
-        }
-
-        // 2) Build JSON payload for Python solver
-        ObjectNode payload = mapper.createObjectNode();
-        ArrayNode nodesNode = payload.putArray("nodes");
-        balances.keySet().forEach(nodesNode::add);
-
-        ArrayNode edgesNode = payload.putArray("edges");
-        for (Friendship f : friendships) {
-            ArrayNode edge = mapper.createArrayNode();
-            edge.add(f.getUserA().getId());
-            edge.add(f.getUserB().getId());
-            edgesNode.add(edge);
-        }
-
-        ObjectNode balancesNode = payload.putObject("balances");
-        balances.forEach(balancesNode::put);
-
-        List<Payment> payments = new ArrayList<>();
-        try {
-            // 3) Launch Python solver (calculate.py must read JSON from stdin and output JSON)
-            ProcessBuilder pb = new ProcessBuilder("python3", "calculate.py"); // todo check path
-            Process process = pb.start();
-
-            // send input
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()))) {
-                mapper.writeValue(writer, payload);
-            }
-
-            // read output
-            List<Transaction> txs;
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                txs = mapper.readValue(reader, new TypeReference<List<Transaction>>() {});
-            }
-
-            int exit = process.waitFor();
-            if (exit != 0) {
-                throw new RuntimeException("Python solver exited with code " + exit);
-            }
-
-            // 4) Convert to Payment objects
-            for (Transaction tx : txs) {
-                Payment p = new Payment();
-                User from = findUser(tx.getFrom(), users);
-                User to   = findUser(tx.getTo(), users);
-                p.setFrom(from);
-                p.setTo(to);
-                p.setAmount(BigDecimal.valueOf(tx.getAmount()));
-                p.setCurrency(Currency.TRY);
-                p.setPaid(false);
-                payments.add(p);
-            }
-
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException("Failed to calculate payments", e);
+            throw new RuntimeException("Payment calculation failed", e);
+        }
+        for(User u : users) {
+            // Save the updated user with debts
+            userService.updateUser(u);
         }
 
-        return payments;
+        return newDebts;
     }
 
-    /** Helper to find a User by id in the provided list */
+    /** Looks up a User by ID in the provided list */
     private User findUser(String id, List<User> users) {
         return users.stream()
                     .filter(u -> id.equals(u.getId()))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Unknown user id: " + id));
-    }
-
-    /** Internal DTO matching Python output */
-    private static class Transaction {
-        private String from;
-        private String to;
-        private double amount;
-
-        public String getFrom() { return from; }
-        public void setFrom(String from) { this.from = from; }
-        public String getTo()   { return to; }
-        public void setTo(String to)     { this.to = to; }
-        public double getAmount()        { return amount; }
-        public void setAmount(double amount) { this.amount = amount; }
-    }
-    
+    } 
 }
