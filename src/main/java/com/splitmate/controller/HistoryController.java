@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.model.Payment;
+import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 import com.splitmate.service.SessionService;
 
@@ -35,18 +36,18 @@ public class HistoryController  implements Initializable {
             return;
         }
 
-        List<Payment> history = currentUser.getHistory();
+        List<Transaction> history = currentUser.getHistory();
 
-        for (Payment payment : history) {
-            String payer = payment.getFrom().getId().equals(currentUser.getId()) ? "You" : payment.getFrom().getName();
-            String receiver = payment.getTo().getId().equals(currentUser.getId()) ? "You" : payment.getTo().getName();
+        for (Transaction transaction : history) {
+            String payer = transaction.getFrom().getId().equals(currentUser.getId()) ? "You" : transaction.getFrom().getName();
+            String receiver = transaction.getTo().getId().equals(currentUser.getId()) ? "You" : transaction.getTo().getName();
 
             String summary = String.format("%s paid %s %.2f %s on %s",
                     payer,
                     receiver,
-                    payment.getAmount(),
-                    payment.getCurrency(),
-                    payment.getPaymentDate().toLocalDate());
+                    transaction.getAmount(),
+                    transaction.getCurrency(),
+                    transaction.getPaymentDate().toLocalDate());
 
             Label entry = new Label(summary);
             entry.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-weight: bold; -fx-font-size: 20px;");
