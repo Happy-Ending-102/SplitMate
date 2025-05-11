@@ -16,4 +16,5 @@ public interface GroupService {
     String getAvatarBase64(String groupId);
     Group updateAvatar(String groupId, String base64);
     List<Group> getMutualGroups(String userAId, String userBId);
+    List<User> getPossiblMembersToAdd(String groupId, String userId);
 }
