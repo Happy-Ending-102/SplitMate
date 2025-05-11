@@ -42,7 +42,10 @@ public class User extends BaseEntity {
     private List<Notification> notifications;
 
     @DBRef
-    private List<Payment> history;
+    private List<Transaction> history;
+
+    @DBRef
+    private List<Debt> debts;
 
     public User() {
         super();
@@ -144,9 +147,19 @@ public class User extends BaseEntity {
 
     public void setIban(String iban) { this.iban = iban; }
 
-    public List<Payment> getHistory() { return history;}
+    public List<Transaction> getHistory() { return history;}
 
-    public void setHistory(List<Payment> history) { this.history = history; }
+    public void setHistory(List<Transaction> history) { this.history = history; }
+
+    public List<Debt> getDebts() {
+        return debts;
+    }
+
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
+    }
+
+    
 
     
 

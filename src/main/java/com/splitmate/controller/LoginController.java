@@ -62,11 +62,39 @@ public class LoginController {
 
     @FXML
     private void onForgotPassword() {
-        // TODO: implement forgot-password flow
-        System.out.println("Forgot password clicked");
+        loginErrorLabel.setVisible(false);
+
+        String email = emailField.getText().trim().toLowerCase();
+        
+        if (email.isEmpty()) {
+            showError("Please enter your email.");
+            return;
+        }
+
+        boolean sent;
+        
+        try {
+            sent = userController.resetPassword(email);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            showError("An error occurred while resetting your password. Please try again.");
+            return;
+        }
+        
+        // 3) Inform the user
+        if (sent) {
+            showInfo("Your new password has been sent to your e-mail address.");
+        } else {
+            showError("No user was found registered with this email address.");
+        }
     }
 
     private void showError(String message) {
+        loginErrorLabel.setText(message);
+        loginErrorLabel.setVisible(true);
+    }
+
+    private void showInfo(String message){
         loginErrorLabel.setText(message);
         loginErrorLabel.setVisible(true);
     }

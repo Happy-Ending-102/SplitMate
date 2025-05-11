@@ -17,4 +17,5 @@ public interface UserService {
     User findByEmail(String email);
     List<Group> getGroupsOfUser(String userId);
     List<User> getFriendsOfUser(User user);
+    boolean resetPassword(String email);
 }

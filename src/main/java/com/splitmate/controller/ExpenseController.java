@@ -18,10 +18,10 @@ public class ExpenseController {
     }
 
     public Expense addExpense(String groupId, Expense dto) {
-        throw new UnsupportedOperationException();
+        return expenseService.addExpense(groupId, dto);
     }
 
     public List<Expense> listExpenses(String groupId) {
-        throw new UnsupportedOperationException();
+        return expenseService.listExpenses(groupId);
     }
 }
