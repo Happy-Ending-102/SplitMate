@@ -148,12 +148,17 @@ public class AddGroupController implements Initializable {
         if (currencyConversionComboBox.getValue() != null) {
             g.setConversionPolicy(currencyConversionComboBox.getValue());
         }
+        groupService.createGroup(g);
 
         User current = sessionService.getCurrentUser();
         g.addMember(current);
-        invitedUsers.forEach(g::addMember);
+        for(User user : invitedUsers) {
+            g.addMember(user);
+            userService.saveUser(user);
+        }
 
-        groupService.createGroup(g);
+        groupService.updateGroup(g);
+
         // Navigate to group list page after saving
         mainController.showGroupsView();
     }
