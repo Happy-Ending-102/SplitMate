@@ -27,22 +27,39 @@ public class ApiCurrencyConverter implements CurrencyConverter {
     @Override
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
         try {
-            // Build the URL (Frankfurter doesn’t actually need a key by default)
+            // Check for negativity and work with the absolute value
+            boolean negative = amount.signum() < 0;
+            BigDecimal absAmount = amount.abs();
+
+            // Build URL with plain‐string format to avoid scientific notation
             String url = String.format(
                 "https://api.frankfurter.app/latest?amount=%s&from=%s&to=%s",
-                amount, from, to
+                absAmount.toPlainString(), from.name(), to.name()
             );
             System.out.println("URL: " + url);
+
             HttpRequest req = HttpRequest.newBuilder()
-                                .uri(URI.create(url))
-                                .GET()
-                                .build();
+                .uri(URI.create(url))
+                .GET()
+                .build();
 
             HttpResponse<String> resp = CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
+
+            // Simple status check
+            if (resp.statusCode() != 200) {
+                throw new RuntimeException("Currency API returned status " + resp.statusCode());
+            }
+
             JsonNode tree = MAPPER.readTree(resp.body());
-            return new BigDecimal(tree.get("rates").get(to.name()).asText());
+            BigDecimal converted = new BigDecimal(
+                tree.path("rates").path(to.name()).asText()
+            );
+
+            // Reapply the original sign
+            return negative ? converted.negate() : converted;
         } catch (Exception e) {
             throw new RuntimeException("Currency conversion failed", e);
         }
     }
+
 }
