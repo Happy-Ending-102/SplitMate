@@ -81,8 +81,7 @@ public class SimplePaymentCalculator implements PaymentCalculator {
         // 3) Call Python solver
         List<Payment> newDebts = new ArrayList<>();
                 ProcessBuilder pb = new ProcessBuilder(
-            "py",           // Windows “py” launcher
-            "-3",           // use Python 3
+            "python3",           // “python3” launcher
             "src/main/resources/py/calculate.py"  // relative to projectRoot
         );
         // pb.redirectErrorStream(true);
@@ -104,13 +103,20 @@ public class SimplePaymentCalculator implements PaymentCalculator {
 
             // JSON only if Python succeeded
             JsonNode result = mapper.readTree(proc.getInputStream());
+            System.out.println("DEBUG: full JSON result = " + result.toString());
 
             // 4) Convert JSON back into Debt objects
             if (result.isArray()) {
                 for (JsonNode txn : result) {
+                    System.out.println("DEBUG: txn node = " + txn.toString());
                     String fromId = txn.get(0).asText();
                     String toId   = txn.get(1).asText();
                     BigDecimal amt = BigDecimal.valueOf(txn.get(2).asDouble());
+                    // print parsed values
+                    System.out.println("DEBUG: parsed fromId=" + fromId
+                        + ", toId=" + toId
+                        + ", amt=" + amt);
+
 
                     Debt debt = new Debt();
                     User from = findUser(fromId, users);
