@@ -37,6 +37,6 @@ public interface FriendshipService {
     List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency);
     List<Transaction> filterByType(Friendship f, String currentUserId, FilterType type);
 
-    void addFriendshipDebt(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency);
+    void addFriendshipExpense(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency);
 
 }
