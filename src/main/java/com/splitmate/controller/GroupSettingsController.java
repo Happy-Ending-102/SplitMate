@@ -78,9 +78,14 @@ public class GroupSettingsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // these will be 
         currencyComboBox.setItems(FXCollections.observableArrayList(Currency.values()));
+        User currentUser = sessionService.getCurrentUser();
+        Group currentGroup = sessionService.getCurrentGroup();
+        currencyComboBox.setValue(currentGroup.getDefaultCurrency());
         // TODO get currency of the group and write here currencyComboBox.setValue(value)
         currencyConversionComboBox.setItems(FXCollections.observableArrayList(ConversionPolicy.values()));
+        currencyConversionComboBox.setValue(currentGroup.getConversionPolicy());
         // TODO get conversion policy of the group and write it currencyComboBox.setValue(value)
+        currentBudgetLabel.setText("Current Budget: " + currentGroup.getBudget() + " " + currentGroup.getDefaultCurrency());
 
         // wire up all actions
         backLabel.setOnMouseClicked(this::onBack);
@@ -122,7 +127,45 @@ public class GroupSettingsController implements Initializable {
     }
 
     private void onSave() {
-        
+        // 1) Grab current group from session
+        Group currentGroup = sessionService.getCurrentGroup();
+
+        // 2) Update currency & conversion policy
+        Currency selectedCurrency = currencyComboBox.getValue();
+        if (selectedCurrency != null) {
+            currentGroup.setDefaultCurrency(selectedCurrency);
+        }
+        ConversionPolicy selectedPolicy = currencyConversionComboBox.getValue();
+        if (selectedPolicy != null) {
+            currentGroup.setConversionPolicy(selectedPolicy);
+        }
+
+        // 3) Read budget field; only change if non-empty
+        String budgetInput = budgetTextField.getText().trim();
+        if (!budgetInput.isEmpty()) {
+            try {
+                double newBudget = Double.parseDouble(budgetInput);
+                currentGroup.setBudget(newBudget);
+            } catch (NumberFormatException ex) {
+                // You could show an error label here instead of throwing
+                System.err.println("Invalid budget format: " + budgetInput);
+                return;
+            }
+        }
+
+        // 4) Persist changes (you'll need this method in GroupService)
+        groupService.updateGroup(currentGroup);
+
+        // 5) Refresh UI label
+        currentBudgetLabel.setText(
+            "Current Budget: " 
+            + currentGroup.getBudget() 
+            + " " 
+            + currentGroup.getDefaultCurrency()
+        );
+
+        // 6) Navigate back to details
+        mainController.showGroupDetailsView();
     }
 
     private void createRow(String name, VBox container, String btnText, String btnStyle,  EventHandler<ActionEvent> handler) {

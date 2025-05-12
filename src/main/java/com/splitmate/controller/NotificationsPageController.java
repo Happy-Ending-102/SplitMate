@@ -42,14 +42,16 @@ public class NotificationsPageController implements Initializable {
     private final NotificationService notificationService;
     private final SessionService sessionService;
     private final FriendshipController friendshipController;
+    private final PaymentController paymentController;
 
     @Autowired
     public NotificationsPageController(NotificationService notificationService,
                                        SessionService sessionService,
-                                       FriendshipController friendshipController) {
+                                       FriendshipController friendshipController, PaymentController paymentController) {
         this.notificationService = notificationService;
         this.sessionService = sessionService;
         this.friendshipController = friendshipController;
+        this.paymentController = paymentController;
     }
 
     @Override
@@ -107,7 +109,10 @@ public class NotificationsPageController implements Initializable {
             String recipientId = sessionService.getCurrentUser().getId();
             friendshipController.acceptFriendRequest(requesterId, recipientId);
         }
-        // TODO: implement accept logic for GROUP_INVITE and TRANSACTION_RECEIVED if desired
+        else if (notification.getType() == NotificationType.TRANSACTION_RECEIVED) {
+            //String transactionId = notification.getTransactionId();
+            //paymentController.acceptTransaction(transactionId);
+        }
 
         notificationService.markAsRead(notification.getId());
         loadNotifications();

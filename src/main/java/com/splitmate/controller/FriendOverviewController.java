@@ -113,8 +113,9 @@ public class FriendOverviewController implements Initializable {
     @Autowired private SessionService sessionService;
     @Autowired private UserService userService;
     @Autowired private GroupService groupService;
-    // @Autowired private PaymentService paymentService;
+    @Autowired private PaymentService paymentService;
     @Autowired private FriendshipService friendshipService;
+   
 
     private final MainController mainController;
 
@@ -136,6 +137,10 @@ public class FriendOverviewController implements Initializable {
             friend = userService.getUser(id);
             sessionService.setCurrentFriend(friend);
         }
+
+        saveExpenseButton.setOnAction(this::saveExpense);
+        addExpenseButton.setOnAction(this::addExpense);
+        closeExpensePopUpButton.setOnAction(this::closeExpensePopUp);
 
         friendNameLabel.setText(friend.getName());
         friendIDLabel.setText("ID: " + friend.getId());
@@ -276,20 +281,24 @@ public class FriendOverviewController implements Initializable {
 
     @FXML
     void confirmPayment(ActionEvent event) {
-    //     try {
-    //         BigDecimal amount = new BigDecimal(amountToPayTextField.getText());
-    //         Currency currency = currencySelectionComboBox.getValue();
-    //         User currentUser = sessionService.getCurrentUser();
+        try {
+            BigDecimal amount = new BigDecimal(amountToPayTextField.getText());
+            Currency currency = currencySelectionComboBox.getValue();
+            User currentUser = sessionService.getCurrentUser();
+//public void initializeTransaction(String payerId, String receiverId, BigDecimal amount, Currency currency) {
 
-    //         paymentService.sendPayment(currentUser, friend, amount, currency);
+            paymentService.initializeTransaction(
+                currentUser.getId(),
+                friend.getId(),
+                amount,
+                currency
+            );
+            
+            amountToPayTextField.clear();
 
-    //         updateCurrentStatus();
-    //         loadTransactionHistory();
-    //         amountToPayTextField.clear();
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -354,9 +363,47 @@ public class FriendOverviewController implements Initializable {
 
     
     @FXML
-    void saveExpense(ActionEvent event) {
-        // TO DO
-    }
+    private void saveExpense(ActionEvent event) {
+        // Reset any previous error
+        //errorLabel.setVisible(false);
 
+        String amtText = expenseAmountTextField.getText().trim();
+        String userExString = expenseUserDivisionTextField.getText().trim();
+        String friendExString = expenseFriendDivisionTextField.getText().trim();
+        Currency curr  = expenseCurrencySelectionComboBox.getValue();
+        String desc    = expenseDescriptionTextField.getText().trim();
+
+        // 1) Validation
+        if (amtText.isEmpty() || curr == null || desc.isEmpty()) {
+            //errorLabel.setText("Please fill in amount, currency, and description.");
+           // errorLabel.setVisible(true);
+            return;
+        }
+
+        BigDecimal amount;
+        BigDecimal userAmount;
+        BigDecimal friendAmount;
+        try {
+            amount = new BigDecimal(amtText);
+            userAmount = new BigDecimal(userExString);
+            friendAmount = new BigDecimal(friendExString);
+
+        } catch (NumberFormatException ex) {
+           // errorLabel.setText("Enter a valid number for amount.");
+           // errorLabel.setVisible(true);
+            return;
+        }
+
+        // 2) Initialize transaction & send notification
+        String senderId   = sessionService.getCurrentUser().getId();
+        String receiverId = friend.getId();
+
+        friendshipService.addFriendshipDebt(senderId, receiverId, userAmount, friendAmount, curr);
+        // 3) Close popup & clear fields
+        addExpensePopUp.setVisible(false);
+        expenseAmountTextField.clear();
+        expenseDescriptionTextField.clear();
+        expenseCurrencySelectionComboBox.getSelectionModel().clearSelection();
+    }
     
 }

@@ -27,4 +27,9 @@ public class PaymentController {
     public List<Payment> calculatePayments(String groupId) {
         throw new UnsupportedOperationException();
     }
+
+    public void acceptTransaction(String paymentId) {
+        // Logic to accept a payment
+        throw new UnsupportedOperationException();
+    }
 }

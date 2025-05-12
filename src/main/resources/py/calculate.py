@@ -68,13 +68,13 @@ def main():
     json.dump(txns, sys.stdout)
 
 if __name__ == "__main__":
-    
+    main()
     # Example usage
-    nodes = ["A", "B", "C", "D"]
-    edges = [("A", "B"), ("A", "C"), ("B", "D"), ("C", "D")]
-    balances = {"A": -10, "B": 5, "C": -5, "D": 10}
+    #nodes = ["A", "B", "C", "D"]
+    #edges = [("A", "B"), ("A", "C"), ("B", "D"), ("C", "D")]
+    #balances = {"A": -10, "B": 5, "C": -5, "D": 10}
     
-    txns = solve_debt_settlement(nodes, edges, balances)
-    print("Optimal transactions:")
-    for payer, payee, amount in txns:
-        print(f"  {payer} -> {payee}: {amount:.2f}")
+    # txns = solve_debt_settlement(nodes, edges, balances)
+    # print("Optimal transactions:")
+    # for payer, payee, amount in txns:
+    #     print(f"  {payer} -> {payee}: {amount:.2f}")

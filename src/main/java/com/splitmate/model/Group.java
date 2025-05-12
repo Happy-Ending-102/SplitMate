@@ -12,6 +12,7 @@ import java.util.List;
 public class Group extends BaseEntity {
     private String name;
     private String profileImageUrl;
+    private double budget;
     private Currency defaultCurrency;
     private ConversionPolicy conversionPolicy;
     private String avatarBase64;
@@ -29,6 +30,9 @@ public class Group extends BaseEntity {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public double getBudget() { return budget; }
+    public void setBudget(double budget) { this.budget = budget; }
 
     public String getAvatarBase64() { return avatarBase64; }
     public void setAvatarBase64(String avatarBase64) { this.avatarBase64 = avatarBase64; }

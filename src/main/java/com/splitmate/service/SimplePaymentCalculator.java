@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -24,6 +25,7 @@ import com.splitmate.model.Currency;
 import com.splitmate.model.Debt;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Payment;
+import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 import com.splitmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,14 +80,20 @@ public class SimplePaymentCalculator implements PaymentCalculator {
             balancesObj.put(u.getId(), totalTL.doubleValue());
         }
         // — PRINT TO CONSOLE FOR DEBUGGING —
-        String prettyJson = mapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(payload);
+        String prettyJson="semih";
+        try {
+            prettyJson = mapper.writerWithDefaultPrettyPrinter()
+                                    .writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.err.println("DEBUG: initial JSON payload:\n" + prettyJson);
 
         // 3) Call Python solver
         List<Payment> newDebts = new ArrayList<>();
                 ProcessBuilder pb = new ProcessBuilder(
-            "python3",           // “python3” launcher
+            "python3",           // Windows “py” launcher           // use Python 3
             "src/main/resources/py/calculate.py"  // relative to projectRoot
         );
         // pb.redirectErrorStream(true);
@@ -148,8 +156,7 @@ public class SimplePaymentCalculator implements PaymentCalculator {
 
         return newDebts;
     }
-
-    /** Looks up a User by ID in the provided list */
+    /** Helper to find a User by id in the provided list */
     private User findUser(String id, List<User> users) {
         return users.stream()
                     .filter(u -> id.equals(u.getId()))
