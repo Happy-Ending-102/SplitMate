@@ -2,10 +2,12 @@ package com.splitmate.controller;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.splitmate.model.Currency;
+import com.splitmate.model.FilterType;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.Payment;
@@ -157,6 +159,28 @@ public class FriendOverviewController implements Initializable {
             label.setStyle("-fx-padding: 5 10; -fx-font-size: 14px;");
             commonGroupsVBox.getChildren().add(label);
         }
+    }
+
+    public List<Transaction> filterByType(Friendship f,
+                                          String currentUserId,
+                                          FilterType type){
+        return friendshipService.filterByType(f, currentUserId, type);
+    }
+
+    public List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency){
+        return friendshipService.filterByCurrency(transactions, currency);
+    }
+
+    public List<Transaction> filterByAmountRange(List<Transaction> transactions,
+                                                 BigDecimal min,
+                                                 BigDecimal max){
+        return friendshipService.filterByAmountRange(transactions, min, max);
+    }
+
+    public List<Transaction> filterByDateRange(List<Transaction> transactions,
+                                               LocalDate start,
+                                               LocalDate end){
+        return friendshipService.filterByDateRange(transactions, start, end);
     }
 
     // private void updateCurrentStatus() {
