@@ -41,14 +41,14 @@
                         </Button>
                         <VBox prefHeight="187.0" prefWidth="1478.0">
                            <children>
-                              <Label prefHeight="80.0" prefWidth="766.0" text="Group Name:">
+                              <Label prefHeight="56.0" prefWidth="766.0" text="Group Name:">
                                  <font>
-                                    <Font name="System Bold" size="50.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="groupName" prefHeight="64.0" prefWidth="1478.0">
+                              <TextField fx:id="groupName" prefHeight="48.0" prefWidth="687.0">
                                  <VBox.margin>
-                                    <Insets right="400.0" top="20.0" />
+                                    <Insets right="800.0" top="20.0" />
                                  </VBox.margin>
                               </TextField>
                            </children>
@@ -65,7 +65,7 @@
                      <children>
                         <Label text="Default Currency">
                            <font>
-                              <Font name="System Bold" size="35.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="50.0" top="30.0" />
@@ -73,7 +73,7 @@
                         </Label>
                         <ComboBox fx:id="currencyComboBox" prefWidth="150.0">
                            <HBox.margin>
-                              <Insets left="50.0" top="45.0" />
+                              <Insets left="50.0" top="40.0" />
                            </HBox.margin>
                         </ComboBox>
                         <Label text="Currency Conversion">
@@ -81,34 +81,14 @@
                               <Insets left="50.0" top="30.0" />
                            </HBox.margin>
                            <font>
-                              <Font name="System Bold" size="35.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                         <ComboBox fx:id="currencyConversionComboBox" prefWidth="150.0">
                            <HBox.margin>
-                              <Insets left="50.0" top="45.0" />
+                              <Insets left="50.0" top="40.0" />
                            </HBox.margin>
                         </ComboBox>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets left="70.0" top="20.0" />
-                     </VBox.margin>
-                     <children>
-                        <Label text="Enter Friend Name:">
-                           <font>
-                              <Font name="System Bold" size="35.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="50.0" top="30.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="friendName" prefHeight="57.0" prefWidth="614.0">
-                           <HBox.margin>
-                              <Insets left="30.0" top="25.0" />
-                           </HBox.margin>
-                        </TextField>
                      </children>
                   </HBox>
                   <HBox fx:id="addedFriendsHBox" prefHeight="94.0" prefWidth="1700.0">
@@ -118,7 +98,7 @@
                      <children>
                         <Label text="Added Friends:">
                            <font>
-                              <Font name="System Bold" size="35.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                            <padding>
                               <Insets left="50.0" top="20.0" />
@@ -136,23 +116,17 @@
                               <VBox fx:id="friendsListVBox" prefHeight="334.0" prefWidth="1032.0" />
                            </content>
                         </ScrollPane>
-                        <Label 
-                           fx:id="saveErrorLabel"
-                           text=""
-                           textFill="red"
-                           visible="false"
-                           wrapText="true"
-                           styleClass="error-label">
+                        <Label fx:id="saveErrorLabel" styleClass="error-label" text="" textFill="red" visible="false" wrapText="true">
                            <HBox.margin>
-                              <Insets left="50.0" top="10.0"/>
+                              <Insets left="50.0" top="10.0" />
                            </HBox.margin>
                         </Label>
                         <Button fx:id="groupSaveButton" mnemonicParsing="false" onAction="#saveGroup" style="-fx-background-color: green;" text="Save">
                            <HBox.margin>
-                              <Insets left="400.0" top="250.0" />
+                              <Insets left="300.0" top="250.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="30.0" />
+                              <Font size="20.0" />
                            </font>
                         </Button>
                      </children>
