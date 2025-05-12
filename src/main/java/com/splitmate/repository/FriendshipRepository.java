@@ -9,5 +9,6 @@ import com.splitmate.model.User;
 
 @Repository
 public interface FriendshipRepository extends MongoRepository<Friendship, String> {
-    List<Friendship> findByUserAOrUserB(User userA, User userB);
+    List<Friendship> findByUserA_IdOrUserB_Id(String userAId, String userBId);
+
 }
