@@ -85,7 +85,7 @@ public class SimplePaymentCalculator implements PaymentCalculator {
             "-3",           // use Python 3
             "src/main/resources/py/calculate.py"  // relative to projectRoot
         );
-        pb.redirectErrorStream(true);
+        // pb.redirectErrorStream(true);
 
         try {
             Process proc = pb.start();
@@ -93,9 +93,17 @@ public class SimplePaymentCalculator implements PaymentCalculator {
             try (BufferedWriter w = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()))) {
                 mapper.writeValue(w, payload);
             }
-            // Read JSON result
+            int exit = proc.waitFor();
+            if (exit != 0) {
+                try (BufferedReader err = new BufferedReader(
+                        new InputStreamReader(proc.getErrorStream()))) {
+                    err.lines().forEach(System.err::println);
+                }
+                throw new RuntimeException("Python solver exited with code " + exit);
+            }
+
+            // JSON only if Python succeeded
             JsonNode result = mapper.readTree(proc.getInputStream());
-            proc.waitFor();
 
             // 4) Convert JSON back into Debt objects
             if (result.isArray()) {
