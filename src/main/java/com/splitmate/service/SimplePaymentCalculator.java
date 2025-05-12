@@ -39,12 +39,17 @@ public class SimplePaymentCalculator implements PaymentCalculator {
     @Autowired private DebtRepository debtRepo;
     @Autowired private UserService userService;
 
+    @Autowired private UserRepository userRepo;
+    @Autowired private FriendshipRepository friendshipRepo;
+
     public SimplePaymentCalculator(CurrencyConverter converter) {
         this.converter = converter;
     }
 
     @Override
-    public List<Payment> calculate(List<User> users, List<Friendship> friendships) {
+    public List<Payment> calculate() {
+        List<User> users           = userRepo.findAll();
+        List<Friendship> friends   = friendshipRepo.findAll();
         // 1) Clear out any existing debts
         users.forEach(u -> u.setDebts(new ArrayList<>()));
 

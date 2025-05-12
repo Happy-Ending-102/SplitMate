@@ -15,7 +15,7 @@ public abstract class Expense extends BaseEntity {
     protected BigDecimal amount;
     protected Currency currency;
     protected String description;
-    protected String billImageUrl;
+    protected String billImageB64;
     protected LocalDate date;
     @DBRef protected List<Partition> divisionAmongUsers;
     @DBRef protected Group group; // null olabilir. null ise iki kisi arasında bir harcama var demektir.
@@ -37,8 +37,8 @@ public abstract class Expense extends BaseEntity {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getBillImageUrl() { return billImageUrl; }
-    public void setBillImageUrl(String billImageUrl) { this.billImageUrl = billImageUrl; }
+    public String getBillImageB64() { return billImageB64; }
+    public void setBillImageB64(String billImageUrl) { this.billImageB64 = billImageUrl; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }

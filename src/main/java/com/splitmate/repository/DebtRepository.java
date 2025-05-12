@@ -9,7 +9,6 @@ import com.splitmate.model.Debt;
 
 @Repository
 public interface DebtRepository extends MongoRepository<Debt, String> {
-    List<Debt> findByUserId(String userId);
-    List<Debt> findByGroupId(String groupId);
-    List<Debt> findByUserIdAndGroupId(String userId, String groupId);
+    List<Debt> findByFrom_Id(String fromUserId);
+    List<Debt> findByTo_Id(String toUserId);
 }

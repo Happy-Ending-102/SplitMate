@@ -12,6 +12,9 @@ import com.splitmate.model.Friendship;
 import com.splitmate.model.Payment;
 import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
+import com.splitmate.model.Partition;
+import com.splitmate.model.Group;
+import com.splitmate.model.Currency;
 
 public interface FriendshipService {
     /**
@@ -33,4 +36,7 @@ public interface FriendshipService {
     List<Transaction> filterByAmountRange(List<Transaction> transactions, BigDecimal minAmount, BigDecimal maxAmount);
     List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency);
     List<Transaction> filterByType(Friendship f, String currentUserId, FilterType type);
+
+    void addFriendshipDebt(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency);
+
 }

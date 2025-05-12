@@ -2,10 +2,12 @@ package com.splitmate.controller;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.splitmate.model.Currency;
+import com.splitmate.model.FilterType;
 import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.Payment;
@@ -17,8 +19,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -127,17 +133,12 @@ public class FriendOverviewController implements Initializable {
             sessionService.setCurrentFriend(friend);
         }
 
-        
         friendNameLabel.setText(friend.getName());
         friendIDLabel.setText("ID: " + friend.getId());
         friendIBANLabel.setText("IBAN: " + (friend.getIban() != null ? friend.getIban() : "Not provided"));
 
         loadCommonGroups();
-        // updateCurrentStatus();
-        // loadTransactionHistory();
-
     }
-
 
     private void loadCommonGroups() {
         User currentUser = sessionService.getCurrentUser();
@@ -153,10 +154,51 @@ public class FriendOverviewController implements Initializable {
         }
 
         for (Group group : commonGroups) {
-            Label label = new Label(group.getName());
-            label.setStyle("-fx-padding: 5 10; -fx-font-size: 14px;");
-            commonGroupsVBox.getChildren().add(label);
+            HBox card = new HBox(15);
+            card.setAlignment(Pos.CENTER_LEFT);
+            card.setStyle(
+                "-fx-background-color:#e0e0e0;" +
+                "-fx-background-radius:15;" +
+                "-fx-padding:10 15;"
+            );
+
+            Label name = new Label(group.getName());
+            name.setStyle(
+                "-fx-font-size:18px;" +
+                "-fx-font-weight:bold;" +
+                "-fx-text-fill:#333333;"
+            );
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            card.getChildren().addAll(name, spacer);
+            // cards are non-clickable by design
+            commonGroupsVBox.getChildren().add(card);
         }
+    }
+
+
+    public List<Transaction> filterByType(Friendship f,
+                                          String currentUserId,
+                                          FilterType type){
+        return friendshipService.filterByType(f, currentUserId, type);
+    }
+
+    public List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency){
+        return friendshipService.filterByCurrency(transactions, currency);
+    }
+
+    public List<Transaction> filterByAmountRange(List<Transaction> transactions,
+                                                 BigDecimal min,
+                                                 BigDecimal max){
+        return friendshipService.filterByAmountRange(transactions, min, max);
+    }
+
+    public List<Transaction> filterByDateRange(List<Transaction> transactions,
+                                               LocalDate start,
+                                               LocalDate end){
+        return friendshipService.filterByDateRange(transactions, start, end);
     }
 
     // private void updateCurrentStatus() {

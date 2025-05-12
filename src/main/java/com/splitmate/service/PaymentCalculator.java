@@ -7,5 +7,5 @@ import com.splitmate.model.User;
 import com.splitmate.model.Friendship;
 
 public interface PaymentCalculator {
-    public List<Payment> calculate(List<User> users, List<Friendship> friendships);
+    public List<Payment> calculate();
 }

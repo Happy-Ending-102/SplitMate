@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         return sb.toString();
     }
 
-        private void sendResetEmail(String email, String newPassword) {
+    private void sendResetEmail(String email, String newPassword) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(email);
         msg.setSubject("SplitMate: Your New Password");
