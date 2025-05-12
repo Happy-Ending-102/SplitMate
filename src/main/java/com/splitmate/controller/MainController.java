@@ -112,5 +112,9 @@ public class MainController {
         loadView("fxml/payments.fxml", "Payments - SplitMate");
     }
 
+    public void showNewGroupExpenseView(){
+        loadView("fxml/newGroupExpense.fxml", "Payments - SplitMate");
+    }
+
 
 }
