@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -49,7 +50,7 @@
                      </TextField>
                      <Button fx:id="newExpenseCloseButton" mnemonicParsing="false" onAction="#closeNewExpenseScreen" style="-fx-background-color: red; -fx-background-radius: 20;" text="X">
                         <HBox.margin>
-                           <Insets left="750.0" top="10.0" />
+                           <Insets left="700.0" top="10.0" />
                         </HBox.margin>
                         <font>
                            <Font name="System Bold" size="15.0" />
@@ -181,6 +182,14 @@
                            </Label>
                         </children>
                      </VBox>
+                     <Button fx:id="addFriendsDoneButton" mnemonicParsing="false" onAction="#getUsersToDivide" text="Done">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets right="20.0" top="150.0" />
+                        </HBox.margin>
+                     </Button>
                      <Separator orientation="VERTICAL" prefHeight="200.0" />
                      <VBox prefHeight="224.0" prefWidth="415.0">
                         <children>
@@ -214,6 +223,78 @@
                </HBox>
       
           </VBox>
+            <AnchorPane fx:id="setPercantageAnchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false">
+               <StackPane.margin>
+                  <Insets bottom="300.0" left="100.0" right="550.0" top="100.0" />
+               </StackPane.margin>
+               <children>
+                  <BorderPane prefHeight="551.0" prefWidth="1002.0">
+                     <top>
+                        <Button fx:id="closeSetPercentagePopUpButton" mnemonicParsing="false" onAction="#closeSetPercantage" style="-fx-background-color: red; -fx-background-radius: 12;" text="X" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="900.0" top="10.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </top>
+                     <center>
+                        <VBox fx:id="userPercentageShareVBox" prefHeight="465.0" prefWidth="984.0" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="50.0" right="150.0" />
+                           </BorderPane.margin>
+                        </VBox>
+                     </center>
+                     <bottom>
+                        <Button fx:id="percentageShareDoneButton" mnemonicParsing="false" onAction="#percentageShareDone" text="Done" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets bottom="20.0" left="800.0" />
+                           </BorderPane.margin>
+                        </Button>
+                     </bottom>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="setFixedAmountAnchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <BorderPane prefHeight="551.0" prefWidth="1002.0">
+                     <top>
+                        <Button fx:id="closeSetFixedAmountPopUpButton" mnemonicParsing="false" onAction="#closeSetFixedAmount" style="-fx-background-color: red; -fx-background-radius: 12;" text="X" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="900.0" top="10.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </top>
+                     <center>
+                        <VBox fx:id="userFixedAmountShareVBox" prefHeight="465.0" prefWidth="984.0" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="50.0" right="150.0" />
+                           </BorderPane.margin>
+                        </VBox>
+                     </center>
+                     <bottom>
+                        <Button fx:id="fixedAmountShareDoneButton" mnemonicParsing="false" onAction="#fixedAmountShareDone" text="Done" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets bottom="20.0" left="800.0" />
+                           </BorderPane.margin>
+                        </Button>
+                     </bottom>
+                  </BorderPane>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="300.0" left="100.0" right="550.0" top="100.0" />
+               </StackPane.margin>
+            </AnchorPane>
          </children>
       </StackPane>
   </center>
