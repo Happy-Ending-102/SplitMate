@@ -114,7 +114,7 @@ public class GroupOverviewController implements Initializable {
         // 5) One-off expenses (uses your helper)
         expenseItemsContainer.getChildren().clear();
         for (Expense e : group.getExpenses()) {
-            addExpenseItem(e.getDescription(), e.getDate().toString());
+            addExpenseItem(e);
         }
     }
 
@@ -127,23 +127,26 @@ public class GroupOverviewController implements Initializable {
         mainController.showNewGroupExpenseView();
     }
 
-    private void addExpenseItem(String desc, String date) {
+    private void addExpenseItem(Expense expense) {
         HBox card = new HBox(10);
         card.setStyle(
           "-fx-background-color: #f0f0f0; " +
           "-fx-background-radius: 8px; " +
           "-fx-padding: 10px;"
         );
-        Label descLabel = new Label(desc);
+        Label descLabel = new Label(expense.getDescription());
         descLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-        Label dateLabel = new Label("Date: " + date);
-    
+        Label dateLabel = new Label("Date: " + expense.getDate());
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-    
+
         card.getChildren().addAll(descLabel, spacer, dateLabel);
+
+        // wire the click
+        card.setOnMouseClicked(evt -> mainController.showExpenseDetailView(expense));
+
         expenseItemsContainer.getChildren().add(card);
     }
     
-
 }
