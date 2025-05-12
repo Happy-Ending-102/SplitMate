@@ -6,17 +6,12 @@ import java.net.URL;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.config.SpringContext;
-import com.splitmate.model.User;
+import com.splitmate.model.Expense;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import com.splitmate.service.SessionService;
-import com.splitmate.service.UserService;
-import com.splitmate.service.GroupService;
-import com.splitmate.service.FriendshipService;
 
 @Component
 public class MainController {
@@ -116,5 +111,35 @@ public class MainController {
         loadView("fxml/newGroupExpense.fxml", "Payments - SplitMate");
     }
 
+public void showExpenseDetailView(Expense expense) {
+        try {
+            // locate the FXML
+            URL resource = Thread.currentThread()
+                                .getContextClassLoader()
+                                .getResource("fxml/ExpenseDetailView.fxml");
+            if (resource == null) {
+                throw new RuntimeException(
+                  "Cannot find fxml/ExpenseDetailView.fxml on classpath"
+                );
+            }
 
+            // set up loader with Spring
+            FXMLLoader loader = new FXMLLoader(resource);
+            loader.setControllerFactory(SpringContext.get()::getBean);
+
+            // load the view graph
+            Parent detailRoot = loader.load();
+
+            // grab the controller and pass the expense
+            ExpenseDetailController ctrl = loader.getController();
+            ctrl.setExpense(expense);
+
+            // swap into your main scene
+            mainScene.setRoot(detailRoot);
+            primaryStage.setTitle("Expense Details - SplitMate");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
