@@ -21,7 +21,7 @@ import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
 
-import main.java.com.splitmate.service.UserService;
+import com.splitmate.service.UserService;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 
 import java.util.Comparator;
 import java.util.Collections;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class FriendshipServiceImpl implements FriendshipService {

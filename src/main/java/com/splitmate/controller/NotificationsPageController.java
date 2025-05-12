@@ -34,7 +34,7 @@ public class NotificationsPageController implements Initializable {
     // Notification types that should display Accept/Decline buttons
     private static final Set<NotificationType> ACTIONABLE = Set.of(
         NotificationType.FRIEND_REQUEST,
-        NotificationType.PAYMENT_RECEIVED
+        NotificationType.TRANSACTION_RECEIVED
     );
 
     @FXML private VBox notificationsContainer;
@@ -107,7 +107,7 @@ public class NotificationsPageController implements Initializable {
             String recipientId = sessionService.getCurrentUser().getId();
             friendshipController.acceptFriendRequest(requesterId, recipientId);
         }
-        // TODO: implement accept logic for GROUP_INVITE and PAYMENT_RECEIVED if desired
+        // TODO: implement accept logic for GROUP_INVITE and TRANSACTION_RECEIVED if desired
 
         notificationService.markAsRead(notification.getId());
         loadNotifications();

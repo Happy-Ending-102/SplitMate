@@ -31,6 +31,9 @@ import com.splitmate.repository.DebtRepository;
 import com.fasterxml.jackson.databind.JsonNode;                   // ← for JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode;            // ← if you use ObjectNode
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.splitmate.model.*;
+import com.splitmate.repository.UserRepository; 
+import com.splitmate.repository.FriendshipRepository;
 
 @Service
 public class SimplePaymentCalculator implements PaymentCalculator {
@@ -49,7 +52,7 @@ public class SimplePaymentCalculator implements PaymentCalculator {
     @Override
     public List<Payment> calculate() {
         List<User> users           = userRepo.findAll();
-        List<Friendship> friends   = friendshipRepo.findAll();
+        List<Friendship> friendships   = friendshipRepo.findAll();
         // 1) Clear out any existing debts
         users.forEach(u -> u.setDebts(new ArrayList<>()));
 

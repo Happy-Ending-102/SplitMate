@@ -183,7 +183,7 @@ public class User extends BaseEntity {
         return this.frequency;
     }
 
-    public void getBalanceByCurrency(Currency currency) {
+    public Balance getBalanceByCurrency(Currency currency) {
         for (Balance b : this.balances) {
             if (b.getCurrency().equals(currency)) {
                 return b;

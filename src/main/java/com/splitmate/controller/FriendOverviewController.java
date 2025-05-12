@@ -243,6 +243,7 @@ public class FriendOverviewController implements Initializable {
     void addExpense(ActionEvent event) {
         friendNamePopUpLabel.setText(friend.getName());
         addExpensePopUp.setVisible(true);
+        
     }
 
     @FXML
