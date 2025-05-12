@@ -237,7 +237,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public void addFriendshipDebt(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency) {
+    public void addFriendshipExpense(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency) {
         User payer = userRepo.findById(payerId)
             .orElseThrow(() -> new NoSuchElementException("Payer not found: " + payerId));
         User friend = userRepo.findById(friendId)

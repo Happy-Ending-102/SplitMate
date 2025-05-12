@@ -398,7 +398,7 @@ public class FriendOverviewController implements Initializable {
         String senderId   = sessionService.getCurrentUser().getId();
         String receiverId = friend.getId();
 
-        friendshipService.addFriendshipDebt(senderId, receiverId, userAmount, friendAmount, curr);
+        friendshipService.addFriendshipExpense(senderId, receiverId, userAmount, friendAmount, curr);
         // 3) Close popup & clear fields
         addExpensePopUp.setVisible(false);
         expenseAmountTextField.clear();
