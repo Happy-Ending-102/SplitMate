@@ -20,6 +20,9 @@ import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
+
+import main.java.com.splitmate.service.UserService;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -33,6 +36,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final UserRepository userRepo;
     private final NotificationService notificationService;
     private final GroupService groupService;
+    @Autowired private PaymentCalculator paymentCalculator;
 
     public FriendshipServiceImpl(FriendshipRepository friendshipRepo,
                                  UserRepository userRepo,
@@ -238,4 +242,24 @@ public class FriendshipServiceImpl implements FriendshipService {
         .collect(Collectors.toList());
     }
 
+    @Override
+    public void addFriendshipDebt(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency) {
+        User payer = userRepo.findById(payerId)
+            .orElseThrow(() -> new NoSuchElementException("Payer not found: " + payerId));
+        User friend = userRepo.findById(friendId)
+            .orElseThrow(() -> new NoSuchElementException("Friend not found: " + friendId));
+
+        
+        // directly edit balances of the users
+        payer.getBalanceByCurrency(currency).addAmount(payerSplit.add(friendSplit)); // add the total amount to payer
+        payer.getBalanceByCurrency(currency).addAmount(payerSplit.negate()); // subtract the payer's split
+        friend.getBalanceByCurrency(currency).addAmount(friendSplit.negate()); // subtract the friend's split
+
+        userRepo.save(payer);
+        userRepo.save(friend);
+
+        // run the main algorithm to calculate the debts
+        paymentCalculator.calculate();
+
+    }
 }

@@ -183,5 +183,19 @@ public class User extends BaseEntity {
         return this.frequency;
     }
 
+    public void getBalanceByCurrency(Currency currency) {
+        for (Balance b : this.balances) {
+            if (b.getCurrency().equals(currency)) {
+                return b;
+            }
+        }
+        // if not found, create a new balance
+        Balance newBalance = new Balance();
+        newBalance.setCurrency(currency);
+        newBalance.setAmount(BigDecimal.ZERO);
+        this.balances.add(newBalance);
+        return newBalance;
+    }
+
     
 }

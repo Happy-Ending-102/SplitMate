@@ -20,5 +20,9 @@ public class Balance {
         this.currency = currency;
     }
 
+    public void addAmount(BigDecimal amount) {
+        this.amount = this.amount.add(amount);
+    }
+
     
 }
