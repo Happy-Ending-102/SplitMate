@@ -5,17 +5,20 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.splitmate.model.Group;
+import com.splitmate.model.Frequency;
 import com.splitmate.model.User;
-import com.splitmate.service.GroupService;
 import com.splitmate.service.SessionService;
+import com.splitmate.service.UserService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,9 +32,10 @@ public class MyProfileController implements Initializable {
     @FXML private Button saveButton;
     @FXML private Text userIdText;
     @FXML private ImageView userImage;
-    @FXML private Text userNameText;
-    @FXML private Text ibanText;
+    @FXML private TextField userNameField;
+    @FXML private TextField ibanField;
 
+    @Autowired private UserService userService;
     private final SessionService sessionService;
     private final MainController mainController;
 
@@ -46,19 +50,28 @@ public class MyProfileController implements Initializable {
 
         if (current == null) {
             userIdText.setText("N/A");
-            userNameText.setText("Guest");
-            ibanText.setText("—");
+            userNameField.setText("Guest");
+            ibanField.setText("—");
             loadDefaultImage();
             return;
         }
 
         // Populate fields
-        userIdText.setText(current.getId());
-        userNameText.setText(current.getName());
-        ibanText.setText(current.getProfileImageUrl() != null
-            ? current.getProfileImageUrl()
-            : "—"
-        );
+        userIdText.setText("ID: " + current.getId());
+        userNameField.setText(current.getName());
+        if(current.getIban()!=null){
+            ibanField.setText(current.getIban());
+        }
+
+        if (current.getFrequency() != null) {
+        String freqKey = current.getFrequency().name();
+        for (Toggle t : frequencyToggleGroup.getToggles()) {
+            if (freqKey.equals(t.getUserData())) {
+                frequencyToggleGroup.selectToggle(t);
+                break;
+            }
+        }
+    }
 
         // Load profile image: first try avatarBase64, else default icon
         String base64 = current.getAvatarBase64();
@@ -100,6 +113,29 @@ public class MyProfileController implements Initializable {
 
     @FXML
     private void onSave(ActionEvent event) {
-        // TODO: save profile updates
+        User currUser = sessionService.getCurrentUser();
+        currUser.setName(userNameField.getText());
+        currUser.setIban(ibanField.getText());
+            Toggle selected = frequencyToggleGroup.getSelectedToggle();
+        if (selected != null) {
+            // assumes Frequency is an enum with DAILY, WEEKLY, MONTHLY
+            String freqKey = selected.getUserData().toString();
+            currUser.setFrequency(Frequency.valueOf(freqKey));
+        }
+        mainController.showProfileView();
+        userService.updateUser(currUser);
+
+    }
+    @FXML
+    private void onCopyID(){
+
+    }
+    @FXML
+    private void onCopyIBAN(){
+
+    }
+    @FXML
+    private void onChangePhoto(){
+
     }
 }

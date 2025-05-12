@@ -12,6 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -47,23 +48,59 @@
       </Label>
 
       <!-- 2) Avatar + name + ID -->
-      <HBox spacing="50">
+      <HBox spacing="0">
+
         <ImageView fx:id="userImage" fitWidth="120" fitHeight="120"/>
+        <Button fx:id="changePhoto"
+            onAction="#onChangePhoto"
+            text="change">
+            <font><Font size="10"/></font>
+        </Button>
         <VBox spacing="20">
-          <Text fx:id="userNameText">
+        <padding>
+          <Insets left="60" top="0" right="0" bottom="0"/>
+        </padding>
+        <HBox>
+          <Text text="Name: ">
             <font><Font size="30"/></font>
           </Text>
+          <TextField fx:id="userNameField"
+                    promptText="Your name"
+                    editable="true"
+                    prefWidth="400">
+            <font><Font size="25"/></font>
+          </TextField>
+        </HBox>
+        <HBox> 
           <Text fx:id="userIdText">
             <font><Font size="30"/></font>
           </Text>
+          <Button fx:id="copyID"
+              onAction="#onCopyID"
+              text="Copy ID">
+              <font><Font size="10"/></font>
+          </Button>
+        </HBox>
         </VBox>
       </HBox>
 
       <!-- 3) IBAN -->
-      <Text fx:id="ibanText">
-        <font><Font size="25"/></font>
-      </Text>
-
+      <HBox>
+          <Text text="IBAN: ">
+            <font><Font size="30"/></font>
+          </Text>
+          <TextField fx:id="ibanField"
+                    promptText="Enter your IBAN"
+                    editable="true"
+                    prefWidth="400">
+            <font><Font size="25"/></font>
+          </TextField>
+          <Button fx:id="copyIBAN"
+              onAction="#onCopyIBAN"
+              text="Copy IBAN">
+              <font><Font size="10"/></font>
+          </Button>
+      </HBox>
       <!-- 4) Change Password -->
       <Button fx:id="changePasswordButton"
               onAction="#onChangePassword"
@@ -79,15 +116,21 @@
         <Text text="Set Notification Frequency">
           <font><Font size="30"/></font>
         </Text>
-        <RadioButton text="Daily" toggleGroup="$frequencyToggleGroup">
+        <RadioButton text="Daily"
+                    toggleGroup="$frequencyToggleGroup"
+                    userData="DAILY">
           <font><Font size="25"/></font>
         </RadioButton>
         <Separator orientation="VERTICAL"/>
-        <RadioButton text="Weekly" toggleGroup="$frequencyToggleGroup">
+        <RadioButton text="Weekly"
+                    toggleGroup="$frequencyToggleGroup"
+                    userData="WEEKLY">
           <font><Font size="25"/></font>
         </RadioButton>
         <Separator orientation="VERTICAL"/>
-        <RadioButton text="Monthly" toggleGroup="$frequencyToggleGroup">
+        <RadioButton text="Monthly"
+                    toggleGroup="$frequencyToggleGroup"
+                    userData="MONTHLY">
           <font><Font size="25"/></font>
         </RadioButton>
       </HBox>
