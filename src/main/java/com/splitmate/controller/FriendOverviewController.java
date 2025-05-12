@@ -19,8 +19,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -129,17 +133,12 @@ public class FriendOverviewController implements Initializable {
             sessionService.setCurrentFriend(friend);
         }
 
-        
         friendNameLabel.setText(friend.getName());
         friendIDLabel.setText("ID: " + friend.getId());
         friendIBANLabel.setText("IBAN: " + (friend.getIban() != null ? friend.getIban() : "Not provided"));
 
         loadCommonGroups();
-        // updateCurrentStatus();
-        // loadTransactionHistory();
-
     }
-
 
     private void loadCommonGroups() {
         User currentUser = sessionService.getCurrentUser();
@@ -155,11 +154,30 @@ public class FriendOverviewController implements Initializable {
         }
 
         for (Group group : commonGroups) {
-            Label label = new Label(group.getName());
-            label.setStyle("-fx-padding: 5 10; -fx-font-size: 14px;");
-            commonGroupsVBox.getChildren().add(label);
+            HBox card = new HBox(15);
+            card.setAlignment(Pos.CENTER_LEFT);
+            card.setStyle(
+                "-fx-background-color:#e0e0e0;" +
+                "-fx-background-radius:15;" +
+                "-fx-padding:10 15;"
+            );
+
+            Label name = new Label(group.getName());
+            name.setStyle(
+                "-fx-font-size:18px;" +
+                "-fx-font-weight:bold;" +
+                "-fx-text-fill:#333333;"
+            );
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            card.getChildren().addAll(name, spacer);
+            // cards are non-clickable by design
+            commonGroupsVBox.getChildren().add(card);
         }
     }
+
 
     public List<Transaction> filterByType(Friendship f,
                                           String currentUserId,
