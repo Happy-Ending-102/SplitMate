@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired private FriendshipRepository friendshipRepo;
     @Autowired private TransactionRepository transactionRepository;
     @Autowired private NotificationRepository notificationRepository;
-
+    @Autowired private PaymentCalculator paymentCalculator;
 
     public PaymentServiceImpl(CurrencyConverter converter) {
         this.converter = converter;
@@ -77,4 +77,45 @@ public class PaymentServiceImpl implements PaymentService {
         // Save the transaction and notification to the database
         notificationRepository.save(notification);
     }
+
+    @Override
+    public void acceptTransaction(String transactionId) {
+        // Implementation of accepting a transaction
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        transaction.setPaid(true);
+        transactionRepository.save(transaction);
+
+        // Update the user's balance
+        User to = transaction.getTo();
+        User from = transaction.getFrom();
+        Currency currency = transaction.getCurrency();
+        BigDecimal amount = transaction.getAmount();
+        to.getBalanceByCurrency(currency).addAmount(amount);
+        from.getBalanceByCurrency(currency).subtractAmount(amount);
+
+        // Save the updated users
+        userRepo.save(to);
+        userRepo.save(from);
+
+        //run the main algorithm
+        paymentCalculator.calculate();
+    }
+    @Override
+    public void rejectTransaction(String transactionId) {
+        // Implementation of rejecting a transaction
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        transactionRepository.save(transaction);
+        // Optionally, you can also notify the user about the rejection
+        Notification notification = new Notification();
+        notification.setUser(transaction.getFrom());
+        notification.setTransaction(transaction);
+        notification.setRead(false);
+        notification.setMessage("Your payment of " + transaction.getAmount() + " " + transaction.getCurrency() + " to " + transaction.getTo().getName() + " has been rejected.");
+        notification.setType(NotificationType.TRANSACTION_REJECTED);
+        notification.setCreatedAt(LocalDateTime.now());
+        // Save the notification to the database
+        notificationRepository.save(notification);
+    } 
 }

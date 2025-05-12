@@ -24,5 +24,9 @@ public class Balance {
         this.amount = this.amount.add(amount);
     }
 
+    public void subtractAmount(BigDecimal amount) {
+        this.amount = this.amount.subtract(amount);
+    }
+
     
 }

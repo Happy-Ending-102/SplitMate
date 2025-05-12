@@ -17,4 +17,7 @@ import com.splitmate.model.Currency;
 
 public interface PaymentService {
     void initializeTransaction(String payerId, String receiverId, BigDecimal amount, Currency currency); // it must be accepted
+
+    void acceptTransaction(String transactionId); // it must be accepted
+    void rejectTransaction(String transactionId); // it must be rejected
 }
