@@ -124,8 +124,7 @@ public class GroupOverviewController implements Initializable {
     }
     @FXML
     private void onAddExpenseAction(ActionEvent event) {
-        // TODO: show your “new expense” dialog
-        System.out.println("Opening add-expense dialog…");
+        mainController.showNewGroupExpenseView();
     }
 
     private void addExpenseItem(String desc, String date) {
