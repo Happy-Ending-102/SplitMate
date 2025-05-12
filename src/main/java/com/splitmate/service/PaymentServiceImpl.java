@@ -2,6 +2,7 @@ package com.splitmate.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.splitmate.model.NotificationType;
 import com.splitmate.model.Currency;
 import com.splitmate.model.FilterType;
 import com.splitmate.model.Payment;
+import com.splitmate.model.Debt;
 
 
 @Service
@@ -118,4 +120,12 @@ public class PaymentServiceImpl implements PaymentService {
         // Save the notification to the database
         notificationRepository.save(notification);
     } 
+
+    @Override
+    public List<Debt> getUserDebts(String userId) {
+        // Implementation of getting user debts
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getDebts();
+    }
 }

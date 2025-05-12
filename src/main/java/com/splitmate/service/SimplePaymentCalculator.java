@@ -51,6 +51,7 @@ public class SimplePaymentCalculator implements PaymentCalculator {
 
     @Override
     public List<Payment> calculate() {
+        System.err.println("Calculating payments...");
         List<User> users           = userRepo.findAll();
         List<Friendship> friendships   = friendshipRepo.findAll();
         // 1) Clear out any existing debts

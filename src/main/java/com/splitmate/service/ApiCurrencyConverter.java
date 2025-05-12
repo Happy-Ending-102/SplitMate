@@ -32,6 +32,7 @@ public class ApiCurrencyConverter implements CurrencyConverter {
                 "https://api.frankfurter.app/latest?amount=%s&from=%s&to=%s",
                 amount, from, to
             );
+            System.out.println("URL: " + url);
             HttpRequest req = HttpRequest.newBuilder()
                                 .uri(URI.create(url))
                                 .GET()

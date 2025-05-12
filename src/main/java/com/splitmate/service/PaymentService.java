@@ -14,10 +14,13 @@ import com.splitmate.model.User;
 import com.splitmate.model.Partition;
 import com.splitmate.model.Group;
 import com.splitmate.model.Currency;
+import com.splitmate.model.Debt;
 
 public interface PaymentService {
     void initializeTransaction(String payerId, String receiverId, BigDecimal amount, Currency currency); // it must be accepted
 
-    void acceptTransaction(String transactionId); // it must be accepted
-    void rejectTransaction(String transactionId); // it must be rejected
+    void acceptTransaction(String transactionId);
+    void rejectTransaction(String transactionId);
+
+    List<Debt> getUserDebts(String userId); 
 }
