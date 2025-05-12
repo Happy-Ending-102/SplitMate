@@ -77,6 +77,10 @@ public class SimplePaymentCalculator implements PaymentCalculator {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
             balancesObj.put(u.getId(), totalTL.doubleValue());
         }
+        // — PRINT TO CONSOLE FOR DEBUGGING —
+        String prettyJson = mapper.writerWithDefaultPrettyPrinter()
+                                .writeValueAsString(payload);
+        System.err.println("DEBUG: initial JSON payload:\n" + prettyJson);
 
         // 3) Call Python solver
         List<Payment> newDebts = new ArrayList<>();
