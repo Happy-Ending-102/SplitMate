@@ -17,6 +17,10 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.splitmate.controller.MyProfileController">
 
+    <fx:define>
+    <ToggleGroup fx:id="frequencyToggleGroup"/>
+    </fx:define>
+    
   <!-- LEFT: sidebar -->
   <left>
       <fx:include source="navigationBar.fxml"/>  
