@@ -22,7 +22,7 @@
   <!-- CENTER: scrolling list of notification cards -->
   <center>
     <VBox>
-      <Label text="Notifications" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-padding: 10 0 10 15;"/>
+      <Label text="Notifications" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #333333; "/>
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
       <content>
         <VBox fx:id="notificationsContainer" spacing="10">
