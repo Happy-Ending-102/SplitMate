@@ -43,6 +43,13 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.ojalgo</groupId>
+      <artifactId>ojalgo</artifactId>
+      <version>52.1.0</version>
+    </dependency>
+
+
     <!-- JavaFX -->
     <dependency>
       <groupId>org.openjfx</groupId>
