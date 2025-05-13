@@ -1,7 +1,10 @@
 package com.splitmate.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.ResourceBundle;
 
@@ -23,6 +26,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
 @Component
 public class MyProfileController implements Initializable {
@@ -136,6 +140,29 @@ public class MyProfileController implements Initializable {
     }
     @FXML
     private void onChangePhoto(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Profile Picture");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selectedFile = fileChooser.showOpenDialog(userImage.getScene().getWindow());
 
+        if (selectedFile != null) {
+            try {
+                byte[] imageBytes = Files.readAllBytes(selectedFile.toPath());
+                String base64 = Base64.getEncoder().encodeToString(imageBytes);
+
+                // Update user model and DB
+                User currentUser = sessionService.getCurrentUser();
+                currentUser.setAvatarBase64(base64);
+                userService.updateUser(currentUser);  // Persist to DB
+
+                // Refresh ImageView
+                userImage.setImage(new Image(new ByteArrayInputStream(imageBytes)));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
