@@ -4,6 +4,7 @@ package com.splitmate.service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import com.splitmate.repository.ExpenseRepository;
@@ -16,6 +17,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository expRepo;
     private final GroupRepository groupRepo;
     private final CurrencyConverter converter;
+    @Autowired private PaymentCalculator paymentCalculator;
+    @Autowired private UserService userService;
 
     public ExpenseServiceImpl(ExpenseRepository expRepo,
                               GroupRepository groupRepo,
@@ -41,11 +44,28 @@ public class ExpenseServiceImpl implements ExpenseService {
             e.setAmount(converted);
             e.setCurrency(group.getDefaultCurrency());
         }
+        // TODO handle budget. add balance to group
 
         e.setGroup(group);
         expRepo.save(e);
         group.addExpense(e);
         groupRepo.save(group);
+        
+        // Update the balances of the users involved in the expense
+        for(Partition partition : dto.getDivisionAmongUsers()) {
+            User user = partition.getUser();
+            BigDecimal amount = partition.getAmount();
+            Currency currency = dto.getCurrency();
+            user.getBalanceByCurrency(currency).addAmount(amount.negate());
+            userService.updateUser(user);
+        }
+        // update the owner's balance
+        User owner = dto.getOwner();
+        owner.getBalanceByCurrency(dto.getCurrency()).addAmount(dto.getAmount());
+        userService.updateUser(owner);
+        
+        // run the main algorithm
+        paymentCalculator.calculate();
 
         return e;
     }

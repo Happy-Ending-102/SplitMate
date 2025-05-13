@@ -1,6 +1,7 @@
 // ExpenseController.java
 package com.splitmate.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.splitmate.model.*;

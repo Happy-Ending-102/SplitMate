@@ -20,4 +20,6 @@ public interface UserService {
     List<User> getFriendsOfUser(String userIdr);
     boolean resetPassword(String email);
     void updateFrequency(String userId, Frequency frequency);
+
+    
 }

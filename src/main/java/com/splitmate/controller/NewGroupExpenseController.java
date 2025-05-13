@@ -1,6 +1,8 @@
 package com.splitmate.controller;
 
+import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.model.Currency;
+import com.splitmate.model.Frequency;
 import com.splitmate.model.Group;
+import com.splitmate.model.OneTimeExpense;
 import com.splitmate.model.Partition;
+import com.splitmate.model.RecurringExpense;
 import com.splitmate.model.User;
+import com.splitmate.service.ExpenseService;
 import com.splitmate.service.GroupService;
 import com.splitmate.service.SessionService;
 
@@ -20,7 +26,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -113,6 +121,7 @@ public class NewGroupExpenseController implements Initializable {
 
     @Autowired private SessionService sessionService;
     @Autowired private GroupService   groupService;
+    @Autowired private ExpenseService expenseService;
 
     private final MainController mainController;
 
@@ -145,8 +154,73 @@ public class NewGroupExpenseController implements Initializable {
 
     @FXML
     void addExpense(ActionEvent event) {
-        // TO DO
+// 1) Grab the group and the raw inputs
+        String groupId = sessionService.getCurrentGroupId();
+        if (groupId == null) {
+            showError("No group selected");
+            return;
+        }
+
+        String amtText = expenseAmountTextField.getText().trim();
+        BigDecimal amount;
+        try {
+            amount = new BigDecimal(amtText);
+        } catch (NumberFormatException e) {
+            showError("Amount must be a valid number");
+            return;
+        }
+
+        Currency currency = currencyComboBox.getValue();
+        if (currency == null) {
+            showError("Please pick a currency");
+            return;
+        }
+
+        String description = expenseDescriptionTextField.getText().trim();
+
+        // 2) Build the right Expense subtype
+        com.splitmate.model.Expense e;
+        if (oneTimeExpenseRadioButton.isSelected()) {
+            OneTimeExpense ote = new OneTimeExpense();
+            ote.setDate(LocalDate.now());
+            e = ote;
+        } else {
+            RecurringExpense re = new RecurringExpense();
+            // map your freq toggles → Frequency enum
+            if (weeklyFrequencyRadiButton.isSelected()) {
+                re.setFrequency(Frequency.WEEKLY);
+            } else if (monthlyFrequencyRadiButton.isSelected()) {
+                re.setFrequency(Frequency.MONTHLY);
+            } else {
+                showError("Please choose a frequency");
+                return;
+            }
+            e = re;
+        }
+
+        // 3) Finish wiring the common fields
+        e.setAmount(amount);
+        e.setCurrency(currency);
+        e.setDescription(description);
+        e.setOwner(sessionService.getCurrentUser());
+        e.setDivisionAmongUsers(partitionList);
+
+        // 4) Call your service to save it
+        try {
+            expenseService.addExpense(groupId, e);
+        } catch (Exception ex) {
+            showError("Failed to save expense: " + ex.getMessage());
+            return;
+        }
+
+        // 5) Return to the group details screen
         mainController.showGroupDetailsView();
+    }
+
+    private void showError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 
     @FXML
