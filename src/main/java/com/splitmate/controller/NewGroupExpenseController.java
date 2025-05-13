@@ -338,6 +338,12 @@ public class NewGroupExpenseController implements Initializable {
                             .orElse(null);
 
                         if (matchedUser != null) {
+
+                            String amtText = expenseAmountTextField.getText().trim();
+                            BigDecimal amount;
+                            amount = new BigDecimal(amtText);
+                            semihAmount = amount;
+
                             Partition p = new Partition(matchedUser, amount, -5, semihAmount); // percentage left as negative
                             partitionRepository.save(p);
                             partitionList.add(p);
@@ -374,6 +380,11 @@ public class NewGroupExpenseController implements Initializable {
                             .orElse(null);
 
                         if (matchedUser != null) {
+                            String amtText = expenseAmountTextField.getText().trim();
+                            BigDecimal amount;
+                            amount = new BigDecimal(amtText);
+                            semihAmount = amount;
+
                             Partition p = new Partition(matchedUser, -5, percentage, semihAmount); // amount left as negative
                             partitionRepository.save(p);
                             partitionList.add(p);
