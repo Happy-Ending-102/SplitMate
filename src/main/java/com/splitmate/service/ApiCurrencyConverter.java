@@ -27,6 +27,11 @@ public class ApiCurrencyConverter implements CurrencyConverter {
     @Override
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
         try {
+            // check for zero amount. use precision of 2 decimal places
+            if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) {
+                return BigDecimal.ZERO;
+            }
+
             // Check for negativity and work with the absolute value
             boolean negative = amount.signum() < 0;
             BigDecimal absAmount = amount.abs();
