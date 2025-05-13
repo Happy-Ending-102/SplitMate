@@ -116,10 +116,10 @@ public void showExpenseDetailView(Expense expense) {
             // locate the FXML
             URL resource = Thread.currentThread()
                                 .getContextClassLoader()
-                                .getResource("fxml/ExpenseDetailView.fxml");
+                                .getResource("fxml/expenseDetail.fxml");
             if (resource == null) {
                 throw new RuntimeException(
-                  "Cannot find fxml/ExpenseDetailView.fxml on classpath"
+                  "Cannot find fxml/expenseDetail.fxml on classpath"
                 );
             }
 

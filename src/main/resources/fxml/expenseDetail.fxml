@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17"
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.splitmate.controller.ExpenseDetailController">
-  <children>
-    <VBox spacing="16" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
-          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20"
-          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8;">
-      <HBox alignment="CENTER_LEFT" spacing="8">
-        <Button text="← Back" onAction="#onBack"/>
-        <Label text="Expense Details" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
-      </HBox>
-      <GridPane hgap="12" vgap="8">
-        <Label text="Owner:"        GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="ownerField" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        <Label text="Amount:"       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="amountField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-        <Label text="Description:"  GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="descField"   editable="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-        <Label text="Currency:"     GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="currencyField" editable="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-      </GridPane>
-      <Label text="Contributors:"/>
-      <ScrollPane prefHeight="100" fitToWidth="true">
-        <VBox fx:id="contributorsList" spacing="6" padding="4"/>
-      </ScrollPane>
-    </VBox>
-  </children>
-</AnchorPane>
+    <!-- LEFT: navigation bar -->
+  <left>
+    <fx:include source="navigationBar.fxml" />
+  </left>
+
+  <!-- TOP: purple header bar -->
+  <top>
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
+  </top>
+
+  <center>
+      <VBox spacing="16" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+            AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20"
+            style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8;">
+        <HBox alignment="CENTER_LEFT" spacing="8">
+          <Button text="← Back" onAction="#onBack"/>
+          <Label text="Expense Details" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+        </HBox>
+        <GridPane hgap="12" vgap="8">
+          <Label text="Owner:"        GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+          <TextField fx:id="ownerField" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+          <Label text="Amount:"       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+          <TextField fx:id="amountField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+          <Label text="Description:"  GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+          <TextField fx:id="descField"   editable="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+          <Label text="Currency:"     GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+          <TextField fx:id="currencyField" editable="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+        <Label text="Contributors:"/>
+        <ScrollPane prefHeight="100" fitToWidth="true">
+          <VBox fx:id="contributorsList" spacing="6"/>
+        </ScrollPane>
+      </VBox>
+  </center>
+</BorderPane>

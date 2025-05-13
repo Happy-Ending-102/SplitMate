@@ -30,7 +30,11 @@
       <!-- header row -->
       <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="1282.0" spacing="10">
         <children>
-          <Label text="Payments">
+          <Label text="Payments" style="
+                 -fx-font-size: 32px;
+                 -fx-font-weight: bold;
+                 -fx-text-fill: #333333;
+               ">
             <font><Font name="System Bold" size="24.0" /></font>
                   <HBox.margin>
                      <Insets left="20.0" />
