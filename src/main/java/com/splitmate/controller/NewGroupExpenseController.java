@@ -21,10 +21,10 @@ import com.splitmate.service.ExpenseService;
 import com.splitmate.service.GroupService;
 import com.splitmate.service.SessionService;
 
-import javafx.fxml.Initializable;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -38,6 +38,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 @Component
 public class NewGroupExpenseController implements Initializable {
@@ -57,8 +58,7 @@ public class NewGroupExpenseController implements Initializable {
     private ToggleGroup expenseFrequencyToggleGroup;
 
     @FXML
-    private TextField expenseOwnerTextField;
-
+    private ComboBox<User> groupMembersComboBox;
     @FXML
     private ToggleGroup expenseTypePreferenceToggleGroup;
 
@@ -118,6 +118,8 @@ public class NewGroupExpenseController implements Initializable {
 
     private List<Partition> partitionList;
 
+    private User expenseOwner;
+
 
     @Autowired private SessionService sessionService;
     @Autowired private GroupService   groupService;
@@ -147,6 +149,20 @@ public class NewGroupExpenseController implements Initializable {
                     checkBox.setUserData(user);  // So you can retrieve the User object later
                     friendsVBox.getChildren().add(checkBox);
                 }
+
+                groupMembersComboBox.setItems(FXCollections.observableArrayList(currentGroup.getMembers()));
+                groupMembersComboBox.setConverter(new StringConverter<>() {
+                    @Override
+                    public String toString(User user) {
+                        return (user != null) ? user.getName() : "";
+                    }
+
+                    @Override
+                    public User fromString(String string) {
+                        // Not needed
+                        return null;
+                    }
+                });
             }
         }
     }
@@ -154,6 +170,14 @@ public class NewGroupExpenseController implements Initializable {
 
     @FXML
     void addExpense(ActionEvent event) {
+
+        expenseOwner = groupMembersComboBox.getValue();
+
+        if (expenseOwner == null) {
+            showError("Please select an expense owner from the dropdown");
+            return;
+        }
+
 // 1) Grab the group and the raw inputs
         String groupId = sessionService.getCurrentGroupId();
         if (groupId == null) {
@@ -202,7 +226,7 @@ public class NewGroupExpenseController implements Initializable {
         e.setAmount(amount);
         e.setCurrency(currency);
         e.setDescription(description);
-        e.setOwner(sessionService.getCurrentUser());
+        e.setOwner(expenseOwner);
         e.setDivisionAmongUsers(partitionList);
 
         // 4) Call your service to save it

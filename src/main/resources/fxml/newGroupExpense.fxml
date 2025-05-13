@@ -43,11 +43,11 @@
                            <Insets left="100.0" top="50.0" />
                         </HBox.margin>
                      </Label>
-                     <TextField fx:id="expenseOwnerTextField">
+                     <ComboBox fx:id="groupMembersComboBox" prefWidth="150.0">   
                         <HBox.margin>
                            <Insets left="20.0" top="50.0" />
                         </HBox.margin>
-                     </TextField>
+                     </ComboBox>
                      <Button fx:id="newExpenseCloseButton" mnemonicParsing="false" onAction="#closeNewExpenseScreen" style="-fx-background-color: red; -fx-background-radius: 20;" text="X">
                         <HBox.margin>
                            <Insets left="700.0" top="10.0" />
