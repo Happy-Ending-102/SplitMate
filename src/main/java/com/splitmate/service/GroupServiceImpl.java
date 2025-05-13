@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.GroupRepository;
 import com.splitmate.repository.UserRepository;
+import com.splitmate.model.Friendship;
 import com.splitmate.model.Group;
 import com.splitmate.model.User;
 
@@ -17,6 +22,11 @@ import com.splitmate.model.User;
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepo;
     private final UserRepository userRepo;
+    @Autowired
+    private FriendshipRepository friendshipRepo;
+    @Autowired
+    @Lazy
+    private FriendshipService friendshipService;
 
     public GroupServiceImpl(GroupRepository groupRepo, UserRepository userRepo) {
         this.groupRepo = groupRepo;
@@ -30,8 +40,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group createGroup(Group g) {
-        return this.groupRepo.save(g);
-        friendAllInGroup(g.getId());
+        this.groupRepo.save(g);
+        friendshipService.friendAllInGroup(g.getId());
+        return g;
     }
 
     @Override
@@ -50,7 +61,7 @@ public class GroupServiceImpl implements GroupService {
         groupRepo.save(group);
         userRepo.save(user);
 
-        friendAllInGroup(groupId);
+        friendshipService.friendAllInGroup(groupId);
 
         return group;
     }
@@ -142,38 +153,5 @@ public class GroupServiceImpl implements GroupService {
             .collect(Collectors.toList());
     }
 
-    @Override
-    public void friendAllInGroup(String groupId) {
-        Group group = groupService.getGroup(groupId);
-        List<User> members = group.getMembers();
-
-        // 2) For each unordered pair (i,j) in members
-        for (int i = 0; i < members.size(); i++) {
-            User a = members.get(i);
-            for (int j = i + 1; j < members.size(); j++) {
-                User b = members.get(j);
-
-                boolean alreadyFriends = false;
-                
-                // 3) Skip if already friends
-                List<User> friends = a.getFriends();
-                if(friends.contains(b)){
-                    alreadyFriends = true;
-                }
-                if (alreadyFriends) continue;
-
-               // 4) Persist the friendship
-                Friendship f = new Friendship();
-                f.setUserA(a);
-                f.setUserB(b);
-                friendshipRepo.save(f);
-
-                // 5) Add to each user's list and save
-                a.addFriend(b);
-                b.addFriend(a);
-                userRepo.save(a);
-                userRepo.save(b);
-            }
-        }
-    }
+  
 }

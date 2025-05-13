@@ -193,9 +193,12 @@ public class GroupSettingsController implements Initializable {
 
     private void populateAddMembersList() {
         addMembersListContainer.getChildren().clear();
+
         Group currentGroup = sessionService.getCurrentGroup();
         User currentUser = sessionService.getCurrentUser();
+
         List<User> invitableUsers = groupService.getPossiblMembersToAdd(currentGroup.getId(), currentUser.getId());
+
         invitableUsers.forEach(user ->
             createRow(
                 user.getName(),
@@ -203,14 +206,21 @@ public class GroupSettingsController implements Initializable {
                 "Add Member",
                 "-fx-background-color:limegreen;",
                 evt -> {
-                groupService.addUserToGroup(currentGroup.getId(), user.getId());
-                HBox row = (HBox)((Button)evt.getSource()).getParent();
-                addMembersListContainer.getChildren().remove(row);
-                populateDeleteMembersList();
+                    // 1. Add user to the group
+                    groupService.addUserToGroup(currentGroup.getId(), user.getId());
+
+                    // 2. Refresh the in-memory group from DB
+                    Group updatedGroup = groupService.getGroup(currentGroup.getId());
+                    sessionService.setCurrentGroup(updatedGroup);
+
+                    // 3. Refresh both lists
+                    populateAddMembersList();
+                    populateDeleteMembersList();
                 }
             )
         );
     }
+
     private void populateDeleteMembersList() {
         deleteMembersListContainer.getChildren().clear();
         Group currentGroup = sessionService.getCurrentGroup();
