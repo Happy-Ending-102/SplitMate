@@ -19,5 +19,4 @@ public interface GroupService {
     List<Group> getMutualGroups(String userAId, String userBId);
     List<User> getPossiblMembersToAdd(String groupId, String userId);
 
-    void friendAllInGroup(String groupId);
 }

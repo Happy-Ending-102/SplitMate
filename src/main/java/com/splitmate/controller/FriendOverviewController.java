@@ -147,7 +147,7 @@ public class FriendOverviewController implements Initializable {
         friendIBANLabel.setText("IBAN: " + (friend.getIban() != null ? friend.getIban() : "Not provided"));
 
         loadCommonGroups();
-        // updateCurrentStatus();
+        updateCurrentStatus();
         loadTransactionHistory();
 
     }
@@ -213,10 +213,23 @@ public class FriendOverviewController implements Initializable {
         return friendshipService.filterByDateRange(transactions, start, end);
     }
 
-    // private void updateCurrentStatus() {
-    //     String status = paymentService.getCurrentPaymentStatus(sessionService.getCurrentUser(), friend);
-    //     currentStatusLabel.setText(status);
-    // }
+    private void updateCurrentStatus() {
+        // 1) Reload both users from MongoDB
+        String myId     = sessionService.getCurrentUser().getId();
+        String theirId  = friend.getId();
+
+        User freshMe    = userService.getUser(myId);
+        User freshFriend = userService.getUser(theirId);
+
+        // 2) Update session + local ref
+        sessionService.setCurrentUser(freshMe);
+        friend = freshFriend;
+
+        // 3) Compute and display status
+        String status = friendshipService.getCurrentPaymentStatus(freshMe, freshFriend);
+        currentStatusLabel.setText(status);
+    }
+
 
      private void loadTransactionHistory() {
          User currentUser = sessionService.getCurrentUser();

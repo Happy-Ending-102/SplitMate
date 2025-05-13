@@ -39,5 +39,6 @@ public interface FriendshipService {
     void addFriendshipExpense(String payerId, String friendId, BigDecimal payerSplit, BigDecimal friendSplit, Currency currency);
 
     String getCurrentPaymentStatus(User user, User friend);
+    void friendAllInGroup(String groupId);
 
 }
