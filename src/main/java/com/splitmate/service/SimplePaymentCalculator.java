@@ -52,7 +52,6 @@ public class SimplePaymentCalculator implements PaymentCalculator {
     }
 
     @Override
-    @Override
     public List<Payment> calculate() {
         System.err.println("Calculating payments with ojAlgo…");
 
