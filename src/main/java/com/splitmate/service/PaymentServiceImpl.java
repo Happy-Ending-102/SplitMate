@@ -42,6 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final ObjectMapper mapper = new ObjectMapper();
     @Autowired private DebtRepository debtRepo;
     @Autowired private UserService userService;
+    @Autowired private FriendshipService friendshipService;
 
     @Autowired private UserRepository userRepo;
     @Autowired private FriendshipRepository friendshipRepo;
@@ -96,7 +97,14 @@ public class PaymentServiceImpl implements PaymentService {
         to.getBalanceByCurrency(currency).addAmount(amount);
         from.getBalanceByCurrency(currency).subtractAmount(amount);
 
-        // Save the updated users
+        to.addTransaction(transaction);
+        from.addTransaction(transaction);
+
+        // get the friendship between the two users
+        Friendship friendship = friendshipService.getFriendshipBetween(to.getId(), from.getId());
+        friendship.addTransaction(transaction);
+        friendshipRepo.save(friendship);
+
         userRepo.save(to);
         userRepo.save(from);
 

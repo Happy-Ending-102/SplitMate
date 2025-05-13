@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import com.splitmate.repository.ExpenseRepository;
 import com.splitmate.repository.GroupRepository;
 import com.splitmate.model.ConversionPolicy;
+import com.splitmate.model.Currency;
 import com.splitmate.model.Expense;
+import com.splitmate.model.Partition;
+import com.splitmate.model.User;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -52,16 +55,16 @@ public class ExpenseServiceImpl implements ExpenseService {
         groupRepo.save(group);
         
         // Update the balances of the users involved in the expense
-        for(Partition partition : dto.getDivisionAmongUsers()) {
+        for(Partition partition : e.getDivisionAmongUsers()) {
             User user = partition.getUser();
-            BigDecimal amount = partition.getAmount();
-            Currency currency = dto.getCurrency();
+            BigDecimal amount = BigDecimal.valueOf( partition.getAmount() );
+            Currency currency = e.getCurrency();
             user.getBalanceByCurrency(currency).addAmount(amount.negate());
             userService.updateUser(user);
         }
         // update the owner's balance
-        User owner = dto.getOwner();
-        owner.getBalanceByCurrency(dto.getCurrency()).addAmount(dto.getAmount());
+        User owner = e.getOwner();
+        owner.getBalanceByCurrency(e.getCurrency()).addAmount(e.getAmount());
         userService.updateUser(owner);
         
         // run the main algorithm

@@ -3,6 +3,7 @@ package com.splitmate.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,6 +22,12 @@ public class Friendship extends BaseEntity {
 
     public List<Transaction> getHistory() { return history;}
     public void setHistory(List<Transaction> history) {this.history = history;}
+    public void addTransaction(Transaction transaction) {
+        if (history == null) {
+            history = new ArrayList<>();
+        }
+        history.add(transaction);
+    }
 
     public User getOtherUser(User me) {
         if (me == null) return null;

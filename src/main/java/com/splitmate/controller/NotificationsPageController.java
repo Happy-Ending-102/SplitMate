@@ -110,8 +110,8 @@ public class NotificationsPageController implements Initializable {
             friendshipController.acceptFriendRequest(requesterId, recipientId);
         }
         else if (notification.getType() == NotificationType.TRANSACTION_RECEIVED) {
-            //String transactionId = notification.getTransactionId();
-            //paymentController.acceptTransaction(transactionId);
+            String transactionId = notification.getTransaction().getId();
+            paymentController.acceptTransaction(transactionId);
         }
 
         notificationService.markAsRead(notification.getId());
