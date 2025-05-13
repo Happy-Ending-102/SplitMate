@@ -71,7 +71,7 @@
             <Separator />
 
             <!-- Row 4: budget display + input -->
-            <Label fx:id="currentBudgetLabel" text="Current Budget: get this part" />
+            <Label fx:id="currentBudgetLabel" />
             <HBox alignment="CENTER_LEFT" spacing="10">
               <Label text="Set Budget" />
               <TextField fx:id="budgetTextField" promptText="Enter amount" />
