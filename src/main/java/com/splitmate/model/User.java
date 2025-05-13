@@ -167,6 +167,10 @@ public class User extends BaseEntity {
 
     public void setHistory(List<Transaction> history) { this.history = history; }
 
+    public void addTransaction(Transaction transaction) {
+        this.history.add(transaction);
+    }
+
     public List<Debt> getDebts() {
         return debts;
     }

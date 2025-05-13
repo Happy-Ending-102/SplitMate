@@ -233,12 +233,14 @@ public class FriendOverviewController implements Initializable {
              return;
          }
 
-        List<Transaction> loaded = new ArrayList<>();
+        List<Transaction> loaded;
         
         try{
             loaded = friendshipService.sortByDateDesc(friendship);
         }
         catch(NullPointerException e){
+            // print the message
+            System.out.println("No transactions found.");
             loaded = new ArrayList<>();
         }
 
