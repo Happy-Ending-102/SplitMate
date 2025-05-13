@@ -1,9 +1,11 @@
 package com.splitmate.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.splitmate.model.Group;
 import com.splitmate.model.User;
+import com.splitmate.repository.GroupRepository;
 
 /**
  * Holds the currently logged-in user for the application session.
@@ -13,12 +15,14 @@ public class SessionService {
     private User currentUser;
     private Group currentGroup;
     private User currentFriend;
+    @Autowired private UserService userService;
+    @Autowired private GroupRepository groupRepo;
 
     /**
      * Get the full User object of the currently logged-in user.
      */
     public User getCurrentUser() {
-        return currentUser;
+        return userService.getUser(getCurrentUserId());
     }
 
     /**
@@ -43,7 +47,7 @@ public class SessionService {
     }
 
     public Group getCurrentGroup() {
-        return currentGroup;
+        return groupRepo.findById(getCurrentGroupId()).orElse(null);
     }
 
     public void setCurrentGroup(Group group) {
@@ -58,7 +62,7 @@ public class SessionService {
 
     
     public User getCurrentFriend() {
-        return currentFriend;
+        return userService.getUser(getCurrentFriendId());
     }
 
     public void setCurrentFriend(User friend) {
