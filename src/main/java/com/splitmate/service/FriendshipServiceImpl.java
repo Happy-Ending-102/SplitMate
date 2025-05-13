@@ -265,12 +265,12 @@ public class FriendshipServiceImpl implements FriendshipService {
     public String getCurrentPaymentStatus(User user, User friend) {
         for(Debt debt: user.getDebts()){
             if(debt.getTo().equals(friend)){
-                return "You owe " + debt.getAmount().toPlainString() + " " + debt.getCurrency() + " to " + friend.getName();
+                return "You owe " + debt.getAmount().toPlainString() + " " + debt.getCurrency();
             }
             else if(debt.getFrom().equals(friend)){
                 return friend.getName() + " owes you " + debt.getAmount().toPlainString() + " " + debt.getCurrency();
             }
         }
-        return "No debts found between you and " + friend.getName();
+        return "No debts found.";
     }
 }
