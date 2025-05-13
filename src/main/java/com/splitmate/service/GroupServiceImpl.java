@@ -41,7 +41,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Group createGroup(Group g) {
         this.groupRepo.save(g);
-        friendshipService.friendAllInGroup(g.getId());
+        // friendshipService.friendAllInGroup(g.getId());
         return g;
     }
 
@@ -61,7 +61,7 @@ public class GroupServiceImpl implements GroupService {
         groupRepo.save(group);
         userRepo.save(user);
 
-        friendshipService.friendAllInGroup(groupId);
+        // friendshipService.friendAllInGroup(groupId);
 
         return group;
     }
