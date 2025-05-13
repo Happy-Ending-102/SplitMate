@@ -17,6 +17,7 @@ import com.splitmate.model.OneTimeExpense;
 import com.splitmate.model.Partition;
 import com.splitmate.model.RecurringExpense;
 import com.splitmate.model.User;
+import com.splitmate.repository.PartitionRepository;
 import com.splitmate.service.ExpenseService;
 import com.splitmate.service.GroupService;
 import com.splitmate.service.SessionService;
@@ -124,6 +125,7 @@ public class NewGroupExpenseController implements Initializable {
     @Autowired private SessionService sessionService;
     @Autowired private GroupService   groupService;
     @Autowired private ExpenseService expenseService;
+    @Autowired private PartitionRepository partitionRepository;
 
     private final MainController mainController;
 
@@ -335,6 +337,7 @@ public class NewGroupExpenseController implements Initializable {
 
                         if (matchedUser != null) {
                             Partition p = new Partition(matchedUser, amount, 0); // percentage left as 0
+                            partitionRepository.save(p);
                             partitionList.add(p);
                         }
                     } catch (NumberFormatException e) {
@@ -370,6 +373,7 @@ public class NewGroupExpenseController implements Initializable {
 
                         if (matchedUser != null) {
                             Partition p = new Partition(matchedUser, 0, percentage); // amount left as 0
+                            partitionRepository.save(p);
                             partitionList.add(p);
                         }
                     } catch (NumberFormatException e) {
