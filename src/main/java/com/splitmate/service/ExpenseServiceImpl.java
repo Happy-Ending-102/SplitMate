@@ -39,13 +39,18 @@ public class ExpenseServiceImpl implements ExpenseService {
             e.getCurrency() != group.getDefaultCurrency()) {
 
             BigDecimal converted = converter.convert(
-                e.getAmount(), 
+                BigDecimal.valueOf(1), 
                 e.getCurrency(), 
                 group.getDefaultCurrency()
             );
 
-            e.setAmount(converted);
+            e.setAmount(converted*e.getAmount());
             e.setCurrency(group.getDefaultCurrency());
+
+            for(Partition partition : e.getDivisionAmongUsers()) {
+                User user = partition.getUser();
+                partition.setAmount(converted.multiply(BigDecimal.valueOf(partition.getAmount())));
+            }
         }
         // TODO handle budget. add balance to group
 

@@ -128,6 +128,7 @@ public class NewGroupExpenseController implements Initializable {
     @Autowired private PartitionRepository partitionRepository;
 
     private final MainController mainController;
+    private BigDecimal semihAmount;
 
     public NewGroupExpenseController(MainController mainController) {
         this.mainController = mainController;
@@ -191,6 +192,7 @@ public class NewGroupExpenseController implements Initializable {
         BigDecimal amount;
         try {
             amount = new BigDecimal(amtText);
+            semihAmount = amount;
         } catch (NumberFormatException e) {
             showError("Amount must be a valid number");
             return;
@@ -336,7 +338,7 @@ public class NewGroupExpenseController implements Initializable {
                             .orElse(null);
 
                         if (matchedUser != null) {
-                            Partition p = new Partition(matchedUser, amount, 0); // percentage left as 0
+                            Partition p = new Partition(matchedUser, amount, -5, semihAmount); // percentage left as negative
                             partitionRepository.save(p);
                             partitionList.add(p);
                         }
@@ -372,7 +374,7 @@ public class NewGroupExpenseController implements Initializable {
                             .orElse(null);
 
                         if (matchedUser != null) {
-                            Partition p = new Partition(matchedUser, 0, percentage); // amount left as 0
+                            Partition p = new Partition(matchedUser, -5, percentage, semihAmount); // amount left as negative
                             partitionRepository.save(p);
                             partitionList.add(p);
                         }

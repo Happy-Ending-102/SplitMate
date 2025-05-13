@@ -2,6 +2,9 @@ package com.splitmate.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.math.BigDecimal;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
@@ -32,10 +35,17 @@ public class Partition extends BaseEntity{
     public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
-    public Partition(User user, double amount, double percentage) {
+    public Partition(User user, double amount, double percentage, BigDecimal totalAmount) {
         this.user = user;
-        this.amount = amount;
-        this.percentage = percentage;
+        // use precision to compare to zero
+        if(amount<0){
+            this.percentage = percentage;
+            this.amount = totalAmount.doubleValue() * percentage / 100;
+        }
+        else if(percentage<0){
+            this.amount = amount;
+            this.percentage = (amount / totalAmount.doubleValue()) * 100;
+        }
     }
     public Partition() {
         // Default constructor
