@@ -25,9 +25,9 @@
       <left>
         <fx:include source="navigationBar.fxml" />
       </left>
-      <top>
-        <Rectangle fill="#5b2c91" height="50" width="1600.0" />
-      </top>
+    <top>
+      <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
+    </top>
 
     <!-- CENTER: the settings UI -->
       <center>

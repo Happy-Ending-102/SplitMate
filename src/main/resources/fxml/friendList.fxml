@@ -19,11 +19,10 @@
   <left>
     <fx:include source="navigationBar.fxml"/>
   </left>
-
-  <!-- Top purple bar -->
-  <top>
-    <Rectangle fill="#5b2c91" height="41" />
+    <top>
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
   </top>
+
 
   <!-- Main content with popup overlay -->
   <center>

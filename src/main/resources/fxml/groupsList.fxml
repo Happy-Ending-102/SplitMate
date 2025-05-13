@@ -13,7 +13,7 @@
 
   <!-- 1) Full-width purple bar -->
   <top>
-    <Rectangle fill="#5b2c91" height="41" />
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
   </top>
 
   <!-- 2) Sidebar nav -->

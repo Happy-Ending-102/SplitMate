@@ -16,7 +16,7 @@
     <fx:include source="navigationBar.fxml"/>
   </left>
   <top>
-    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" />
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
   </top>
 
   <!-- CENTER: scrolling list of notification cards -->
