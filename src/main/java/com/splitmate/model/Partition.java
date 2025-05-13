@@ -1,6 +1,13 @@
 package com.splitmate.model;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.TypeAlias;
 
-public class Partition {
+@Document("partitions")
+public class Partition extends BaseEntity{
     private User user;
     private double amount;
     private double percentage;
