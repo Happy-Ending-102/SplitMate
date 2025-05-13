@@ -5,6 +5,8 @@ import java.util.List;
 import com.splitmate.model.*;
 import com.splitmate.service.*;
 import com.splitmate.repository.FriendshipRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +17,7 @@ public class PaymentController {
     private final PaymentCalculator calculator;
     private final GroupService groupService;
     private final FriendshipRepository friendshipRepo;
+    @Autowired private PaymentService paymentService;
 
     public PaymentController(PaymentCalculator calculator,
                              GroupService groupService,
@@ -30,6 +33,6 @@ public class PaymentController {
 
     public void acceptTransaction(String paymentId) {
         // Logic to accept a payment
-        throw new UnsupportedOperationException();
+        paymentService.acceptTransaction(paymentId);
     }
 }
