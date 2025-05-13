@@ -31,6 +31,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Group createGroup(Group g) {
         return this.groupRepo.save(g);
+        friendAllInGroup(g.getId());
     }
 
     @Override
@@ -48,6 +49,8 @@ public class GroupServiceImpl implements GroupService {
 
         groupRepo.save(group);
         userRepo.save(user);
+
+        friendAllInGroup(groupId);
 
         return group;
     }
@@ -137,5 +140,40 @@ public class GroupServiceImpl implements GroupService {
             .filter(friend -> !group.getMembers().contains(friend))
             .filter(friend -> !group.getFrozenMembers().contains(friend))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void friendAllInGroup(String groupId) {
+        Group group = groupService.getGroup(groupId);
+        List<User> members = group.getMembers();
+
+        // 2) For each unordered pair (i,j) in members
+        for (int i = 0; i < members.size(); i++) {
+            User a = members.get(i);
+            for (int j = i + 1; j < members.size(); j++) {
+                User b = members.get(j);
+
+                boolean alreadyFriends = false;
+                
+                // 3) Skip if already friends
+                List<User> friends = a.getFriends();
+                if(friends.contains(b)){
+                    alreadyFriends = true;
+                }
+                if (alreadyFriends) continue;
+
+               // 4) Persist the friendship
+                Friendship f = new Friendship();
+                f.setUserA(a);
+                f.setUserB(b);
+                friendshipRepo.save(f);
+
+                // 5) Add to each user's list and save
+                a.addFriend(b);
+                b.addFriend(a);
+                userRepo.save(a);
+                userRepo.save(b);
+            }
+        }
     }
 }

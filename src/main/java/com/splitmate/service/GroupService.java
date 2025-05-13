@@ -18,4 +18,6 @@ public interface GroupService {
     Group updateAvatar(String groupId, String base64);
     List<Group> getMutualGroups(String userAId, String userBId);
     List<User> getPossiblMembersToAdd(String groupId, String userId);
+
+    void friendAllInGroup(String groupId);
 }

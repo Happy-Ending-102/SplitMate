@@ -31,7 +31,6 @@ public interface FriendshipService {
     List<Transaction> sortByDateDesc(Friendship friendship);
     Friendship getFriendshipById(String friendshipId);
     Friendship getFriendshipBetween(String userAId, String userBId);
-    void friendAllInGroup(String groupId);
     List<Transaction> filterByDateRange(List<Transaction> transactions, LocalDate start, LocalDate end);
     List<Transaction> filterByAmountRange(List<Transaction> transactions, BigDecimal minAmount, BigDecimal maxAmount);
     List<Transaction> filterByCurrency(List<Transaction> transactions, Currency currency);
