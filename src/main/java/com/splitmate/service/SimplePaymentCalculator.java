@@ -59,6 +59,12 @@ public class SimplePaymentCalculator implements PaymentCalculator {
         // 1) Clear out any existing debts
         users.forEach(u -> u.setDebts(new ArrayList<>()));
 
+        // clear the debts in the database
+        List<Debt> existingDebts = debtRepo.findAll();
+        for (Debt d : existingDebts) {
+            debtRepo.delete(d);
+        }
+
         // 2) Build JSON payload
         ObjectNode payload = mapper.createObjectNode();
         ArrayNode nodesArr = payload.putArray("nodes");
