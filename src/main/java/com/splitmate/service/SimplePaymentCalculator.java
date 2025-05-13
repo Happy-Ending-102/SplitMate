@@ -72,9 +72,14 @@ public class SimplePaymentCalculator implements PaymentCalculator {
         Map<String, Double> balances = new LinkedHashMap<>();
         for (User u : users) {
             // assume getBalanceByCurrency returns a wrapper with .getAmount()
-            BigDecimal amt = u.getBalanceByCurrency(u.getBaseCurrency()).getAmount();
-            balances.put(u.getId(), amt.doubleValue());
-            System.out.println("Balance of user " + u.getId() + " = " + amt);
+
+            BigDecimal totalTL = u.getBalances().stream()
+                .map(b -> b.getCurrency() == Currency.TRY
+                    ? b.getAmount()
+                    : converter.convert(b.getAmount(), b.getCurrency(), Currency.TRY))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            balances.put(u.getId(), totalTL.doubleValue());
+            System.out.println("Balance of user " + u.getId() + " = " + totalTL);
         }
 
         // 4) Solve the settlement problem
