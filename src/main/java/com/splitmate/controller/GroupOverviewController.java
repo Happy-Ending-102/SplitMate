@@ -43,7 +43,7 @@ public class GroupOverviewController implements Initializable {
     @FXML private TabPane   tabPane;
 
     @FXML private ScrollPane membersScroll;
-    @FXML private HBox       membersContainer;
+    @FXML private VBox       membersContainer;
 
     @FXML private ScrollPane regularExpensesScroll;
     @FXML private VBox       regularExpensesContainer;
@@ -85,10 +85,12 @@ public class GroupOverviewController implements Initializable {
         // 3) Members list
         membersContainer.getChildren().clear();
         for (User u : group.getMembers()) {
-            VBox card = new VBox(4);
+            HBox card = new HBox(3);
+            card.setStyle("-fx-background-color:rgba(198, 187, 217, 0.63); " +
+                "-fx-background-radius: 8; ");
             ImageView iv = new ImageView();
             iv.setFitWidth(40);
-            iv.setFitHeight(40);
+            iv.setFitHeight(25);
             if (u.getAvatarBase64() != null) {
                 byte[] ui = Base64.getDecoder().decode(u.getAvatarBase64());
                 iv.setImage(new Image(new ByteArrayInputStream(ui)));

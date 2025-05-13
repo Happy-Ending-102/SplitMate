@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -13,15 +15,14 @@
   <left>
     <fx:include source="navigationBar.fxml"/>
   </left>
-
-  <!-- TOP: page title -->
   <top>
-    <Label text="Notifications"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10 0 10 15;"/>
+    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" />
   </top>
 
   <!-- CENTER: scrolling list of notification cards -->
   <center>
+    <VBox>
+      <Label text="Notifications" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-padding: 10 0 10 15;"/>
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
       <content>
         <VBox fx:id="notificationsContainer" spacing="10">
@@ -32,6 +33,7 @@
         </VBox>
       </content>
     </ScrollPane>
+    </VBox>
   </center>
 
 </BorderPane>

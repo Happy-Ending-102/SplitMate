@@ -53,18 +53,24 @@
             <content>
               <VBox spacing="20">
                 <!-- Group Members -->
-                <VBox spacing="5">
+                <VBox spacing="5" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;">
+                    <padding>
+                     <Insets bottom="5" left="5" right="0" top="0" />
+                    </padding>
                   <children>
                     <Label text="Group Members" />
                     <ScrollPane fx:id="membersScroll" fitToWidth="true" prefHeight="120" prefWidth="1234.0">
                       <content>
-                        <HBox fx:id="membersContainer" spacing="10" />
+                        <VBox fx:id="membersContainer" spacing="3" />
                       </content>
                     </ScrollPane>
                   </children>
                 </VBox>
                 <!-- Regular Expenses -->
-                <VBox spacing="5">
+                <VBox spacing="5" style="-fx-background-color: #e0e0e0; -fx-background-radius: 12px;">
+                    <padding>
+                     <Insets bottom="5" left="5" right="0" top="0" />
+                    </padding>
                   <children>
                     <Label text="Regular Expenses" />
                     <ScrollPane fx:id="RegularExpensesScroll" fitToWidth="true" prefHeight="120" prefWidth="1237.0">

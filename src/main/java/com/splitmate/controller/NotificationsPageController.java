@@ -75,9 +75,9 @@ public class NotificationsPageController implements Initializable {
     }
 
     private HBox createCard(Notification notification) {
-        HBox card = new HBox(10);
+        HBox card = new HBox(20);
         card.setAlignment(Pos.CENTER_LEFT);
-        card.setStyle("-fx-background-color: #e0e0e0; " +
+        card.setStyle("-fx-background-color:rgba(198, 187, 217, 0.63); " +
                       "-fx-background-radius: 10; " +
                       "-fx-padding: 10;");
 
