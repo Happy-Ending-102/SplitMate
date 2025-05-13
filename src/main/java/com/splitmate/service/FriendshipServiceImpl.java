@@ -20,6 +20,7 @@ import com.splitmate.model.Transaction;
 import com.splitmate.model.User;
 import com.splitmate.repository.FriendshipRepository;
 import com.splitmate.repository.UserRepository;
+import com.splitmate.model.Debt;
 
 import com.splitmate.service.UserService;
 
@@ -258,5 +259,18 @@ public class FriendshipServiceImpl implements FriendshipService {
         // run the main algorithm to calculate the debts
         paymentCalculator.calculate();
 
+    }
+
+    @Override
+    public String getCurrentPaymentStatus(User user, User friend) {
+        for(Debt debt: user.getDebts()){
+            if(debt.getTo().equals(friend)){
+                return "You owe " + debt.getAmount().toPlainString() + " " + debt.getCurrency() + " to " + friend.getName();
+            }
+            else if(debt.getFrom().equals(friend)){
+                return friend.getName() + " owes you " + debt.getAmount().toPlainString() + " " + debt.getCurrency();
+            }
+        }
+        return "No debts found between you and " + friend.getName();
     }
 }
