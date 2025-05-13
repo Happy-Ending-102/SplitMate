@@ -75,8 +75,11 @@ public class SimplePaymentCalculator implements PaymentCalculator {
         for (User u : users) {
             // Sum all of this user's balances into TRY
             BigDecimal totalTL = u.getBalances().stream()
-                .map(b -> converter.convert(b.getAmount(), b.getCurrency(), Currency.TRY))
+                .map(b -> b.getCurrency() == Currency.TRY
+                    ? b.getAmount()
+                    : converter.convert(b.getAmount(), b.getCurrency(), Currency.TRY))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
             balancesObj.put(u.getId(), totalTL.doubleValue());
         }
         // — PRINT TO CONSOLE FOR DEBUGGING —
