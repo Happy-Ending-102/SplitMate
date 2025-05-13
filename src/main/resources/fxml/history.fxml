@@ -14,20 +14,14 @@
   <left>
       <fx:include source="navigationBar.fxml" />  
   </left>
-   <top>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b2c91" height="56.0" stroke="#5b2c91" strokeType="INSIDE" width="1891.0" BorderPane.alignment="CENTER" />
-   </top>
+  <top>
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
+  </top>
    <center>
       <VBox prefHeight="1000.0" prefWidth="1618.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="124.0" prefWidth="1130.0" text="History" textAlignment="CENTER">
-               <font>
-                  <Font name="Artifakt Element Bold" size="57.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="50.0" top="70.0" />
-               </VBox.margin>
-            </Label>
+            <Label text="History" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-padding: 10 0 10 15;"/>
+
             <ScrollPane prefHeight="804.0" prefWidth="1701.0">
                <content>
                   <VBox fx:id="historyVBox" prefHeight="802.0" prefWidth="1702.0" />

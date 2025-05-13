@@ -30,7 +30,7 @@
 
   <!-- TOP: purple header bar -->
   <top>
-    <Rectangle fill="#5b2c91" height="50" strokeWidth="0" width="1994.0" />
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
   </top>
 
   <!-- CENTER: main content -->

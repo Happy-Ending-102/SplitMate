@@ -29,7 +29,7 @@
 
   <!-- TOP: small purple header -->
   <top>
-    <Rectangle fill="#5b2c91" height="50" width="10000"/>
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
   </top>
 
   <!-- CENTER: profile content -->

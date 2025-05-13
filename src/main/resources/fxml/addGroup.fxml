@@ -20,6 +20,9 @@
   <left>
     <fx:include source="navigationBar.fxml" />
   </left>
+   <top>
+    <Rectangle fill="#5b2c91" height="30" strokeWidth="0" />
+  </top>
    <center>
       <Pane prefHeight="1000.0" prefWidth="1700.0" BorderPane.alignment="CENTER">
          <children>
