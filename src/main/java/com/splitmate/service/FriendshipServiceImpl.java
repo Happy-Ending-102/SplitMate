@@ -135,13 +135,16 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public Friendship getFriendshipBetween(String userAId, String userBId) {
-        return friendshipRepo.findByUserA_IdOrUserB_Id(userAId, userBId)
-         .stream()
-         .filter(f -> (f.getUserA().getId().equals(userAId) && f.getUserB().getId().equals(userBId))
-                   || (f.getUserA().getId().equals(userBId) && f.getUserB().getId().equals(userAId)))
-         .findFirst()
-         .orElse(null);
+        return friendshipRepo
+        .findByUserA_IdAndUserB_IdOrUserA_IdAndUserB_Id(
+            userAId, userBId,
+            userBId, userAId
+        )
+        .stream()
+        .findFirst()
+        .orElse(null);
     }
+
 
     @Override
     public void friendAllInGroup(String groupId) {
