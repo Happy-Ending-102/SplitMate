@@ -44,12 +44,12 @@ public class ExpenseServiceImpl implements ExpenseService {
                 group.getDefaultCurrency()
             );
 
-            e.setAmount(converted*e.getAmount());
+            e.setAmount(converted.multiply(e.getAmount()));
             e.setCurrency(group.getDefaultCurrency());
 
             for(Partition partition : e.getDivisionAmongUsers()) {
                 User user = partition.getUser();
-                partition.setAmount(converted.multiply(BigDecimal.valueOf(partition.getAmount())));
+                partition.setAmount(converted.multiply(BigDecimal.valueOf(partition.getAmount())).doubleValue());
             }
         }
         // TODO handle budget. add balance to group
