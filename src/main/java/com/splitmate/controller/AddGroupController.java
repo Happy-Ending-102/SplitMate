@@ -65,8 +65,8 @@ public class AddGroupController implements Initializable {
     }
 
     private void loadRealFriends() {
-        User currentUser = sessionService.getCurrentUser();
-        List<User> friends = userService.getFriendsOfUser(currentUser);
+        String myId = sessionService.getCurrentUser().getId();
+        List<User> friends = userService.getFriendsOfUser(myId);
 
         friendsListVBox.getChildren().clear();
         friendButtons.clear();

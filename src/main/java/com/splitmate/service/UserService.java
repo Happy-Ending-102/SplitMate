@@ -17,7 +17,7 @@ public interface UserService {
     User   updateAvatar(String userId, String base64);
     User findByEmail(String email);
     List<Group> getGroupsOfUser(String userId);
-    List<User> getFriendsOfUser(User user);
+    List<User> getFriendsOfUser(String userIdr);
     boolean resetPassword(String email);
     void updateFrequency(String userId, Frequency frequency);
 }

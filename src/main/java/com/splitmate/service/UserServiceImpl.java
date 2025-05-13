@@ -108,8 +108,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getFriendsOfUser(User user) {
-        return user.getFriends();
+    public List<User> getFriendsOfUser(String userId) {
+        // reload from MongoDB
+        User fresh = userRepo.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found: " + userId));
+        return fresh.getFriends();
     }
 
     @Override
