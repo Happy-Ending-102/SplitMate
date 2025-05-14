@@ -95,8 +95,6 @@ public class FriendOverviewController implements Initializable {
 
     @FXML private ComboBox<Currency> expenseCurrencySelectionComboBox;
 
-    @FXML private TextField expenseDescriptionTextField;
-
     @FXML private TextField expenseFriendDivisionTextField;
 
     @FXML private TextField expenseUserDivisionTextField;
@@ -386,10 +384,9 @@ public class FriendOverviewController implements Initializable {
         String userExString = expenseUserDivisionTextField.getText().trim();
         String friendExString = expenseFriendDivisionTextField.getText().trim();
         Currency curr  = expenseCurrencySelectionComboBox.getValue();
-        String desc    = expenseDescriptionTextField.getText().trim();
 
         // 1) Validation
-        if (amtText.isEmpty() || curr == null || desc.isEmpty()) {
+        if (amtText.isEmpty() || curr == null ) {
             //errorLabel.setText("Please fill in amount, currency, and description.");
            // errorLabel.setVisible(true);
             return;
@@ -417,7 +414,6 @@ public class FriendOverviewController implements Initializable {
         // 3) Close popup & clear fields
         addExpensePopUp.setVisible(false);
         expenseAmountTextField.clear();
-        expenseDescriptionTextField.clear();
         expenseCurrencySelectionComboBox.getSelectionModel().clearSelection();
     }
     

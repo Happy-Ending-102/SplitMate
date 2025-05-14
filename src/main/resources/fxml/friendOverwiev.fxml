@@ -445,23 +445,7 @@
                                              </Button>
                                           </children>
                                        </HBox>
-                                       <HBox layoutX="10.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
-                                          <children>
-                                             <Label text="Expense Description: ">
-                                                <font>
-                                                   <Font name="System Bold" size="15.0" />
-                                                </font>
-                                                <HBox.margin>
-                                                   <Insets left="30.0" top="10.0" />
-                                                </HBox.margin>
-                                             </Label>
-                                             <TextField fx:id="expenseDescriptionTextField" prefHeight="80.0" prefWidth="415.0">
-                                                <HBox.margin>
-                                                   <Insets left="10.0" top="10.0" />
-                                                </HBox.margin>
-                                             </TextField>
-                                          </children>
-                                       </HBox>
+
                                        <HBox layoutX="10.0" layoutY="95.0" prefHeight="125.0" prefWidth="782.0">
                                           <children>
                                              <Label text="Divide Expense: ">

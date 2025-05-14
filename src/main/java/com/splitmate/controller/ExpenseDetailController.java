@@ -31,7 +31,7 @@ public class ExpenseDetailController implements Initializable {
         contributorsList.getChildren().clear();
         expense.getDivisionAmongUsers().forEach(u -> {
             Label l = new Label(u.getUser().getName() + "  –  " +
-                String.format("%.2f", u.getPercentage()));
+                String.format("%.2f", u.getPercentage()) + "%");
             contributorsList.getChildren().add(l);
         });
     }
