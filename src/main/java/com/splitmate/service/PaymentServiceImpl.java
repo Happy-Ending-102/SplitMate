@@ -94,7 +94,7 @@ public class PaymentServiceImpl implements PaymentService {
         User from = transaction.getFrom();
         Currency currency = transaction.getCurrency();
         BigDecimal amount = transaction.getAmount();
-        to.getBalanceByCurrency(currency).substractAmount(amount);
+        to.getBalanceByCurrency(currency).subtractAmount(amount);
         from.getBalanceByCurrency(currency).addAmount(amount);
 
         to.addTransaction(transaction);

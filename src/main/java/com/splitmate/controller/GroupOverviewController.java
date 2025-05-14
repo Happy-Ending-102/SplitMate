@@ -102,16 +102,16 @@ public class GroupOverviewController implements Initializable {
 
         // 4) Regular expenses
         regularExpensesContainer.getChildren().clear();
-        for (Expense e : group.getExpenses()) {
-            HBox row = new HBox(6);
-            Label desc = new Label(e.getDescription() + ":");
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-            Label amt = new Label(String.format("%.2f %s",
-                            e.getAmount(), group.getDefaultCurrency()));
-            row.getChildren().addAll(desc, spacer, amt);
-            regularExpensesContainer.getChildren().add(row);
-        }
+        // for (Expense e : group.getExpenses()) {
+        //     HBox row = new HBox(6);
+        //     Label desc = new Label(e.getDescription() + ":");
+        //     Region spacer = new Region();
+        //     HBox.setHgrow(spacer, Priority.ALWAYS);
+        //     Label amt = new Label(String.format("%.2f %s",
+        //                     e.getAmount(), group.getDefaultCurrency()));
+        //     row.getChildren().addAll(desc, spacer, amt);
+        //     regularExpensesContainer.getChildren().add(row);
+        // }
 
         // 5) One-off expenses (uses your helper)
         expenseItemsContainer.getChildren().clear();

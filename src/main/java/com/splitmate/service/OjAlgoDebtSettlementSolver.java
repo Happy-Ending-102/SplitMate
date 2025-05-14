@@ -72,18 +72,16 @@ public class OjAlgoDebtSettlementSolver {
      .set(x, -M);
         }
 
-        // flow-balance at each node
+        // flow-balance with small tolerance ε
+        double eps = 1;
         for (String v : nodes) {
             double bal = balances.getOrDefault(v, 0.0);
-            Expression balanceExpr = model.addExpression("bal_" + v)
-                                          .level(bal);
+            Expression expr = model.addExpression("bal_" + v)
+                                    .lower(bal - eps)
+                                    .upper(bal + eps);
             for (Edge e : edges) {
-                if (e.to.equals(v))   {
-                    balanceExpr.set(fVar.get(e),  1);
-                }
-                if (e.from.equals(v)) {
-                    balanceExpr.set(fVar.get(e), -1);
-                }
+                if (e.to.equals(v))   expr.set(fVar.get(e),  1);
+                if (e.from.equals(v)) expr.set(fVar.get(e), -1);
             }
         }
 
