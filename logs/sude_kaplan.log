@@ -1,0 +1,37 @@
+# GitHub Project Log
+
+## 2025-05-13
+- Added profile picture functionality to enhance user experience
+- Fixed issues in group settings controller for better group management
+- Completed front payment controller implementation for payment processing
+
+## 2025-05-12
+- Enhanced group functionality by resizing addGroup scene and optimizing the interface
+- Implemented newGroupExpense feature with:
+  - Added popups and interactive buttons for better user experience
+  - Created newGroupExpense FXML layout and corresponding controller
+  - Integrated expense management functionality
+
+## 2025-05-11
+- Expanded payment system functionality:
+  - Added expense popup feature to friend overview
+  - Implemented history settings pane with loadHistory() methods
+  - Enhanced transaction class structure
+  - Created debt and transaction classes as payment class subclasses
+  - Developed dedicated payments screen
+
+## 2025-05-10
+- Focused on history feature development:
+  - Completed implementation of history controller methods
+  - Fixed friendOverview functionality
+  - Created initial history view structure
+
+## 2025-05-09
+- Implemented core friendship and payment features:
+  - Developed friendOverview screen with transition functionality
+  - Added IBAN field to user profile
+  - Integrated date tracking for payments
+  - Implemented transaction history for friendships
+  - Added sorting methods to friendship service and controller
+  - Created initial friendOverviewController
+  - Optimized friendship model by removing redundant date field
