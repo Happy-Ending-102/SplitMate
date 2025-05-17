@@ -1,0 +1,18 @@
+# GitHub Project Log
+
+## 2025-05-07
+- Defined core domain classes (`Settlement`, `Transaction`, `Balance`) and mapped them to MongoDB collections via Spring Data’s `MongoRepository`.  
+- Configured MongoDB connection settings (URI, connection pool size, timeouts) in `application.yml` and validated connectivity.  
+- Created a startup data-loader that seeds initial users and balances into the `balances` and `transactions` collections.  
+- Implemented repository interfaces extending `MongoRepository<Settlement, String>`, `MongoRepository<Transaction, String>`, and `MongoRepository<Balance, String>`, including custom queries to aggregate unsettled balances per user.  
+- Bootstrapped the JavaFX front end with placeholder views and wired up a stub service layer for upcoming solver integration.  
+
+## 2025-05-14
+- Integrated the custom Java-based ILP solver into `SettlementSolverService`, enabling in-app problem-solving and persisting results.  
+- Introduced `solverRuns` and `solverParameters` collections to record each run’s metadata (timestamp, duration, status) and parameter values.  
+- Created `MongoRepository<SolverRun, String>` and `MongoRepository<SolverParameter, String>` interfaces to handle solver-related data operations.  
+- Tuned performance by adding compound indexes on `transactions` (`settlementId`, `createdAt`) and setting an appropriate `batchSize` on cursor operations to optimize large-result streaming.  
+- Applied Spring’s transactional support across multiple collections to ensure atomic writes and manually verified rollback behavior upon simulated failures.  
+- Enhanced the JavaFX UI with a “Run History” panel that fetches records from the `solverRuns` collection and displays run details (timestamp, duration, parameters) in a live `TableView`.  
+- Updated the project README with comprehensive MongoDB setup instructions, index creation commands, and best-practice guidance for production-grade connection pooling and performance tuning.  
+
