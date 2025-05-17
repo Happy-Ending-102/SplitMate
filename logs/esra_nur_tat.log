@@ -1,0 +1,20 @@
+#12/05/2025
+Enhanced backend-frontend integration of friendOverview and groupOverview pages
+Added notifiaction functionality related to payment system, TRANSACTION_RECEIVED, TRANSACTION_REJECTED type of notifications
+General fixes including for repository files, controllers and FXML files
+
+
+#05/05/2025
+SideBar errors fixed and the controller implemented. 
+Icons are implemented
+Session service added, which make possible to acces the datas of current user, group and friends
+Backend integration of add group page added
+FXML files and controllers of GroupList and FriendList added
+Adding friend popup implemented and the related notifications functionality added to send friend request
+Notification page design added
+Completed backend-frontend integration to change password sceen and group settings
+
+#28/04/2025
+Designed and implemented the Registration and Login JavaFX GUIs: Created Register.fxml and Login.fxml layouts with responsive form fields
+Added client-side validation for required inputs,  and password strength. Provided real-time error messages for invalid entries
+Created necessary classes for frontend, controllers and FXML files
