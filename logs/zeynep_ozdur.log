@@ -1,14 +1,14 @@
 #28.04.2025
 I studied SceneBuilder and FXML.
 Navigation bar fxml and controller is implemented.
+Navigation bar added to other pages.
 
 
 #05.05.2025
 Groups list page is implemented.
 Groups list fxml and controller added.
 My profile page and controller implemented.
-GroupOverview page and controller
-Group expences page is also included.
+Group Overview page and controller of the page is implemented, Group expences page is also included.
 Group Overview page is connected to groups in database.
 GroupSettings.fxml and GroupSettingsController implemented.
 Some buttons and icons are added.
@@ -17,5 +17,5 @@ Some buttons and icons are added.
 #12.05.2025
 4 pop-ups added to the settings page.
 Buttons in the Group Settings page is connected to pop-ups.
-Action listeners to added to buttons and connected to database.
+Action listeners are added to buttons and connected to database.
 Expense Detail page is implemented.
