@@ -34,4 +34,31 @@
   - Implemented transaction history for friendships
   - Added sorting methods to friendship service and controller
   - Created initial friendOverviewController
+  - Created friendOverview FXML and controller implementation
   - Optimized friendship model by removing redundant date field
+
+## 2025-05-08
+- Enhanced group management functionality:
+  - Implemented addGroup page with friends scroll pane
+  - Added friends management section
+  - Activated new group button functionality
+
+## 2025-05-07
+- Developed core UI components:
+  - Created addGroup FXML layout and controller
+  - Implemented change password screen with validation
+  - Added password change functionality
+
+## 2025-05-06
+- Established foundational data structures:
+  - Added balance and partition classes for financial calculations
+
+## 2025-04-26
+- Performed system improvements:
+  - Implemented various method and class refinements
+  - Made structural improvements to existing functionality
+
+## 2025-04-25
+- Enhanced system functionality:
+  - Added missing methods to core classes
+  - Improved overall system architecture
