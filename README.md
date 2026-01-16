@@ -93,7 +93,6 @@
    ```bash
    java -jar target/SplitMate-0.1.0.jar
    ```
-5. 
 
 ---
 
